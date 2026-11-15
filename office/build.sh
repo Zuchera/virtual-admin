@@ -3,7 +3,7 @@
 cd "$(dirname "$0")"
 mkdir -p dist download
 EX="environments/RoomEnvironment.js loaders/GLTFLoader.js utils/SkeletonUtils.js shaders/CopyShader.js shaders/LuminosityHighPassShader.js postprocessing/EffectComposer.js postprocessing/RenderPass.js postprocessing/ShaderPass.js postprocessing/UnrealBloomPass.js"
-APP="src/world.js src/kit.js src/avatar.js src/human.js src/app.js src/extra.js src/v3.js src/v4.js src/v5.js src/v6.js src/v7.js src/build.js src/v8.js src/v9.js src/v10.js src/v11.js src/v12.js src/v13.js src/v14.js src/v15.js src/v16.js src/v17.js src/render.js src/boot.js"
+APP="src/world.js src/kit.js src/avatar.js src/human.js src/app.js src/extra.js src/v3.js src/v4.js src/v5.js src/v6.js src/v7.js src/build.js src/v8.js src/v9.js src/v10.js src/v11.js src/v12.js src/v13.js src/v14.js src/v15.js src/v16.js src/v17.js src/v18.js src/v19.js src/v20.js src/v21.js src/v22.js src/v23.js src/render.js src/boot.js"
 { cat src/head.html; echo '<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>'
   for f in $EX; do echo "<script src=\"https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/$f\"></script>"; done
   echo '<script>'; cat $APP; echo '</script></body></html>'; } > dist/index.html
@@ -19,8 +19,9 @@ wc -c dist/index.html download/StartDotCom-HQ.html
 rm -rf deploy && mkdir -p deploy/lib && cp -r ../conv/models deploy/models
 cp node_modules/three/build/three.min.js deploy/lib/; for f in $EX; do cp node_modules/three/examples/js/$f deploy/lib/$(basename $f); done
 cp node_modules/@supabase/supabase-js/dist/umd/supabase.js deploy/lib/supabase.js
-cp standalone/shim.js standalone/config.js standalone/schema.sql standalone/README.md standalone/vercel.json standalone/.htaccess deploy/
+cp standalone/shim.js standalone/config.js standalone/schema.sql standalone/README.md standalone/vercel.json standalone/.htaccess standalone/manifest.webmanifest standalone/sw.js standalone/icon.svg standalone/OFFLINE-GUIDE.html deploy/
+cp standalone/OFFLINE-GUIDE.html download/OFFLINE-GUIDE.html
 { cat src/head.html; echo '<script src="lib/three.min.js"></script>'; for f in $EX; do echo "<script src=\"lib/$(basename $f)\"></script>"; done
-  echo '<script src="lib/supabase.js"></script><script src="config.js"></script><script src="shim.js"></script>'
+  echo '<link rel="manifest" href="manifest.webmanifest"><script src="lib/supabase.js"></script><script src="config.js"></script><script src="shim.js"></script><script>if("serviceWorker" in navigator&&location.protocol==="https:")addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))</script>'
   echo '<script>'; cat $APP; echo '</script></body></html>'; } > deploy/index.html
 du -sh deploy

@@ -32,7 +32,7 @@ let conf = { name: 'StartDotCom HQ', bays: 3, req: true, reqTeams: true, chat: t
 function readConf(c) { c = c || {}; return { kind: (typeof PRESETS !== 'undefined' && Object.prototype.hasOwnProperty.call(PRESETS, c.kind)) ? c.kind : 'professional', view: c.view === 'sky' ? 'sky' : 'city', designed: c.designed === true, name: str(c.name, 32) || 'StartDotCom HQ', bays: clamp(Math.round(num(c.bays, 3)), 3, 8), req: c.req !== false, reqTeams: c.reqTeams === true, comms: c.comms === 'hq' ? 'hq' : 'both', notice: typeof c.notice === 'string' ? c.notice.slice(0, 200) : '', chat: c.chat !== false, games: c.games !== false, track: c.track !== false, teamLink: typeof c.teamLink === 'string' && /^https:\/\//.test(c.teamLink) ? c.teamLink.slice(0, 300) : '', approval: c.approval !== false, idleMin: clamp(Math.round(num(c.idleMin, 30)), 0, 240), idleSignOut: !!c.idleSignOut, accent: typeof c.accent === 'string' && /^#[0-9a-f]{6}$/i.test(c.accent) ? c.accent : '', tagline: str(c.tagline, 60), logo: typeof c.logo === 'string' && c.logo.length < 120000 && /^data:image\/(jpeg|png|webp);base64,/.test(c.logo) ? c.logo : '', allow: Array.isArray(c.allow) ? c.allow.filter(d => typeof d === 'string' && /^[a-z0-9.-]+\.[a-z]{2,}$/i.test(d)).slice(0, 10) : [] }; }
 const local = Object.assign({ tod: 'live', demo: false, quality: 'auto' }, LS.get('local', {}));
 
-const COLS = ['sops', 'gym', 'mnotes', 'people', 'office', 'chat', 'notes', 'files', 'kudos', 'games', 'rooms', 'wins', 'decisions', 'votes', 'cards', 'threads', 'dms', 'invites', 'gifts', 'feed', 'fcom', 'chans', 'rx', 'pins', 'mail', 'mailst', 'cal', 'rsvp', 'hdocs', 'pv', 'suite', 'courses', 'enrol', 'grades', 'hands', 'breakout'];
+const COLS = ['lesson', 'sops', 'gym', 'mnotes', 'people', 'office', 'chat', 'notes', 'files', 'kudos', 'games', 'rooms', 'wins', 'decisions', 'votes', 'cards', 'threads', 'dms', 'invites', 'gifts', 'feed', 'fcom', 'chans', 'rx', 'pins', 'mail', 'mailst', 'cal', 'rsvp', 'hdocs', 'pv', 'suite', 'courses', 'enrol', 'grades', 'hands', 'breakout'];
 const Store = {
   db: null, data: {}, subs: {}, chain: {},
   col(n) { return this.data[n] || (this.data[n] = new Map()); },
@@ -130,7 +130,7 @@ function syncPeers(list) {
     else if (p.cfgKey !== cfgKey) { p.cfgKey = cfgKey; p.av.rebuild(d.av); }
     p.uid = pr.by || (typeof d.uid === 'string' ? d.uid.slice(0, 80) : null); p.guest = !!pr.guest;
     p.tx = clamp(num(d.x, p.x), 0, W.L); p.tz = clamp(num(d.z, p.z), 0, D); p.try = num(d.ry, 0);
-    p.seat = d.seat ? seatById(str(d.seat, 24)) : null; p.status = STATUS[d.st] ? d.st : 'available'; p.wk = num(d.wk, 0) * 60; p.br = num(d.br, 0) * 60; p.game = d.gm === 'tt' || d.gm === 'pool' ? d.gm : null; p.kt = d.kt ? 1 : 0; p.sw = num(d.sw, 0); p.tb = Array.isArray(d.tb) && d.tb.length === 4 ? d.tb.map(v => num(v, 0)) : null; p.pb = Array.isArray(d.pb) && d.pb.length === 32 ? d.pb.map(v => num(v, 99)) : null;
+    p.seat = d.seat ? seatById(str(d.seat, 24)) : null; p.status = STATUS[d.st] ? d.st : 'available'; p.wk = num(d.wk, 0) * 60; p.br = num(d.br, 0) * 60; p.game = d.gm === 'tt' || d.gm === 'pool' ? d.gm : null; p.kt = d.kt ? 1 : 0; p.kp = num(d.kp, 0); p.city = str(d.ct, 40); p.lv = clamp(num(d.lv, 0), 0, 8); p.sw = num(d.sw, 0); p.tb = Array.isArray(d.tb) && d.tb.length === 4 ? d.tb.map(v => num(v, 0)) : null; p.pb = Array.isArray(d.pb) && d.pb.length === 32 ? d.pb.map(v => num(v, 99)) : null;
     { const pd = p.uid ? Store.col('people').get(p.uid) : null; p.av.setFace(pd && pd.face); } p.nick = str(d.nm, 40); p.role = str(d.role, 40); p.tzName = str(d.tz, 60);
     p.mug = !!d.mug; p.zid = str(d.zone, 24); p.pres = d;
     const emN = num(d.emN, 0); if (emN !== p.emN) { p.emN = emN; if (EMOJI[d.em]) { p.emote = d.em; p.emAt = performance.now(); p.av.popEmoji(EMOJI[d.em]); if (d.em === 'play') fx.ball = performance.now() + 4000; if (d.em === 'coffee') fx.steam = performance.now() + 4000; } }
@@ -153,7 +153,7 @@ function updatePeers(dt, t) {
     if (!p.seat) { const sep = (ax, az, w) => { const dx = p.x - ax, dz = p.z - az, d = Math.hypot(dx, dz); if (d < 0.62) { const k = (0.62 - d) * w / Math.max(d, 0.05); px += (d < 0.01 ? 0.3 : dx) * k; pz += dz * k; } };
       if (!me.seat) sep(me.pos.x, me.pos.z, 1); for (const o of peers.values()) if (o !== p && !o.seat) sep(o.x, o.z, 0.5); }
     p.ox = lerp(p.ox, clamp(px, -0.5, 0.5), Math.min(1, dt * 6)); p.oz = lerp(p.oz, clamp(pz, -0.5, 0.5), Math.min(1, dt * 6));
-    p.av.g.position.set(p.x + p.ox, 0, p.z + p.oz); p.av.g.rotation.y = p.ry;
+    p.y = lerp(p.y || 0, (p.lv || 0) * FH, Math.min(1, dt * 5)); p.av.g.visible = !(p.lv > 0 && me.lvl < p.lv && bldAt(p.x, p.z)); p.av.g.position.set(p.x + p.ox, p.y, p.z + p.oz); p.av.g.rotation.y = p.ry;
     p.av.update(dt, t, Object.assign({ moving, speed: p.speed, emoteN: p.emN, seat: p.seat, emote: p.emote, emoteAge: (now - p.emAt) / 1000, mug: p.mug, pose: p.game === 'tt' ? 'paddle' : p.game === 'pool' ? 'cue' : null }, v3AvPeer(p), v4AvPeer(p), v5AvPeer(p)));
     p.av.setLabel(nameOf(p.uid, p.nick), p.status, p.role, taskLabel(PRES(p).task));
   }
@@ -227,10 +227,10 @@ function moveMe(dt) {
 }
 function updateCamera(dt) {
   const k = 1 - Math.exp(-dt * 8), seated = !!me.seat;
-  cam.tx += (me.pos.x - cam.tx) * k; cam.tz += (me.pos.z - cam.tz) * k; cam.ty += ((seated ? 1.0 : 1.3) - cam.ty) * k;
+  cam.tx += (me.pos.x - cam.tx) * k; cam.tz += (me.pos.z - cam.tz) * k; cam.ty += ((seated ? 1.0 : 1.3) + (me.y || 0) - cam.ty) * k;
   W.ext.ceil.visible = cam.fp; me.av.g.visible = !cam.fp && !me.out;
   if (cam.fp) {
-    const ey = (seated ? me.seat.h + 0.72 : 1.62) * me.av.S; camera.position.set(me.pos.x, ey, me.pos.z);
+    const ey = (seated ? me.seat.h + 0.72 : 1.62) * me.av.S + (me.y || 0); camera.position.set(me.pos.x, ey, me.pos.z);
     camera.lookAt(me.pos.x + Math.sin(cam.yaw) * Math.cos(cam.fpPitch), ey + Math.sin(cam.fpPitch), me.pos.z + Math.cos(cam.yaw) * Math.cos(cam.fpPitch));
     W.ext.n.visible = W.ext.w.visible = W.ext.e.visible = true;
   } else {
@@ -432,7 +432,7 @@ const panels = {
     return () => { q.textContent = iceQ(); };
   }
 };
-function openPanel(id) { const titles = { actions: 'Actions', members: 'Members and approvals', insights: 'Insights', assistant: 'Office assistant', avatar: 'My look', people: 'People, status and time zones', places: 'Places', settings: 'Settings', help: 'How it works', files: 'Team Drive', kudos: 'Kudos wall', c4: 'Connect Four', ice: 'Icebreaker', admin: 'Admin', wins: 'Wins board and bell', decide: 'Decision board: GO or NO-GO', kanban: 'Kanban board', design: 'Design your office', fixit: 'Fix and report', library: 'Build: item library', apps: 'Apps and radio', suite: 'Zuchera Suites', calsync: 'Calendar sync', tv: 'TV wall', campus: 'Campus', onboard: 'Getting started', sopedit: 'Document', ainotes: 'AI meeting notes', gym: 'Gym', edu: 'Zuchera Edu', audio: 'Audio', photo: 'Match my office', embed: 'App', sendfile: 'Send file', plans: 'Plan and add-ons', media: 'Media: music, news, video', robot: 'DOT the assistant', pc: 'My computer', tasks: 'My tasks and time' }; if (id === 'c4' && !conf.games) { toast('Games are switched off by your admin.'); return; } openDrawer(id, titles[id], id === 'kanban', panels[id]); refreshPanel(id); }
+function openPanel(id) { const titles = { comfort: 'Comfort: sound, speed and windows', actions: 'Actions', members: 'Members and approvals', insights: 'Insights', assistant: 'Office assistant', avatar: 'My look', people: 'People, status and time zones', places: 'Places', settings: 'Settings', help: 'How it works', files: 'Team Drive', kudos: 'Kudos wall', c4: 'Connect Four', ice: 'Icebreaker', admin: 'Admin', wins: 'Wins board and bell', decide: 'Decision board: GO or NO-GO', kanban: 'Kanban board', design: 'Design your office', fixit: 'Fix and report', library: 'Build: item library', apps: 'Apps and radio', suite: 'Zuchera Suites', calsync: 'Calendar sync', tv: 'TV wall', campus: 'Campus', onboard: 'Getting started', lesson: 'Lesson', loc: 'Location', dir: 'Places', lift: 'Lift', sopedit: 'Document', ainotes: 'AI meeting notes', gym: 'Gym', edu: 'Zuchera Edu', audio: 'Audio', photo: 'Match my office', embed: 'App', sendfile: 'Send file', plans: 'Plan and add-ons', media: 'Media: music, news, video', robot: 'DOT the assistant', pc: 'My computer', tasks: 'My tasks and time' }; if (id === 'c4' && !conf.games) { toast('Games are switched off by your admin.'); return; } openDrawer(id, titles[id], id === 'kanban', panels[id]); refreshPanel(id); }
 actions.panel = openPanel;
 
 actions.board = (id, title) => {
@@ -537,7 +537,7 @@ let lastPres = '', presT = 0;
 function sendPresence(now) {
   if (!net.room || now - presT < (me.game ? 33 : 90)) return; presT = now;
   if (me.removed || me.out || !me.approved) { if (lastPres !== 'x') { lastPres = 'x'; net.room.presence({ x: null }).catch(() => { }); } return; }
-  const p = { x: +me.pos.x.toFixed(2), z: +me.pos.z.toFixed(2), ry: +me.ry.toFixed(2), seat: me.seat ? me.seat.id : null, st: effStatus(), wk: conf.track ? Math.floor(clock.wk / 60) : null, br: conf.track ? Math.floor(clock.br / 60) : null, gm: me.game, sw: me.sw || null, kt: me.lock && me.lock.kind === 'kart' ? 1 : null, tb: me.tb, pb: me.pb, em: me.emote, emN: me.emN, say: me.say, sayN: me.sayN, sc: me.saySc || 'all', nm: me.name, role: me.role, av: me.cfg, tz: me.tz, uid: me.uid === 'local' ? null : me.uid, mug: Date.now() < me.mugUntil ? 1 : null, zone: me.zone ? me.zone.id : null, ping: me.ping };
+  const p = { x: +me.pos.x.toFixed(2), z: +me.pos.z.toFixed(2), ry: +me.ry.toFixed(2), seat: me.seat ? me.seat.id : null, st: effStatus(), wk: conf.track ? Math.floor(clock.wk / 60) : null, br: conf.track ? Math.floor(clock.br / 60) : null, gm: me.game, sw: me.sw || null, kt: me.lock && me.lock.kind === 'kart' ? 1 : null, kp: me.lock && me.lock.kind === 'kart' ? +(me.lock.kpr || 0).toFixed(3) : null, ct: me.city || null, lv: me.lvl || 0, tb: me.tb, pb: me.pb, em: me.emote, emN: me.emN, say: me.say, sayN: me.sayN, sc: me.saySc || 'all', nm: me.name, role: me.role, av: me.cfg, tz: me.tz, uid: me.uid === 'local' ? null : me.uid, mug: Date.now() < me.mugUntil ? 1 : null, zone: me.zone ? me.zone.id : null, ping: me.ping };
   Object.assign(p, { la: lastInput }, v8Presence(), v3Presence(), v5Presence(), v6Presence(), { act: me.act ? { k: me.act.k, n: me.act.n, x: me.act.x, z: me.act.z, w: me.act.w } : null }); const s = JSON.stringify(p); if (s === lastPres) return; lastPres = s; net.room.presence(p).catch(() => { });
 }
 function setNet(txt, live) { $('#netTxt').textContent = txt; $('#net').classList.toggle('live', !!live); }

@@ -66,6 +66,8 @@ function sdchq_sync($b) {
             /* a person's own marks (read state, replies to invitations, votes, reactions) can only be written by that person */
             if (in_array($col, array('mailst', 'rsvp', 'pv'), true) && substr($id, -strlen('~' . $me)) !== '~' . $me) { $denied[] = $path; continue; }
             if ($col === 'rx' && strpos($id, '~' . $me . '~') === false) { $denied[] = $path; continue; }
+            /* a person's own lesson video/screen slot and race ranking can only be written by that person */
+            if (!$admin && (($col === 'lesson' && (strpos($id, 'v_') === 0) && substr($id, -strlen('_' . $me)) !== '_' . $me) || ($col === 'games' && strpos($id, 'rk_') === 0 && substr($id, -strlen('_' . $me)) !== '_' . $me))) { $denied[] = $path; continue; }
             /* messages, mail and calendar events can only be changed or deleted by their author or an admin */
             if (!$admin && in_array($col, array('chat', 'dms', 'mail', 'cal', 'sops'), true)) {
                 $owner = $wpdb->get_var($wpdb->prepare("SELECT byuid FROM $T WHERE path = %s AND del = 0", $path));

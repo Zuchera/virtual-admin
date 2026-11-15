@@ -440,7 +440,7 @@ function buildOffice(bays) {
   sun.target.position.set(L / 2, 0, D / 2);
   const sc = sun.shadow.camera; sc.left = -(L / 2 + 8); sc.right = L / 2 + 8; sc.top = 26; sc.bottom = -26; sc.near = 1; sc.far = 320; sc.updateProjectionMatrix();
   skyline.position.set(L / 2, 0, D);
-  if (typeof realism === 'function') realism(); if (typeof tvBuild === 'function') tvBuild(); if (typeof roomBoards === 'function') roomBoards(); if (typeof buildCampus === 'function') buildCampus();
+  if (typeof realism === 'function') realism(); if (typeof tvBuild === 'function') tvBuild(); if (typeof roomBoards === 'function') roomBoards(); if (typeof buildCampus === 'function') buildCampus(); if (typeof hqExtras === 'function') hqExtras();
   buildNav();
 }
 

@@ -12,7 +12,7 @@ Store.on('kudos', () => { drawKudos(); refreshPanel('kudos'); });
 Store.on('games', () => { drawC4(); drawIce(); refreshPanel('c4'); refreshPanel('ice'); });
 Store.on('rooms', () => { drawScreens(); refreshPanel('rooms'); });
 
-conf = readConf(Store.col('office').get('config')); initExtra(); initV3(); initV4(); initV5(); initV6(); initV7(); initBuild(); initV8(); initV9(); initV10(); initV12(); initV13(); initV14(); initV15(); initV16(); initV17(); document.body.append(el('div', { id: 'vig' }));
+conf = readConf(Store.col('office').get('config')); initExtra(); initV3(); initV4(); initV5(); initV6(); initV7(); initBuild(); initV8(); initV9(); initV10(); initV12(); initV13(); initV14(); initV15(); initV16(); initV17(); initV18(); initV21(); initV22(); initV23(); document.body.append(el('div', { id: 'vig' }));
 buildOffice(conf.bays); layoutSig(); sizeMap(); recomputeDesks(); redrawAll(); applyTod(); renderChat();
 if (!Store.col('people').get('local')) saveProfile(true);
 if (local.demo) setDemo(true);
@@ -26,8 +26,8 @@ let last = performance.now(), fpsN = 0, fpsT = 0, lowered = false;
 function frame(now) {
   requestAnimationFrame(frame);
   const dt = clamp((now - last) / 1000, 0, 0.05), t = now / 1000; last = now;
-  moveMe(dt); gameFrame(dt, now); applyDoors(dt);
-  me.av.g.position.set(me.pos.x, 0, me.pos.z); me.av.g.rotation.y = me.ry;
+  moveMe(dt); lvStep(dt); chTick(dt); gameFrame(dt, now); applyDoors(dt);
+  me.av.g.position.set(me.pos.x, me.y || 0, me.pos.z); me.av.g.rotation.y = me.ry;
   me.av.update(dt, t, Object.assign({ moving: me.moving, speed: me.speed, emoteN: me.emN, seat: me.seat, emote: me.emote, emoteAge: (now - me.emoteT) / 1000, mug: Date.now() < me.mugUntil, hideLabel: !!me.game || me.out, pose: me.game === 'tt' ? 'paddle' : me.game === 'pool' ? 'cue' : null }, v3AvMe(), v4AvMe(), v5AvMe())); me.av.setHeadset(!!me.call); me.av.g.visible = !cam.fp && !me.out;
   updatePeers(dt, t); updateNpcs(dt, t);
   for (const f of W.anim) f(t, dt); animateLondon(t, dt);
