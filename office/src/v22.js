@@ -10,19 +10,19 @@ actions.chess = function (site) {
   _ach22(); if (me.lock && me.lock.kind === 'chess' && site.k < 1) { const m = me.lock.side; me.pos.x = site.cx; me.pos.z = site.cz + (m === 'w' ? 1.2 : -1.2); me.ry = m === 'w' ? PI : 0; cam.yaw = me.ry; cam.pitch = 1.2; cam.dist = 2.4; }
 };
 const clearAt = (x, z, r) => !W.obs.some(o => (o[4] || 0) === 0 && x + r > o[0] && x - r < o[2] && z + r > o[1] && z - r < o[3]);
-function chessTable() {
-  const k = .19; let spot = [[9.8, 12.9], [11.6, 13.4], [6.8, 14.3], [12.2, 10.6], [10.4, 14.6], [3.4, 14.2]].find(([x, z]) => clearAt(x, z, 1.1)) || [9.8, 12.9]; const [cx, cz] = spot; const top = .76;
-  const g = new T.Group(); g.position.set(cx, 0, cz); office.add(g); cyl(g, .14, .2, .72, M_WALNUT, 0, .36, 0, { cast: 1, seg: 14 }); cyl(g, .44, .46, .05, M_WALNUT, 0, .02, 0, { seg: 20 }); rbox(g, 1.05, .06, 1.05, .03, M_WALNUT, 0, .73, 0, { cast: 1 }); rbox(g, .9, .02, .9, .01, mat(0x2a2420), 0, .765, 0);
-  for (const sz of [-1, 1]) { officeChair(cx, cz + sz * 1.05, sz > 0 ? PI : 0, 0x2e4057); }
+function chessTable(spots, kk, label) {
+  const k = kk || .19, tw = k < .17 ? .78 : 1.05; let spot = (spots || [[9.8, 12.9], [11.6, 13.4], [6.8, 14.3], [12.2, 10.6], [10.4, 14.6], [3.4, 14.2]]).find(([x, z]) => clearAt(x, z, tw / 2 + .5)); if (!spot) return null; const [cx, cz] = spot; const top = .76; label = label || 'Chess table';
+  const g = new T.Group(); g.position.set(cx, 0, cz); office.add(g); cyl(g, .14, .2, .72, M_WALNUT, 0, .36, 0, { cast: 1, seg: 14 }); cyl(g, .44, .46, .05, M_WALNUT, 0, .02, 0, { seg: 20 }); rbox(g, tw, .06, tw, .03, M_WALNUT, 0, .73, 0, { cast: 1 }); rbox(g, tw - .15, .02, tw - .15, .01, mat(0x2a2420), 0, .765, 0);
+  for (const sz of [-1, 1]) { officeChair(cx, cz + sz * (tw > 1 ? 1.05 : .85), sz > 0 ? PI : 0, 0x2e4057); }
   const tex = dynTex(512, 512); const bd = new T.Mesh(new T.PlaneGeometry(8 * .5 * k * 1.0 * 2.0 * .5 * 2 / 1, 8 * .5 * k * 2 / 2 * 1), new T.MeshStandardMaterial({ map: tex.tex, roughness: .6 })); const BS = 8 * .5 * k; bd.geometry = new T.PlaneGeometry(BS, BS); bd.rotation.x = -PI / 2; bd.position.set(cx, top + .02, cz); bd.receiveShadow = true; office.add(bd);
-  const pcs = new T.Group(); pcs.position.set(cx, top + .02, cz); pcs.scale.setScalar(k); office.add(pcs); obs(cx - .62, cz - .62, cx + .62, cz + .62);
+  const pcs = new T.Group(); pcs.position.set(cx, top + .02, cz); pcs.scale.setScalar(k); office.add(pcs); obs(cx - tw / 2 - .1, cz - tw / 2 - .1, cx + tw / 2 + .1, cz + tw / 2 + .1);
   const site = { cx, cz, y: top, sq: .5 * k, k, tex, pieces: pcs, fkey: '' }; CH.sites.push(site);
-  addPick({ x: cx, y: .8, z: cz, w: 1.1, h: .4, d: 1.1, label: 'Play chess at this table (shared board)', ax: cx, az: cz + 1.3, act: () => actions.chess(site), near: 2.4 }); addPick({ x: cx, y: 1.0, z: cz + 1.05, w: .6, h: 1.2, d: .6, label: 'Play chess', ax: cx, az: cz + 1.35, act: () => actions.chess(site), near: 2 });
-  const sg = dynTex(512, 128); sg.draw((c, w, h) => { c.fillStyle = '#1b2430'; rr(c, 0, 0, w, h, 14); c.fill(); c.fillStyle = '#ffb627'; c.font = '700 48px ' + FONT_D; c.textAlign = 'center'; c.fillText('♞ Chess table', w / 2, 80); }); const sm = new T.Mesh(new T.PlaneGeometry(.9, .22), new T.MeshBasicMaterial({ map: sg.tex })); sm.position.set(cx, 1.55, cz); sm.rotation.y = 0; const post = cyl(office, .012, .012, .8, M_ALU, cx, 1.15, cz - .7, { seg: 4 }); sm.position.set(cx, 1.55, cz - .7); office.add(sm); chDraw();
-  W.places.push({ name: 'Chess table', x: cx, z: cz + 1.5 }); return site;
+  addPick({ x: cx, y: .8, z: cz, w: 1.1, h: .4, d: 1.1, label: 'Play chess at this table (' + label + ')', ax: cx, az: cz + 1.3, act: () => actions.chess(site), near: 2.4 }); addPick({ x: cx, y: 1.0, z: cz + 1.05, w: .6, h: 1.2, d: .6, label: 'Play chess', ax: cx, az: cz + 1.35, act: () => actions.chess(site), near: 2 });
+  const sg = dynTex(512, 128); sg.draw((c, w, h) => { c.fillStyle = '#1b2430'; rr(c, 0, 0, w, h, 14); c.fill(); c.fillStyle = '#ffb627'; c.font = '700 48px ' + FONT_D; c.textAlign = 'center'; c.fillText('♞ ' + label, w / 2, 80); }); const sm = new T.Mesh(new T.PlaneGeometry(.9, .22), new T.MeshBasicMaterial({ map: sg.tex })); sm.position.set(cx, 1.55, cz); sm.rotation.y = 0; const post = cyl(office, .012, .012, .8, M_ALU, cx, 1.15, cz - .7, { seg: 4 }); sm.position.set(cx, 1.55, cz - .7); office.add(sm); chDraw();
+  W.places.push({ name: label, x: cx, z: cz + 1.5 }); return site;
 }
 function hqExtras() {
-  try { chessTable(); } catch (e) { console.warn(e); }
+  try { chessTable(); chessTable([[7.5, 9.1], [2.2, 9.1], [7.3, 14.3], [2.3, 14.3], [1.9, 12.9], [7.7, 12.4], [6.9, 8.6]], .14, 'Quick chess (small table)'); } catch (e) { console.warn(e); }
   const seen = new Set(W.spaces.map(s => s.nm)); for (const p of W.places || []) { if (seen.has(p.name)) continue; seen.add(p.name); W.spaces.push({ nm: p.name, ic: /chess/i.test(p.name) ? '♞' : /pool|table tennis/i.test(p.name) ? '🎱' : /café|cafe/i.test(p.name) ? '☕' : /room|studio/i.test(p.name) ? '👥' : '📍', cat: 'HQ main office', x: p.x, z: p.z, lv: 0, bld: null, bn: 'HQ main office' }); }
   if (!W.spaces.some(s => /Table tennis/i.test(s.nm))) W.spaces.push({ nm: 'Table tennis', ic: '🏓', cat: 'HQ main office', x: 4.6, z: 13.4, lv: 0, bld: null, bn: 'HQ main office' });
 }
