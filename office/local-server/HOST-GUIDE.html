@@ -1,0 +1,23 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Zuchera Local Server: host guide</title>
+<style>body{font:16px/1.55 system-ui,sans-serif;max-width:760px;margin:30px auto;padding:0 18px;color:#1b2430}h1{font-size:28px}h2{margin-top:30px;border-bottom:2px solid #2456ff;padding-bottom:4px}.card{background:#f3f6fc;border-radius:12px;padding:14px 18px;margin:14px 0}code{background:#e8edf6;padding:1px 6px;border-radius:5px}li{margin:6px 0}</style></head><body>
+<h1>Zuchera Local Server: run your office with no internet</h1>
+<p>One computer (the <b>host</b>) runs this program. Everyone else just opens a web address in their browser. No installs for the team.</p>
+<div class="card"><b>You need:</b> a computer that stays on, connected to the same Wi-Fi or cable network as your team (the network does <u>not</u> need internet), and Node.js (free, host only).</div>
+<h2>For the host (once)</h2><ol>
+<li>Unzip this whole folder somewhere permanent, such as Documents.</li>
+<li>Double-click <b>Start Zuchera (Windows).bat</b> or <b>Start Zuchera (Mac).command</b> (Linux: run <code>start-linux.sh</code>). If Node.js is missing, it opens the download page: install the LTS version and double-click again.</li>
+<li>If your computer asks whether to allow network access, choose <b>Allow</b>.</li>
+<li>The window shows the addresses to share, like <code>http://192.168.1.20:8080</code>. Leave that window open while people work.</li>
+<li>Open the address yourself and create the first account. <b>You become the owner.</b></li>
+<li>Press <b>Admin → Members and approvals</b> to approve people, or create an invite link so they walk straight in.</li></ol>
+<h2>For your team</h2><ol><li>Connect to the same network as the host.</li><li>Open the address the host gives you, create an account (or sign in), wait to be approved if asked.</li><li>Optional: in Chrome or Edge, choose ⋮ → Install, so it opens like an app.</li></ol>
+<h2>Voice and video</h2><p>Browsers only allow the microphone and camera on secure pages. Use the <b>https</b> address shown in the host window (for example <code>https://192.168.1.20:8443</code>). Each person's browser warns once: choose <b>Advanced</b>, then <b>Continue</b>. Text chat, presence, boards and lessons work on the plain address.</p>
+<h2>Good to know</h2><ul>
+<li>If the host computer is off or asleep, the office is unavailable. Turn off sleep while people work.</li>
+<li>Everything is saved in the <code>data</code> folder next to the program, with a daily copy in <code>data/backups</code>. Copy that folder to move or back up your office.</li>
+<li>Your plan: the first 14 days include every feature. To use a paid plan, the owner pastes the licence key in Admin; if it names a site, set the same name as <code>"site"</code> in <code>config.json</code>.</li>
+<li>Settings (name, port, sign-up rules, file size) are in <code>config.json</code>. Restart the program after changing it.</li>
+<li>Needs internet, so unavailable offline: AI notes, Slack, calendar links, YouTube and other web embeds.</li>
+<li>If the address changes after a restart (some routers do this), share the new address shown in the window. A fixed address can be set in your router.</li></ul>
+<h2>If something goes wrong</h2><ul><li><b>People cannot open the address:</b> check they are on the same network, and that the host allowed network access when asked (firewall).</li><li><b>"Port already in use":</b> change <code>port</code> in <code>config.json</code>.</li><li><b>Forgot a password:</b> Admin → Members → reset password.</li></ul>
+</body></html>

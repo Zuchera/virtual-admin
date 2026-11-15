@@ -1,0 +1,13 @@
+{
+  "name": "Zuchera Virtual Office",
+  "tagline": "Sign in to walk into the office.",
+  "port": 8080,
+  "httpsPort": 8443,
+  "signup": true,
+  "approval": true,
+  "domains": "",
+  "syncMs": 800,
+  "maxMB": 20,
+  "site": "localhost",
+  "license": ""
+}
