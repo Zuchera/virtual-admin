@@ -135,8 +135,10 @@
   const ADMIN = {
     list: async () => (await adm('list')).list, setStatus: (uid, status) => adm('status', { uid, status }), setRole: (uid, role) => adm('role', { uid, role }),
     invites: async () => (await adm('invites')).invites, invite: (email, role) => adm('invite', { email, role }), uninvite: email => adm('uninvite', { email }),
-    resetPw: async uid => (await adm('resetpw', { uid })).password, link: async () => (await adm('link')).url, license: async key => { const r = await adm('license', { key }); return r; }, claim: async () => adm('claim'), slack: async (url, ch) => { const r = await adm('slack', { url, ch }); return r; }
+    resetPw: async uid => (await adm('resetpw', { uid })).password, link: async () => (await adm('link')).url, aikey: async k => adm('aikey', { key: k }), aistate: async () => (await adm('aistate')).set,  license: async key => { const r = await adm('license', { key }); return r; }, claim: async () => adm('claim'), slack: async (url, ch) => { const r = await adm('slack', { url, ch }); return r; }
   };
-  window.claude = { use: async name => { await ready; return { db: DB, room: ROOM, user: USER, assets: ASSETS }[name] || null; } };
+  const SAMPLE = async (prompt, o) => { const r = await adm('ai', { prompt: String(prompt).slice(0, 30000) }); if (o && o.onText) o.onText({ text: r.text }); return r.text; };
+  window.OFFICE_AI = SAMPLE; window.OFFICE_ICS = async url => (await adm('ics', { url })).text;
+  window.claude = { use: async name => { await ready; return { db: DB, room: ROOM, user: USER, assets: ASSETS, sample: SAMPLE }[name] || null; } };
   if (document.body) boot(); else document.addEventListener('DOMContentLoaded', boot);
 })();

@@ -685,7 +685,7 @@ function buildOffice(bays) {
   zone('lounge', 'Skyline Lounge', 0, 15.6, HANG, D); zone('games', 'Games Corner', 0, 6.4, HANG, 15.6);
   // lobby: lift, sign, clock
   buildLobby();
-  W.dyn.sign = dynTex(1024, 256); const sg = wallSign(W.dyn.sign, 5.6, 1.4, 5, 2.35, 0.012, 0); office.remove(sg); W.ext.n.add(sg);
+  W.dyn.sign = dynTex(1024, 256); const sg = wallSign(W.dyn.sign, 4.8, 1.2, 5, 2.58, 0.012, 0); office.remove(sg); W.ext.n.add(sg);
   const clock = new T.Group(); clock.position.set(9.6, 2.35, 0.03); W.ext.n.add(clock);
   const face = cyl(clock, 0.34, 0.34, 0.04, M_WHITE, 0, 0, 0, { seg: 32 }); face.rotation.x = PI / 2; const rim = mesh(clock, new T.TorusGeometry(0.34, 0.025, 8, 32), M_DARK, 0, 0, 0.02);
   const hh = new T.Group(), mh = new T.Group(); clock.add(hh, mh); box(hh, 0.03, 0.18, 0.01, M_DARK, 0, 0.09, 0.03); box(mh, 0.02, 0.27, 0.01, M_DARK, 0, 0.135, 0.035);
@@ -694,7 +694,7 @@ function buildOffice(bays) {
   // café
   const cab = mat(0x1d2b45), stone = mat(0xe9e6df, { roughness: .35 });
   box(office, 7.8, 0.88, 0.65, cab, 4.5, 0.44, 0.43, { cast: 1 }); box(office, 7.9, 0.05, 0.7, stone, 4.5, 0.905, 0.43); obs(0.6, 0, 8.4, 0.8);
-  box(office, 7.8, 0.5, 0.36, cab, 4.5, 2.25, 0.28, { cast: 1 });
+  box(office, 7.8, 0.4, 0.36, cab, 4.5, 1.7, 0.28, { cast: 1 });
   box(office, 0.85, 1.95, 0.72, M_STEEL, 9.15, 0.975, 0.46, { cast: 1 }); obs(8.7, 0, 9.6, 0.85);
   const cm = new T.Group(); cm.position.set(2.2, 0.93, 0.42); office.add(cm);
   box(cm, 0.42, 0.46, 0.4, M_DARK, 0, 0.23, 0, { cast: 1 }); box(cm, 0.3, 0.04, 0.26, M_STEEL, 0, 0.02, 0.16); cyl(cm, 0.045, 0.04, 0.09, M_WHITE, 0, 0.09, 0.16); box(cm, 0.2, 0.06, 0.02, M_LAMP, 0, 0.38, 0.205);
@@ -753,9 +753,9 @@ function buildOffice(bays) {
   sofa(5.2, 17.75, 0, 3, '#b8644a', 'sofaA'); sofa(2.2, 19.9, PI / 2, 1, '#ecd9b8', 'armA'); sofa(8.2, 19.9, -PI / 2, 1, '#ecd9b8', 'armB');
   cyl(office, 0.55, 0.55, 0.05, M_WOOD, 5.2, 0.38, 19.9, { cast: 1, seg: 24 }); cyl(office, 0.06, 0.25, 0.36, M_DARK, 5.2, 0.18, 19.9); obs(4.7, 19.4, 5.7, 20.4);
   pouf('bean0', 10, 21.4, 0, '#ffb627'); pouf('bean1', 11.4, 20.4, 0, '#1f9d6b'); pouf('bean2', 11.6, 22.2, 0, '#b04cff');
-  box(office, 0.34, 1.9, 3.2, M_WOOD, 0.2, 0.95, 19.6, { cast: 1 }); obs(0, 18, 0.4, 21.2);
-  for (let r = 0; r < 4; r++) for (let i = 0; i < 9; i++) box(office, 0.2, 0.3 + (i % 3) * .03, 0.06 + (i % 2) * .03, mat(HOOD_COL[(r * 3 + i) % 8]), 0.3, 0.3 + r * 0.45, 18.3 + i * 0.32);
-  plant(0.7, 23.2, 1.5); plant(13.2, 23.1, 1.3); plant(13.3, 7.4, 1.1); plant(0.6, 5.8, 1.2);
+  box(office, 0.34, 1.9, 3.2, M_WOOD, 0.2, 0.95, 22.3, { cast: 1 }); obs(0, 20.7, 0.4, 23.9);
+  for (let r = 0; r < 4; r++) for (let i = 0; i < 9; i++) box(office, 0.2, 0.3 + (i % 3) * .03, 0.06 + (i % 2) * .03, mat(HOOD_COL[(r * 3 + i) % 8]), 0.3, 0.3 + r * 0.45, 21.0 + i * 0.32);
+  plant(1.2, 23.5, 1.2); plant(13.2, 23.1, 1.3); plant(13.3, 7.4, 1.1); plant(0.6, 5.8, 1.2);
   pendant(5.2, 19.8, 'dome', 2.3); roomLight(5.2, 19.5, .5);
   // divider with the team drive cabinet
   planter(13.8, 8, 14.2, 11); planter(13.8, 14.2, 14.2, 17.2);
@@ -820,7 +820,7 @@ function buildOffice(bays) {
     addPick({ x: cx, y: 1.7, z: 0.2, w: 2.7, h: 1.6, d: 0.4, label: r.name + ' screen: call, agenda, timer', ax: cx, az: 1.4, act: () => actions.meeting(r), near: 3.2 });
     box(office, r.x1 - r.x0 - 0.6, 0.012, 4.6, mat(0x3d4b5c, { roughness: 1 }), cx, 0.006, 3.2);
     pendant(cx - 0.8, cz, 'bar', 2.3); pendant(cx + 0.8, cz, 'bar', 2.3); plant(r.x1 - 0.55, 0.55, 1);
-    const ds = r.sign = dynTex(512, 128); ds.draw((c, w, h) => { c.fillStyle = '#14202e'; rr(c, 0, 0, w, h, 20); c.fill(); c.fillStyle = '#fff'; c.font = '700 54px ' + FONT_D; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(r.name, w / 2, h / 2 + 3); }); wallSign(ds, 1.3, 0.32, r.door[0] - 0.85, 1.75, 6.05, 0);
+    const ds = r.sign = dynTex(512, 192); ds.draw((c, w, h) => { c.fillStyle = '#14202e'; rr(c, 0, 0, w, h, 20); c.fill(); c.fillStyle = '#fff'; c.font = '700 54px ' + FONT_D; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(r.name, w / 2, h / 2 + 3); }); wallSign(ds, 1.5, 0.56, r.door[0] - 0.85, 1.78, 6.05, 0);
     W.places.push({ name: r.name, x: cx, z: 4.8 });
   }
   W.rooms = rooms; for (const r of rooms) blob((r.x0 + r.x1) / 2, 3.3, r.tw + 1.4, 3.2);
@@ -865,7 +865,7 @@ function buildOffice(bays) {
   sun.target.position.set(L / 2, 0, D / 2);
   const sc = sun.shadow.camera; sc.left = -(L / 2 + 8); sc.right = L / 2 + 8; sc.top = 26; sc.bottom = -26; sc.near = 1; sc.far = 320; sc.updateProjectionMatrix();
   skyline.position.set(L / 2, 0, D);
-  if (typeof realism === 'function') realism();
+  if (typeof realism === 'function') realism(); if (typeof tvBuild === 'function') tvBuild(); if (typeof buildCampus === 'function') buildCampus();
   buildNav();
 }
 
@@ -1885,8 +1885,8 @@ class Avatar {
     if (s.hand) { aimBone(B.R_UpperArm, B.R_Forearm, V(0.15, -0.1, 1), 0.95); aimBone(B.R_Forearm, B.R_Hand, V(0.1, 0, 1), 0.95); }
     if (s.emote === 'thumbs' && s.emoteAge < 2.2 && !s.moving) { const w = env(s.emoteAge, 2.2, 0.3); aimBone(B.R_UpperArm, B.R_Forearm, V(0.9, -0.2, -0.3), w); aimBone(B.R_Forearm, B.R_Hand, V(0.3, 0, 1), w); }
     if (s.emote === 'heart' && s.emoteAge < 2 && !s.moving) { const w = env(s.emoteAge, 2, 0.3); for (const [sd, sg] of [['R', 1], ['L', -1]]) { aimBone(B[sd + '_UpperArm'], B[sd + '_Forearm'], V(0.4, sg * -0.2, -0.9), w); aimBone(B[sd + '_Forearm'], B[sd + '_Hand'], V(0.5, sg * 0.9, 0.35), w); } }
-    if (s.pose === 'paddle') { aimBone(B.R_UpperArm, B.R_Forearm, V(0.7, -0.4, -0.5), 1); aimBone(B.R_Forearm, B.R_Hand, V(1, 0, 0.1), 1); }
-    if (s.pose === 'cue') { turnBone(B.Spine, right, 0.5); aimBone(B.R_UpperArm, B.R_Forearm, V(-0.4, -0.3, -0.8), 1); aimBone(B.L_UpperArm, B.L_Forearm, V(1, 0.15, -0.2), 1); aimBone(B.L_Forearm, B.L_Hand, V(1, 0, -0.1), 1); }
+    if (s.pose === 'paddle') { turnBone(B.Spine, right, -0.12); turnBone(B.Spine1, right, -0.1); turnBone(B.Neck, right, 0.12); aimBone(B.R_UpperArm, B.R_Forearm, V(0.7, -0.4, -0.5), 1); aimBone(B.R_Forearm, B.R_Hand, V(1, 0, 0.1), 1); }
+    if (s.pose === 'cue') { turnBone(B.Spine, right, -0.32); turnBone(B.Spine1, right, -0.3); turnBone(B.Neck, right, 0.34); aimBone(B.R_UpperArm, B.R_Forearm, V(-0.4, -0.3, -0.8), 1); aimBone(B.L_UpperArm, B.L_Forearm, V(1, 0.15, -0.2), 1); aimBone(B.L_Forearm, B.L_Hand, V(1, 0, -0.1), 1); }
     if (!act) return; const a = act.age, D = ACT_DUR[act.k] || 2, w = env(a, D, 0.2);
     if (act.k === 'jump') { const air = clamp((a - 0.3) / 0.6, 0, 1), h = Math.sin(air * PI) * 0.55, crouch = a < 0.3 ? Math.sin(a / 0.3 * PI / 2) : a > 0.9 ? Math.sin(clamp((a - 0.9) / 0.25, 0, 1) * PI) * 0.6 : 0;
       this.pivot.position.y = 0.95 + h - crouch * 0.18; for (const sd of ['R', 'L']) { aimBone(B[sd + '_Thigh'], B[sd + '_Calf'], V(0.6 * crouch + 0.2 * h, 0, -1), w); aimBone(B[sd + '_Calf'], B[sd + '_Foot'], V(-0.5 * crouch, 0, -1), w); aimBone(B[sd + '_UpperArm'], B[sd + '_Forearm'], V(0.3, sd === 'R' ? 0.3 : -0.3, h > 0.05 ? 1 : -1), w); } }
@@ -1941,7 +1941,7 @@ let conf = { name: 'StartDotCom HQ', bays: 3, req: true, reqTeams: true, chat: t
 function readConf(c) { c = c || {}; return { kind: (typeof PRESETS !== 'undefined' && Object.prototype.hasOwnProperty.call(PRESETS, c.kind)) ? c.kind : 'professional', view: c.view === 'sky' ? 'sky' : 'city', designed: c.designed === true, name: str(c.name, 32) || 'StartDotCom HQ', bays: clamp(Math.round(num(c.bays, 3)), 3, 8), req: c.req !== false, reqTeams: c.reqTeams === true, comms: c.comms === 'hq' ? 'hq' : 'both', notice: typeof c.notice === 'string' ? c.notice.slice(0, 200) : '', chat: c.chat !== false, games: c.games !== false, track: c.track !== false, teamLink: typeof c.teamLink === 'string' && /^https:\/\//.test(c.teamLink) ? c.teamLink.slice(0, 300) : '', approval: c.approval !== false, idleMin: clamp(Math.round(num(c.idleMin, 30)), 0, 240), idleSignOut: !!c.idleSignOut, accent: typeof c.accent === 'string' && /^#[0-9a-f]{6}$/i.test(c.accent) ? c.accent : '', tagline: str(c.tagline, 60), logo: typeof c.logo === 'string' && c.logo.length < 120000 && /^data:image\/(jpeg|png|webp);base64,/.test(c.logo) ? c.logo : '', allow: Array.isArray(c.allow) ? c.allow.filter(d => typeof d === 'string' && /^[a-z0-9.-]+\.[a-z]{2,}$/i.test(d)).slice(0, 10) : [] }; }
 const local = Object.assign({ tod: 'live', demo: false, quality: 'auto' }, LS.get('local', {}));
 
-const COLS = ['people', 'office', 'chat', 'notes', 'files', 'kudos', 'games', 'rooms', 'wins', 'decisions', 'votes', 'cards', 'threads', 'dms', 'invites', 'gifts', 'feed', 'fcom', 'chans', 'rx', 'pins', 'mail', 'mailst', 'cal', 'rsvp', 'hdocs', 'pv', 'suite', 'courses', 'enrol', 'grades', 'hands', 'breakout'];
+const COLS = ['gym', 'mnotes', 'people', 'office', 'chat', 'notes', 'files', 'kudos', 'games', 'rooms', 'wins', 'decisions', 'votes', 'cards', 'threads', 'dms', 'invites', 'gifts', 'feed', 'fcom', 'chans', 'rx', 'pins', 'mail', 'mailst', 'cal', 'rsvp', 'hdocs', 'pv', 'suite', 'courses', 'enrol', 'grades', 'hands', 'breakout'];
 const Store = {
   db: null, data: {}, subs: {}, chain: {},
   col(n) { return this.data[n] || (this.data[n] = new Map()); },
@@ -2039,7 +2039,7 @@ function syncPeers(list) {
     else if (p.cfgKey !== cfgKey) { p.cfgKey = cfgKey; p.av.rebuild(d.av); }
     p.uid = pr.by || (typeof d.uid === 'string' ? d.uid.slice(0, 80) : null); p.guest = !!pr.guest;
     p.tx = clamp(num(d.x, p.x), 0, W.L); p.tz = clamp(num(d.z, p.z), 0, D); p.try = num(d.ry, 0);
-    p.seat = d.seat ? seatById(str(d.seat, 24)) : null; p.status = STATUS[d.st] ? d.st : 'available'; p.wk = num(d.wk, 0) * 60; p.br = num(d.br, 0) * 60; p.game = d.gm === 'tt' || d.gm === 'pool' ? d.gm : null; p.tb = Array.isArray(d.tb) && d.tb.length === 4 ? d.tb.map(v => num(v, 0)) : null; p.pb = Array.isArray(d.pb) && d.pb.length === 32 ? d.pb.map(v => num(v, 99)) : null;
+    p.seat = d.seat ? seatById(str(d.seat, 24)) : null; p.status = STATUS[d.st] ? d.st : 'available'; p.wk = num(d.wk, 0) * 60; p.br = num(d.br, 0) * 60; p.game = d.gm === 'tt' || d.gm === 'pool' ? d.gm : null; p.kt = d.kt ? 1 : 0; p.sw = num(d.sw, 0); p.tb = Array.isArray(d.tb) && d.tb.length === 4 ? d.tb.map(v => num(v, 0)) : null; p.pb = Array.isArray(d.pb) && d.pb.length === 32 ? d.pb.map(v => num(v, 99)) : null;
     { const pd = p.uid ? Store.col('people').get(p.uid) : null; p.av.setFace(pd && pd.face); } p.nick = str(d.nm, 40); p.role = str(d.role, 40); p.tzName = str(d.tz, 60);
     p.mug = !!d.mug; p.zid = str(d.zone, 24); p.pres = d;
     const emN = num(d.emN, 0); if (emN !== p.emN) { p.emN = emN; if (EMOJI[d.em]) { p.emote = d.em; p.emAt = performance.now(); p.av.popEmoji(EMOJI[d.em]); if (d.em === 'play') fx.ball = performance.now() + 4000; if (d.em === 'coffee') fx.steam = performance.now() + 4000; } }
@@ -2119,7 +2119,7 @@ function usePick(p) { if (p.seat) { p.act(); return; } if (Math.hypot(me.pos.x -
 function nearestPick() { let best = null, bd = 1e9; for (const p of W.picks) { const ref = p.seat ? p.seat : p, d = Math.hypot(me.pos.x - ref.x, me.pos.z - ref.z); if (d < p.near && d < bd) { bd = d; best = p; } } return best; }
 
 function moveMe(dt) {
-  me.moving = false; const pos = me.pos; if (me.game || me.removed || me.out || !me.approved || actBusy()) return;
+  me.moving = false; const pos = me.pos; if (me.game || me.lock || me.removed || me.out || !me.approved || actBusy()) return;
   const kx = ((keys.d || keys.arrowright) ? 1 : 0) - ((keys.a || keys.arrowleft) ? 1 : 0), kz = ((keys.w || keys.arrowup) ? 1 : 0) - ((keys.s || keys.arrowdown) ? 1 : 0);
   if ((kx || kz) && !typing()) {
     if (me.seat) stand(); me.path = null; me.pending = null; if (me.act && actAge(me.act) < (ACT_DUR[me.act.k] || 2)) me.act = null;
@@ -2173,6 +2173,7 @@ canvas.addEventListener('pointerup', endPtr); canvas.addEventListener('pointerca
 canvas.addEventListener('wheel', e => { e.preventDefault(); if (!cam.fp) cam.dist = clamp(cam.dist * Math.exp(e.deltaY * 0.0012), 2.5, 70); }, { passive: false });
 canvas.addEventListener('contextmenu', e => e.preventDefault());
 function clickWorld(x, y) {
+  if (me.lock) { if (me.lock.click && me.lock.click(x, y)) return; if (me.lock.kind === 'gym') { me.lock.tap(); return; } return; }
   if (gameClick(x, y)) return;
   const h = pickAt(x, y);
   if (h.peer) { openPerson(h.peer); return; }
@@ -2184,7 +2185,7 @@ addEventListener('keydown', e => {
   const k = e.key.toLowerCase(); keys[k] = true;
   if (k === 'e') { const p = nearestPick(); if (me.seat && (!p || p.seat === me.seat)) stand(); else if (p) usePick(p); }
   else if (k === 'enter') { $('#chat').classList.remove('min'); $('#chatIn').focus(); e.preventDefault(); }
-  else if (k === 'v') toggleView(); else if (k === 'escape') { if (drawer.id) closeDrawer(); else if (me.game) leaveGame(); else if (me.seat) stand(); }
+  else if (k === 'v') toggleView(); else if (k === 'escape') { if (drawer.id) closeDrawer(); else if (me.lock) lockEnd(); else if (me.game) leaveGame(); else if (me.seat) stand(); }
   else if (k >= '1' && k <= '6') doEmote(['wave', 'clap', 'laugh', 'thumbs', 'dance', 'heart'][+k - 1]);
   if (k.startsWith('arrow') || k === ' ') e.preventDefault();
 });
@@ -2340,7 +2341,7 @@ const panels = {
     return () => { q.textContent = iceQ(); };
   }
 };
-function openPanel(id) { const titles = { actions: 'Actions', members: 'Members and approvals', insights: 'Insights', assistant: 'Office assistant', avatar: 'My look', people: 'People, status and time zones', places: 'Places', settings: 'Settings', help: 'How it works', files: 'Team Drive', kudos: 'Kudos wall', c4: 'Connect Four', ice: 'Icebreaker', admin: 'Admin', wins: 'Wins board and bell', decide: 'Decision board: GO or NO-GO', kanban: 'Kanban board', design: 'Design your office', fixit: 'Fix and report', library: 'Build: item library', apps: 'Apps and radio', suite: 'Zuchera Suites', edu: 'Zuchera Edu', audio: 'Audio', photo: 'Match my office', embed: 'App', sendfile: 'Send file', plans: 'Plan and add-ons', media: 'Media: music, news, video', robot: 'DOT the assistant', pc: 'My computer', tasks: 'My tasks and time' }; if (id === 'c4' && !conf.games) { toast('Games are switched off by your admin.'); return; } openDrawer(id, titles[id], id === 'kanban', panels[id]); refreshPanel(id); }
+function openPanel(id) { const titles = { actions: 'Actions', members: 'Members and approvals', insights: 'Insights', assistant: 'Office assistant', avatar: 'My look', people: 'People, status and time zones', places: 'Places', settings: 'Settings', help: 'How it works', files: 'Team Drive', kudos: 'Kudos wall', c4: 'Connect Four', ice: 'Icebreaker', admin: 'Admin', wins: 'Wins board and bell', decide: 'Decision board: GO or NO-GO', kanban: 'Kanban board', design: 'Design your office', fixit: 'Fix and report', library: 'Build: item library', apps: 'Apps and radio', suite: 'Zuchera Suites', calsync: 'Calendar sync', tv: 'TV wall', campus: 'Campus', ainotes: 'AI meeting notes', gym: 'Gym', edu: 'Zuchera Edu', audio: 'Audio', photo: 'Match my office', embed: 'App', sendfile: 'Send file', plans: 'Plan and add-ons', media: 'Media: music, news, video', robot: 'DOT the assistant', pc: 'My computer', tasks: 'My tasks and time' }; if (id === 'c4' && !conf.games) { toast('Games are switched off by your admin.'); return; } openDrawer(id, titles[id], id === 'kanban', panels[id]); refreshPanel(id); }
 actions.panel = openPanel;
 
 actions.board = (id, title) => {
@@ -2433,7 +2434,7 @@ function slowTick() {
     W.dyn.clock.hh.rotation.z = -((lt.h % 12) + lt.m / 60) * PI / 6; W.dyn.clock.mh.rotation.z = -lt.m * PI / 30; }
   const sec = Math.floor(Date.now() / 1000); if (sec !== lastSec) { lastSec = sec; if (roomDoc('thames').end > Date.now() - 1500 || roomDoc('shard').end > Date.now() - 1500) { drawScreens(); refreshPanel('rooms'); } }
   const here = new Set([me.uid]); for (const p of peers.values()) if (p.uid) here.add(p.uid);
-  W.desks.forEach((d, i) => { const tm = deskPcOff(d) ? null : deskTaskMat(d), on = tm || (tm === undefined ? M_SCREEN_ON[i % 3] : M_SCREEN_OFF); if (d.scr.material !== on) d.scr.material = on; });
+  W.desks.forEach((d, i) => { const tm = deskPcOff(d) ? null : (deskMirrorMat(d) || deskTaskMat(d)), on = tm || (tm === undefined ? M_SCREEN_ON[i % 3] : M_SCREEN_OFF); if (d.scr.material !== on) d.scr.material = on; });
   const p = nearestPick(), pr = $('#prompt'); if (me.seat && (!p || p.seat === me.seat)) { pr.style.display = 'flex'; $('#promptTxt').textContent = 'Stand up'; } else if (p) { pr.style.display = 'flex'; $('#promptTxt').textContent = p.seat && seatTaken(p.seat) ? 'Seat taken' : p.label; } else pr.style.display = 'none';
   drawMap();
   me.av.setLabel(nameOf(me.uid, me.name), effStatus(), me.role, taskLabel(me.task)); v3Slow();
@@ -2445,7 +2446,7 @@ let lastPres = '', presT = 0;
 function sendPresence(now) {
   if (!net.room || now - presT < (me.game ? 33 : 90)) return; presT = now;
   if (me.removed || me.out || !me.approved) { if (lastPres !== 'x') { lastPres = 'x'; net.room.presence({ x: null }).catch(() => { }); } return; }
-  const p = { x: +me.pos.x.toFixed(2), z: +me.pos.z.toFixed(2), ry: +me.ry.toFixed(2), seat: me.seat ? me.seat.id : null, st: effStatus(), wk: conf.track ? Math.floor(clock.wk / 60) : null, br: conf.track ? Math.floor(clock.br / 60) : null, gm: me.game, tb: me.tb, pb: me.pb, em: me.emote, emN: me.emN, say: me.say, sayN: me.sayN, sc: me.saySc || 'all', nm: me.name, role: me.role, av: me.cfg, tz: me.tz, uid: me.uid === 'local' ? null : me.uid, mug: Date.now() < me.mugUntil ? 1 : null, zone: me.zone ? me.zone.id : null, ping: me.ping };
+  const p = { x: +me.pos.x.toFixed(2), z: +me.pos.z.toFixed(2), ry: +me.ry.toFixed(2), seat: me.seat ? me.seat.id : null, st: effStatus(), wk: conf.track ? Math.floor(clock.wk / 60) : null, br: conf.track ? Math.floor(clock.br / 60) : null, gm: me.game, sw: me.sw || null, kt: me.lock && me.lock.kind === 'kart' ? 1 : null, tb: me.tb, pb: me.pb, em: me.emote, emN: me.emN, say: me.say, sayN: me.sayN, sc: me.saySc || 'all', nm: me.name, role: me.role, av: me.cfg, tz: me.tz, uid: me.uid === 'local' ? null : me.uid, mug: Date.now() < me.mugUntil ? 1 : null, zone: me.zone ? me.zone.id : null, ping: me.ping };
   Object.assign(p, { la: lastInput }, v8Presence(), v3Presence(), v5Presence(), v6Presence(), { act: me.act ? { k: me.act.k, n: me.act.n, x: me.act.x, z: me.act.z, w: me.act.w } : null }); const s = JSON.stringify(p); if (s === lastPres) return; lastPres = s; net.room.presence(p).catch(() => { });
 }
 function setNet(txt, live) { $('#netTxt').textContent = txt; $('#net').classList.toggle('live', !!live); }
@@ -2757,7 +2758,7 @@ actions.board = (id, title) => {
     const add = () => { const t = tx.value.trim(); if (!t) return; Store.set('notes', Store.id(), { board: id, text: t, c: col, x: 0.08 + Math.random() * 0.7, y: 0.08 + Math.random() * 0.6, by: me.uid, nm: me.name, v: [], t: Date.now() }); tx.value = ''; };
     tx.addEventListener('keydown', e => { if (e.key === 'Enter') add(); });
     const stk = el('div', { class: 'chips' }, ...STICKERS.map(s => el('button', { type: 'button', text: s, title: 'Add sticker', style: 'font-size:18px', onclick: () => Store.set('notes', Store.id(), { board: id, k: 'st', e: s, x: 0.1 + Math.random() * 0.75, y: 0.1 + Math.random() * 0.7, by: me.uid, t: Date.now() }) })));
-    b.append(el('div', { class: 'row' }, el('div', { class: 'field', style: 'flex:1;min-width:200px' }, tx), swatches('Note colour', NOTE_COL, () => col, v => { col = v; }), el('button', { class: 'btn', text: 'Add note', onclick: add }), ...dusterBtns(id)),
+    b.append(el('div', { class: 'row' }, el('div', { class: 'field', style: 'flex:1;min-width:200px' }, tx), swatches('Note colour', NOTE_COL, () => col, v => { col = v; }), el('button', { class: 'btn', text: 'Add note', onclick: add }), el('button', { class: 'btn ghost', text: '🖼 Add picture', onclick: async () => { const d = await pickImage(900, 90000); if (d) Store.set('notes', Store.id(), { board: id, k: 'img', im: d, x: 0.1 + Math.random() * 0.6, y: 0.1 + Math.random() * 0.5, by: me.uid, nm: me.name, t: Date.now() }); } }), ...dusterBtns(id)),
       el('div', { class: 'row' }, chips('Tool', ['Move notes', 'Pen'], () => tool, v => { tool = v; area.classList.toggle('pen', v === 1); }), swatches('Pen colour', INK, () => ink, v => { ink = v; }), el('button', { class: 'btn sm ghost', text: 'Undo my last stroke', onclick: () => { const mine = notesOf(id).filter(([, n]) => n.k === 'ink' && n.by === me.uid).sort((a, c) => num(c[1].t, 0) - num(a[1].t, 0))[0]; if (mine) Store.del('notes', mine[0]); } }), el('button', { class: 'btn sm ghost', text: 'Wipe drawing', onclick: () => { for (const [nid, n] of notesOf(id)) if (n.k === 'ink') Store.del('notes', nid); } })),
       el('div', { class: 'field' }, el('span', { class: 'lbl', text: 'Stickers' }), stk), area, el('p', { text: 'Drag notes and stickers to arrange them. Switch to Pen to write or sketch straight on the board. Everyone sees it live, and it shows on the board in the room.' }));
     let live = null; const paint = () => { const r = area.getBoundingClientRect(); if (cv.width !== Math.round(r.width) || cv.height !== Math.round(r.height)) { cv.width = Math.max(1, Math.round(r.width)); cv.height = Math.max(1, Math.round(r.height)); } const c = cv.getContext('2d'); c.clearRect(0, 0, cv.width, cv.height); c.lineCap = 'round'; c.lineJoin = 'round'; c.lineWidth = 3;
@@ -2773,9 +2774,10 @@ actions.board = (id, title) => {
       e.addEventListener('pointermove', mv); e.addEventListener('pointerup', upf); e.addEventListener('pointercancel', upf); });
     return () => {
       const ns = notesOf(id), keep = new Set(); paint();
-      for (const [nid, n] of ns) { if (n.k === 'ink') continue; keep.add(nid); if (dragging === nid) continue; let e = els.get(nid); const st = n.k === 'st', w = st ? 48 : 150, h = st ? 48 : 92;
-        if (!e) { e = el('div', { class: st ? 'stk' : 'note' }); els.set(nid, e); area.append(e); drag(e, nid, w, h); if (st) e.addEventListener('dblclick', () => Store.del('notes', nid)); }
+      for (const [nid, n] of ns) { if (n.k === 'ink') continue; keep.add(nid); if (dragging === nid) continue; let e = els.get(nid); const st = n.k === 'st', im = n.k === 'img', w = st ? 48 : im ? 200 : 150, h = st ? 48 : im ? 150 : 92;
+        if (!e) { e = el('div', { class: st || im ? 'stk' : 'note' }); els.set(nid, e); area.append(e); drag(e, nid, w, h); if (st) e.addEventListener('dblclick', () => Store.del('notes', nid)); }
         e.style.left = 'calc((100% - ' + w + 'px) * ' + clamp(num(n.x, .5), 0, 1) + ')'; e.style.top = 'calc((100% - ' + h + 'px) * ' + clamp(num(n.y, .5), 0, 1) + ')';
+        if (im) { e.style.cssText += ';width:200px;height:150px;padding:0;background:#fff;overflow:hidden;font-size:0'; if (!e.firstChild) e.replaceChildren(el('img', { src: /^data:image\//.test(n.im || '') ? n.im : '', alt: 'Picture by ' + str(n.nm, 30), draggable: false, style: 'width:100%;height:100%;object-fit:cover' }), el('button', { text: '×', title: 'Delete picture', style: 'position:absolute;top:2px;right:2px;font-size:16px;font-weight:700;background:#fff;border-radius:50%;width:24px;height:24px', onclick: () => Store.del('notes', nid) })); continue; }
         if (st) { e.textContent = str(n.e, 8); e.title = 'Drag to move, double-click to remove'; continue; }
         const votes = Array.isArray(n.v) ? n.v.filter(x => typeof x === 'string') : []; e.style.background = NOTE_COL[clamp(num(n.c, 0), 0, 4)];
         e.replaceChildren(el('span', { text: str(n.text, 160) }), el('footer', {}, el('span', { text: nameOf(n.by, n.nm) }), el('button', { text: '👍 ' + votes.length, title: 'Vote', onclick: () => { const cur = Store.col('notes').get(nid); if (!cur) return; const v = votes.includes(me.uid) ? votes.filter(x => x !== me.uid) : votes.concat(me.uid); Store.set('notes', nid, Object.assign({}, cur, { v })); } }), el('button', { text: '×', title: 'Delete note', onclick: () => Store.del('notes', nid) }))); }
@@ -2790,15 +2792,16 @@ actions.board = (id, title) => {
 const here = p => p && typeof p.uid === 'string' && (p.uid === me.uid || [...peers.values()].some(q => q.uid === p.uid)) ? { uid: p.uid, nm: str(p.nm, 40) } : null;
 const peerOf = uid => [...peers.values()].find(q => q.uid === uid) || null;
 function rayPlane(cx, cy, y) { const r = canvas.getBoundingClientRect(); ndc.set(((cx - r.left) / r.width) * 2 - 1, -((cy - r.top) / r.height) * 2 + 1); ray.setFromCamera(ndc, camera); const pl = new T.Plane(new T.Vector3(0, 1, 0), -y), v = new T.Vector3(); return ray.ray.intersectPlane(pl, v) ? v : null; }
+const LOCAL = { tt: null, pool: null, chess: null };   // when a table is busy you get your own private practice game: nobody is ever kicked off
 function enterGame(g, side) {
   if (me.seat) stand(); me.path = null; me.pending = null; me.game = g; me.side = side; closeDrawer(); if (cam.fp) toggleView();
-  if (g === 'tt') { me.pos.x = TT.x + (side === 'a' ? -1.78 : 1.78); me.pos.z = TT.z; me.ry = side === 'a' ? PI / 2 : -PI / 2; cam.yaw = me.ry; cam.pitch = 0.5; cam.dist = 5.4; TT.pw = 0; }
-  else { me.pos.x = PL.x; me.pos.z = PL.z + (side === 'a' ? 1.2 : -1.2); me.ry = side === 'a' ? PI : 0; cam.yaw = me.ry; cam.pitch = 1.12; cam.dist = 4.4; }
+  if (g === 'tt') { me.pos.x = TT.x + (side === 'a' ? -1.78 : 1.78) * (me.local ? 1.5 : 1); me.pos.z = TT.z; me.ry = side === 'a' ? PI / 2 : -PI / 2; cam.yaw = me.ry; cam.pitch = 0.5; cam.dist = 5.4; TT.pw = 0; }
+  else { me.pos.x = PL.x; me.pos.z = PL.z + (side === 'a' ? 1.2 : -1.2) * (me.local ? 1.9 : 1); me.ry = side === 'a' ? PI : 0; cam.yaw = me.ry; cam.pitch = 1.12; cam.dist = 4.4; }
   TT.joinT = PL.joinT = performance.now() + 2000; $('#gamebar').style.display = 'flex';
 }
 function leaveGame() {
-  if (!me.game) return; const g = me.game, side = me.side; me.game = null; me.side = null; me.tb = null; me.pb = null; PL.sim = null; $('#gamebar').style.display = 'none';
-  if (g === 'tt') { const d = ttDoc(); if (d[side] && d[side].uid === me.uid) { d[side] = null; ttPut(d); } } else { const d = poolDoc(); if (d[side] && d[side].uid === me.uid) { d[side] = null; if (d.turn === side) d.turn = side === 'a' ? 'b' : 'a'; poolPut(d); } }
+  if (!me.game) return; const g = me.game, side = me.side, lc = me.local; me.local = null; LOCAL[g] = null; me.game = null; me.side = null; me.tb = null; me.pb = null; PL.sim = null; $('#gamebar').style.display = 'none';
+  if (lc) { } else if (g === 'tt') { const d = ttDoc(); if (d[side] && d[side].uid === me.uid) { d[side] = null; ttPut(d); } } else { const d = poolDoc(); if (d[side] && d[side].uid === me.uid) { d[side] = null; if (d.turn === side) d.turn = side === 'a' ? 'b' : 'a'; poolPut(d); } }
   const f = nearestFree(me.pos.x, me.pos.z); me.pos.x = f.x; me.pos.z = f.z; cam.pitch = 0.4; cam.dist = 10;
 }
 $('#gameLeave').onclick = leaveGame;
@@ -2806,12 +2809,12 @@ $('#gameAlt').onclick = () => { if (me.game === 'pool') { const d = poolDoc(); d
 
 /* table tennis: the player at the red end runs the ball; both ends steer with the mouse or A/D */
 const TT = { x: 4.6, z: 11.6, hl: 1.37, hw: 0.68, u: 0, w: 0, vu: 0, vw: 0, serveT: 0, ai: 0, pw: 0, tgt: null, lastDir: 0 };
-function ttDoc() { const g = Store.col('games').get('tt') || {}; return { a: here(g.a), b: here(g.b), sa: clamp(num(g.sa, 0), 0, 99), sb: clamp(num(g.sb, 0), 0, 99) }; }
-function ttPut(d) { Store.set('games', 'tt', { a: d.a, b: d.b, sa: d.sa, sb: d.sb, t: Date.now() }); }
+function ttDoc() { if (me.local === 'tt' && LOCAL.tt) return LOCAL.tt; const g = Store.col('games').get('tt') || {}; return { a: here(g.a), b: here(g.b), sa: clamp(num(g.sa, 0), 0, 99), sb: clamp(num(g.sb, 0), 0, 99) }; }
+function ttPut(d) { if (me.local === 'tt') { LOCAL.tt = d; return; } Store.set('games', 'tt', { a: d.a, b: d.b, sa: d.sa, sb: d.sb, t: Date.now() }); }
 function ttServe(dir) { TT.u = 0; TT.w = 0; TT.vu = dir * 2.3; TT.vw = (Math.random() - 0.5) * 1.4; TT.serveT = performance.now() + 900; }
 actions.tt = () => {
   if (!conf.games) { toast('Games are switched off by your admin.'); return; } if (me.game) leaveGame(); const d = ttDoc(), side = !d.a ? 'a' : !d.b ? 'b' : null;
-  if (!side) { toast('Both ends are taken. Watch from the side and cheer.'); return; }
+  if (!side) { me.local = 'tt'; LOCAL.tt = { a: { uid: me.uid, nm: me.name }, b: null, sa: 0, sb: 0 }; ttServe(1); enterGame('tt', 'a'); toast('That table is in use, so you have your own practice game beside it. Nobody is interrupted. Move with the mouse or A and D.'); return; }
   d[side] = { uid: me.uid, nm: me.name }; if (side === 'a') { d.sa = d.sb = 0; ttServe(1); } ttPut(d); enterGame('tt', side);
   toast(side === 'a' && !d.b ? 'Solo practice until someone takes the blue end. Move with the mouse or A and D.' : 'Game on. Move with the mouse or A and D. First to 7.');
 };
@@ -2830,11 +2833,12 @@ function ttFrame(dt, now) {
     if (wb === null) { TT.ai += clamp(TT.w - TT.ai, -1.25 * dt, 1.25 * dt); wb = TT.ai; }
     if (now > TT.serveT) {
       TT.u += TT.vu * dt; TT.w += TT.vw * dt; if (Math.abs(TT.w) > TT.hw) { TT.w = Math.sign(TT.w) * TT.hw; TT.vw *= -1; }
-      const hit = (wp, dir) => { if (Math.abs(TT.w - wp) < 0.25) { TT.vu = dir * Math.min(5.5, Math.abs(TT.vu) * 1.06); TT.vw = clamp(TT.vw + (TT.w - wp) * 6, -3, 3); return true; } return false; };
-      if (TT.vu > 0 && TT.u > TT.hl - 0.04) { if (TT.u < TT.hl + 0.12 && hit(wb, -1)) { } else if (TT.u > TT.hl + 0.3) { d.sa++; ttPoint(d, 1); } }
-      if (TT.vu < 0 && TT.u < -(TT.hl - 0.04)) { if (TT.u > -(TT.hl + 0.12) && hit(wa, 1)) doLocalEmote('play'); else if (TT.u < -(TT.hl + 0.3)) { d.sb++; ttPoint(d, -1); } }
+      const swOf = s => { const q = d[s]; return !q ? 0 : q.uid === me.uid ? num(me.sw, 0) : num((peerOf(q.uid) || {}).sw, 0); };
+      const hit = (wp, dir, sw) => { if (Math.abs(TT.w - wp) < 0.25) { const sm = sw && Date.now() - sw < 380 && Date.now() - sw > -60; if (sm) sfx('clack'); TT.vu = dir * Math.min(sm ? 7.2 : 5.5, Math.abs(TT.vu) * (sm ? 1.3 : 1.06)); TT.vw = clamp(TT.vw + (TT.w - wp) * 6, -3, 3); return true; } return false; };
+      if (TT.vu > 0 && TT.u > TT.hl - 0.04) { if (TT.u < TT.hl + 0.12 && hit(wb, -1, swOf('b'))) { } else if (TT.u > TT.hl + 0.3) { d.sa++; ttPoint(d, 1); } }
+      if (TT.vu < 0 && TT.u < -(TT.hl - 0.04)) { if (TT.u > -(TT.hl + 0.12) && hit(wa, 1, swOf('a'))) doLocalEmote('play'); else if (TT.u < -(TT.hl + 0.3)) { d.sb++; ttPoint(d, -1); } }
     }
-    me.tb = [+TT.u.toFixed(2), +TT.w.toFixed(2), +TT.vu.toFixed(1), +TT.vw.toFixed(1)];
+    me.tb = me.local ? null : [+TT.u.toFixed(2), +TT.w.toFixed(2), +TT.vu.toFixed(1), +TT.vw.toFixed(1)];
   } else { const hp = d.a ? peerOf(d.a.uid) : null, tb = hp && hp.tb; if (tb) { TT.vu = tb[2]; TT.vw = tb[3]; TT.u += (tb[0] - TT.u) * Math.min(1, dt * 18) + TT.vu * dt * 0.5; TT.w += (tb[1] - TT.w) * Math.min(1, dt * 18); } else TT.vu = 0; if (wb === null && tb) wb = clamp(TT.w, -0.66, 0.66); me.tb = null;
     if (me.game === 'tt' && me.side === 'b' && TT.vu > 0 && TT.u > TT.hl - 0.15 && Math.abs(TT.w - (wb || 0)) < 0.25) doLocalEmote('play'); }
   const dir = Math.sign(TT.vu); if (dir && TT.lastDir && dir !== TT.lastDir && Math.hypot(me.pos.x - TT.x, me.pos.z - TT.z) < 9) sfx('tick'); if (dir) TT.lastDir = dir;
@@ -2847,11 +2851,11 @@ function ttPoint(d, dir) { sfx('point'); if (d.sa >= 7 || d.sb >= 7) { toast((d.
 const PL = { x: 8.6, z: 8.6, hl: 1.12, hw: 0.56, r: 0.0286, sim: null, aim: null, shown: null };
 const POCK = [[-1.12, -0.56], [0, -0.6], [1.12, -0.56], [-1.12, 0.56], [0, 0.6], [1.12, 0.56]];
 function poolRack() { const b = new Array(32).fill(0); b[0] = -0.56; b[1] = 0; const order = [1, 9, 2, 10, 8, 3, 11, 4, 12, 5, 13, 6, 14, 7, 15]; let k = 0; for (let row = 0; row < 5; row++) for (let i = 0; i <= row; i++) { const n = order[k++]; b[n * 2] = 0.42 + row * PL.r * 1.78; b[n * 2 + 1] = (i - row / 2) * PL.r * 2.06; } return b; }
-function poolDoc() { const g = Store.col('games').get('pool') || {}; return { a: here(g.a), b: here(g.b), turn: g.turn === 'b' ? 'b' : 'a', balls: Array.isArray(g.balls) && g.balls.length === 32 ? g.balls.map(v => num(v, 99)) : poolRack(), ga: g.ga === 's' || g.ga === 't' ? g.ga : null, win: g.win === 'a' || g.win === 'b' ? g.win : null }; }
-function poolPut(d) { Store.set('games', 'pool', { a: d.a, b: d.b, turn: d.turn, balls: d.balls.map(v => +v.toFixed(3)), ga: d.ga, win: d.win, t: Date.now() }); }
+function poolDoc() { if (me.local === 'pool' && LOCAL.pool) return LOCAL.pool; const g = Store.col('games').get('pool') || {}; return { a: here(g.a), b: here(g.b), turn: g.turn === 'b' ? 'b' : 'a', balls: Array.isArray(g.balls) && g.balls.length === 32 ? g.balls.map(v => num(v, 99)) : poolRack(), ga: g.ga === 's' || g.ga === 't' ? g.ga : null, win: g.win === 'a' || g.win === 'b' ? g.win : null }; }
+function poolPut(d) { if (me.local === 'pool') { LOCAL.pool = d; return; } Store.set('games', 'pool', { a: d.a, b: d.b, turn: d.turn, balls: d.balls.map(v => +v.toFixed(3)), ga: d.ga, win: d.win, t: Date.now() }); }
 actions.pool = () => {
   if (!conf.games) { toast('Games are switched off by your admin.'); return; } if (me.game) leaveGame(); const d = poolDoc(), side = !d.a ? 'a' : !d.b ? 'b' : null;
-  if (!side) { toast('Both cues are taken. Watch the frame from the side.'); return; }
+  if (!side) { me.local = 'pool'; LOCAL.pool = { a: { uid: me.uid, nm: me.name }, b: null, turn: 'a', balls: poolRack(), ga: null, win: null }; enterGame('pool', 'a'); toast('That table is in use, so you have your own practice frame beside it. Nobody is interrupted.'); return; }
   d[side] = { uid: me.uid, nm: me.name }; if (!d.a || !d.b) { if (side === 'a') { d.balls = poolRack(); d.turn = 'a'; d.ga = null; d.win = null; } } poolPut(d); enterGame('pool', side);
   toast('Aim with the mouse: the further you point from the cue ball, the harder the shot. Click to shoot.');
 };
@@ -2882,7 +2886,7 @@ function poolResolve(s) {
 }
 function poolFrame(dt) {
   const P = W.dyn.pool; if (!P) return; const d = poolDoc(); let show = d.balls;
-  if (PL.sim) { let mv = false; const n = Math.max(1, Math.round(dt / 0.004)); for (let i = 0; i < n; i++) mv = poolStep(PL.sim, dt / n) || mv; show = PL.sim.b; me.pb = Array.from(PL.sim.b, x => +x.toFixed(3)); if (!mv) { const s = PL.sim; PL.sim = null; me.pb = null; poolResolve(s); show = s.b; PL.hold = { b: s.b, until: performance.now() + 1500 }; } }
+  if (PL.sim) { let mv = false; const n = Math.max(1, Math.round(dt / 0.004)); for (let i = 0; i < n; i++) mv = poolStep(PL.sim, dt / n) || mv; show = PL.sim.b; me.pb = me.local ? null : Array.from(PL.sim.b, x => +x.toFixed(3)); if (!mv) { const s = PL.sim; PL.sim = null; me.pb = null; poolResolve(s); show = s.b; PL.hold = { b: s.b, until: performance.now() + 1500 }; } }
   else { me.pb = null; const sh = d[d.turn] ? peerOf(d[d.turn].uid) : null; if (sh && sh.pb) show = sh.pb; else if (PL.hold && performance.now() < PL.hold.until) show = PL.hold.b; }
   if (me.game === 'pool' && (!d[me.side] || d[me.side].uid !== me.uid)) { if (performance.now() - (PL.joinT || 0) > 3000) { me.game = null; $('#gamebar').style.display = 'none'; } } else PL.joinT = performance.now();
   for (let i = 0; i < 16; i++) { const g = P.balls[i], u = show[i * 2], w = show[i * 2 + 1]; g.visible = u < 50; if (g.visible) { const ox = g.position.x, oz = g.position.z; g.position.set(PL.x + u, 0.829, PL.z + w); const mx = g.position.x - ox, mz = g.position.z - oz; if (Math.abs(mx) + Math.abs(mz) < 0.3) { g.rotation.z -= mx / PL.r; g.rotation.x += mz / PL.r; } } }
@@ -3222,7 +3226,7 @@ function drawScreens() {
       if (hands.length) { c.fillStyle = '#fff'; c.font = '600 26px ' + FONT_B; c.fillText('✋ ' + hands.map((p, i) => (i + 1) + '. ' + p.nm).join('   '), 44, h - 116, w - 480); }
       c.fillStyle = R.link || conf.teamLink ? '#5b5fc7' : '#4a5a6c'; rr(c, 44, h - 74, 330, 50, 25); c.fill(); c.fillStyle = '#fff'; c.font = '700 24px ' + FONT_B; c.fillText(R.link ? 'Room Teams link ready' : conf.teamLink ? 'Team call link ready' : 'No Teams link yet', 66, h - 62);
       if (tt) { c.fillStyle = tt.over ? '#d6453d' : '#ffb627'; c.font = '700 120px ' + FONT_D; c.textAlign = 'right'; c.fillText(tt.t, w - 44, h - 230); c.font = '600 28px ' + FONT_B; c.fillText(tt.lbl, w - 48, h - 96); c.textAlign = 'left'; } });
-    if (r.sign) r.sign.draw((c, w, h) => { c.fillStyle = R.lock ? '#b3261e' : ppl.length ? '#14202e' : '#1f7a4d'; rr(c, 0, 0, w, h, 20); c.fill(); c.fillStyle = '#fff'; c.font = '700 44px ' + FONT_D; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(r.name + (R.lock ? ' 🔒' : ppl.length ? ' · in use' : ' · free'), w / 2, h / 2 + 3, w - 20); }); }
+    if (r.sign) roomSignDraw(r, R, ppl, tt); }
 }
 function applyDoors(dt) {
   for (const r of W.rooms || []) { const R = roomDoc(r.id), member = R.mem.includes(me.uid), inside = inRoom(r, me.pos.x, me.pos.z), block = R.lock && !member && !inside;
@@ -3845,6 +3849,7 @@ function dropPeer(key, silent) { const P = RTC.peers.get(key); if (!P) return; R
 async function onSig(m) {
   if (!m || m.to !== me.peer || typeof m.from !== 'string' || m.from === me.peer) return; const from = m.from;
   if (m.k === 'ring') return incomingCall(from, m.d || {});
+  if (m.k === 'invite') { const p = peers.get(from), r = m.d && (W.rooms || []).find(x => x.id === m.d.rc); if (p && r) toast('📩 ' + nameOf(p.uid, p.nick) + ' invited you to the ' + r.name + ' call.', { ms: 15000, action: { label: 'Join', fn: () => joinRoomCall(r) } }); return; }
   if (m.k === 'accept') { if (RTC.call && m.d && m.d.id === RTC.call.id) { RTC.call.keys.add(from); RTC.call.pending.delete(from); stopRing(); rosterOut(); renderCall(); } return; }
   if (m.k === 'decline') { if (RTC.call && m.d && m.d.id === RTC.call.id) { RTC.call.pending.delete(from); const p = peers.get(from); toast((p ? nameOf(p.uid, p.nick) : 'They') + (m.d.busy ? ' is on another call.' : ' can\'t talk right now.') + ' Send a message instead?', { ms: 8000, action: { label: 'Message', fn: () => p && p.uid && (openThread([p.uid]), talk(true, me.conv)) } }); if (!RTC.call.keys.size && !RTC.call.pending.size) leaveCall(); } return; }
   if (m.k === 'roster') { if (RTC.call && m.d && m.d.id === RTC.call.id && Array.isArray(m.d.keys)) { for (const k of m.d.keys) if (k !== me.peer && typeof k === 'string') RTC.call.keys.add(k); RTC.call.keys.add(from); renderCall(); } return; }
@@ -3923,9 +3928,9 @@ function renderCall() {
     el('button', { class: RTC.muted ? 'on' : '', title: 'Mute (M)', text: RTC.muted ? '🔇' : '🎙', onclick: () => setMute(!RTC.muted) }),
     inCall ? el('button', { class: RTC.cam ? 'on' : '', title: 'Camera', text: '📷', onclick: () => camOn(!RTC.cam) }) : null,
     inCall ? el('button', { class: RTC.scr ? 'on' : '', title: 'Share your screen', text: '🖥', onclick: () => shareScreen(!RTC.scr) }) : null,
-    RTC.call ? el('button', { title: 'Add people', text: '➕', onclick: () => addToCall() }) : null,
+    el('button', { title: 'Add people', text: '➕', onclick: () => addToCall() }), el('span', { class: 'cb-view' }),
     el('button', { class: 'danger-t', title: inCall ? 'Leave the call' : 'Turn voice off', text: inCall ? 'Leave' : 'Voice off', onclick: () => { if (RTC.call) leaveCall(); else if (RTC.rc) { RTC.rc = null; renderCall(); } else voiceOff(); } }))), (inCall || who.some(w => w.P.vstream && w.P.vstream.getVideoTracks().some(v => !v.muted))) ? tiles : el('div', { class: 'cb-mini' }, ...who.map(w => el('span', { class: 'tk-av sm', 'data-k': w.P.key, title: w.nm, style: w.face ? 'background-image:url(' + w.face + ')' : '' }))));
-  roomScreenVideo();
+  applyCbView(); roomScreenVideo();
 }
 function tileEl(P, nm, face, stream, mine) {
   const t = el('div', { class: 'cb-tile' + (mine ? ' me' : ''), 'data-k': P ? P.key : 'me' });
@@ -3936,8 +3941,12 @@ function tileEl(P, nm, face, stream, mine) {
 function renderCallLevels() { const bar = $('#callbar'); if (!bar || bar.hidden) return; for (const e of bar.querySelectorAll('[data-k]')) { const k = e.getAttribute('data-k'), lv = k === 'me' ? RTC.myLvl : (RTC.peers.get(k) || {}).lvl || 0; e.classList.toggle('spk', lv > .035); } }
 function setMute(m) { RTC.muted = m; if (RTC.mic) RTC.mic.enabled = !m; renderCall(); }
 function addToCall() {
-  const ppl = allPeople().filter(r => r.key && !r.me && !(RTC.call && RTC.call.keys.has(r.key)));
-  openDrawer('addcall', 'Add people to the call', false, b => { b.append(...(ppl.length ? ppl.map(r => el('div', { class: 'row' }, badgeEl(r), el('span', { style: 'flex:1', text: r.nm }), el('button', { class: 'btn sm', text: 'Ring', onclick: () => { RTC.call.pending.add(r.key); sig(r.key, 'ring', { id: RTC.call.id, nm: me.name, video: RTC.call.video, keys: [...RTC.call.keys] }); toast('Ringing ' + r.nm + '…'); } }))) : [el('p', { text: 'Nobody else is in the office right now.' })])); });
+  const inRoom = !!RTC.rc && !RTC.call, ppl = allPeople().filter(r => r.key && !r.me && !(RTC.call && RTC.call.keys.has(r.key)) && !(RTC.peers && [...RTC.peers.values()].some(P => P.key === r.key)));
+  const room = inRoom ? (W.rooms || []).find(r => r.id === RTC.rc) : null;
+  openDrawer('addcall', inRoom ? 'Invite people to ' + (room ? room.name : 'this room') : 'Add people to the call', false, b => { b.append(...(ppl.length ? ppl.map(r => el('div', { class: 'row' }, badgeEl(r), el('span', { style: 'flex:1', text: r.nm }), el('button', { class: 'btn sm', text: inRoom ? 'Invite' : 'Ring', onclick: ev => {
+      if (inRoom) { sig(r.key, 'invite', { rc: RTC.rc, nm: me.name }); toast('Invited ' + r.nm + '.'); }
+      else if (!RTC.call) { startCall([r.uid], false); toast('Calling ' + r.nm + '…'); }
+      else { RTC.call.pending.add(r.key); sig(r.key, 'ring', { id: RTC.call.id, nm: me.name, video: RTC.call.video, keys: [...RTC.call.keys] }); toast('Ringing ' + r.nm + '…'); } ev.target.disabled = true; ev.target.textContent = 'Sent'; } }))) : [el('p', { text: 'Nobody else is in the office right now.' })])); });
 }
 /* show a shared screen (or the speaker's camera) on the meeting room's wall screen */
 let roomVid = null;
@@ -4073,18 +4082,18 @@ function renderMail(body, acts) {
   const names = { inbox: 'Inbox', sent: 'Sent', star: 'Starred', arch: 'Archive' }; $('#wkTitle').textContent = names[V6.box]; $('#wkSub').textContent = 'HQ Mail stays inside this office. It keeps working when outside email is down.';
   acts.append(el('button', { class: 'btn sm', text: '✏️ New mail', onclick: () => { V6.compose = { to: new Set(), sub: '', body: '', re: null, att: null }; renderWork(); } }));
   let list = [...Store.col('mail')].filter(([, m]) => m && (m.by === me.uid || mine(m.to)));
-  if (V6.box === 'inbox') list = list.filter(([id, m]) => m.by !== me.uid && mine(m.to) && !mst(id).arch); else if (V6.box === 'sent') list = list.filter(([, m]) => m.by === me.uid); else if (V6.box === 'star') list = list.filter(([id]) => mst(id).star); else list = list.filter(([id]) => mst(id).arch);
+  if (V6.box === 'inbox') list = list.filter(([id, m]) => m.by !== me.uid && mine(m.to) && !mst(id).arch); else if (V6.box === 'sent') list = list.filter(([, m]) => m.by === me.uid && !m.bc); else if (V6.box === 'star') list = list.filter(([id]) => mst(id).star); else list = list.filter(([id]) => mst(id).arch);
   list.sort((a, b) => num(b[1].t, 0) - num(a[1].t, 0));
   body.replaceChildren(...(list.length ? list.slice(0, 200).map(([id, m]) => { const unread = m.by !== me.uid && !mst(id).r;
     return el('button', { class: 'wk-mail' + (unread ? ' unread' : ''), onclick: () => { V6.mail = id; if (unread) setMst(id, { r: 1 }); renderWork(); } }, el('span', { class: 'tk-av sm', style: faceFor(m.by) ? 'background-image:url(' + faceFor(m.by) + ')' : '' }),
-      el('span', { class: 'wk-from', text: V6.box === 'sent' ? 'To: ' + whoList(m.to) : nameOf(m.by, m.nm) }), el('span', { class: 'wk-sub' }, el('b', { text: str(m.sub, 120) || '(no subject)' }), el('span', { text: ' — ' + str(m.body, 90).replace(/\s+/g, ' ') })), m.att ? el('span', { text: '📎' }) : null, mst(id).star ? el('span', { text: '⭐' }) : null, el('time', { text: fmtDay(num(m.t, 0)) === 'Today' ? fmtHM(num(m.t, 0)) : new Date(num(m.t, 0)).toLocaleDateString([], { day: 'numeric', month: 'short' }) })); })
+      el('span', { class: 'wk-from', text: V6.box === 'sent' ? 'To: ' + whoList(m.dto || m.to) : nameOf(m.by, m.nm) }), el('span', { class: 'wk-sub' }, el('b', { text: str(m.sub, 120) || '(no subject)' }), el('span', { text: ' — ' + str(m.body, 90).replace(/\s+/g, ' ') })), m.att ? el('span', { text: '📎' }) : null, mst(id).star ? el('span', { text: '⭐' }) : null, el('time', { text: fmtDay(num(m.t, 0)) === 'Today' ? fmtHM(num(m.t, 0)) : new Date(num(m.t, 0)).toLocaleDateString([], { day: 'numeric', month: 'short' }) })); })
     : [el('div', { class: 'tk-empty' }, el('b', { text: V6.box === 'inbox' ? 'Your inbox is clear.' : 'Nothing here yet.' }), el('span', { text: 'Use New mail for longer messages with a subject, to one person, several, or everyone.' }))]));
 }
 function readMail(body, acts) {
   const m = Store.col('mail').get(V6.mail); if (!m) { V6.mail = null; return renderMail(body, acts); } const id = V6.mail, s = mst(id);
-  $('#wkTitle').textContent = str(m.sub, 120) || '(no subject)'; $('#wkSub').textContent = nameOf(m.by, m.nm) + ' to ' + whoList(m.to) + ' · ' + fmtWhen(num(m.t, 0));
-  const reply = all => { const to = new Set(all ? (m.to || []).filter(u => u !== me.uid).concat(m.by === me.uid ? [] : [m.by]) : [m.by === me.uid ? (m.to || [])[0] : m.by]); V6.compose = { to, sub: /^re:/i.test(m.sub || '') ? m.sub : 'Re: ' + str(m.sub, 110), body: '\n\n— ' + nameOf(m.by, m.nm) + ' wrote on ' + fmtWhen(num(m.t, 0)) + ':\n' + str(m.body, 4000).split('\n').map(l => '> ' + l).join('\n'), re: id, att: null }; V6.mail = null; renderWork(); };
-  acts.append(el('button', { class: 'btn sm', text: '↩ Reply', onclick: () => reply(false) }), (m.to || []).length > 1 || (m.to || []).includes('*') ? el('button', { class: 'btn sm ghost', text: 'Reply all', onclick: () => reply(true) }) : null,
+  $('#wkTitle').textContent = str(m.sub, 120) || '(no subject)'; $('#wkSub').textContent = nameOf(m.by, m.nm) + ' to ' + whoList(m.dto || m.to) + ((m.dcc || []).length ? ' · Cc ' + whoList(m.dcc) : '') + (m.by === me.uid ? bccNote(m) : '') + ' · ' + fmtWhen(num(m.t, 0));
+  const reply = all => { const vis = (m.dto || m.to || []).concat(m.dcc || []), to = new Set(all ? vis.filter(u => u !== me.uid).concat(m.by === me.uid ? [] : [m.by]) : [m.by === me.uid ? (m.dto || m.to || [])[0] : m.by]); V6.compose = { to, sub: /^re:/i.test(m.sub || '') ? m.sub : 'Re: ' + str(m.sub, 110), body: '\n\n— ' + nameOf(m.by, m.nm) + ' wrote on ' + fmtWhen(num(m.t, 0)) + ':\n' + str(m.body, 4000).split('\n').map(l => '> ' + l).join('\n'), re: id, att: null }; V6.mail = null; renderWork(); };
+  acts.append(el('button', { class: 'btn sm', text: '↩ Reply', onclick: () => reply(false) }), ((m.dto || m.to || []).length + (m.dcc || []).length) > 1 || (m.to || []).includes('*') ? el('button', { class: 'btn sm ghost', text: 'Reply all', onclick: () => reply(true) }) : null,
     el('button', { class: 'btn sm ghost', text: 'Forward', onclick: () => { V6.compose = { to: new Set(), sub: 'Fwd: ' + str(m.sub, 110), body: '\n\n— Forwarded from ' + nameOf(m.by, m.nm) + ':\n' + str(m.body, 6000), re: null, att: m.att || null }; V6.mail = null; renderWork(); } }),
     el('button', { class: 'btn sm ghost', text: s.star ? '★ Starred' : '☆ Star', onclick: () => { setMst(id, { star: s.star ? 0 : 1 }); } }), el('button', { class: 'btn sm ghost', text: s.arch ? 'Move to inbox' : 'Archive', onclick: () => { setMst(id, { arch: s.arch ? 0 : 1 }); V6.mail = null; renderWork(); } }));
   const readers = m.by === me.uid ? [...Store.col('mailst')].filter(([k, v]) => k.startsWith(id + '~') && v && v.r).map(([k]) => nameOf(k.split('~')[1])) : [];
@@ -4098,13 +4107,17 @@ function peoplePicker(set, onChange, allowAll) {
   draw(); return box;
 }
 function composeMail(body, acts) {
-  const c = V6.compose; $('#wkTitle').textContent = c.re ? 'Reply' : 'New mail'; $('#wkSub').textContent = 'Delivered instantly inside the office';
+  const c = V6.compose; c.cc = c.cc || new Set(); c.bcc = c.bcc || new Set(); $('#wkTitle').textContent = c.re ? 'Reply' : 'New mail'; $('#wkSub').textContent = 'Delivered instantly inside the office';
   const sub = el('input', { id: 'wkSubj', type: 'text', maxLength: 140, value: c.sub, placeholder: 'Subject', oninput: e => { c.sub = e.target.value; } }), ta = el('textarea', { id: 'wkBodyIn', maxLength: 20000, placeholder: 'Write your message', oninput: e => { c.body = e.target.value; } }); ta.value = c.body;
   const attL = el('span', { class: 'meta', text: c.att ? '📎 ' + c.att.name : '' }), file = el('input', { type: 'file', id: 'wkFile', hidden: true, onchange: async e => { const f = e.target.files[0]; e.target.value = ''; if (!f) return; attL.textContent = '⏳ Uploading ' + f.name + '…'; try { c.att = await uploadAtt(f); attL.textContent = '📎 ' + c.att.name; } catch (er) { attL.textContent = ''; toast(er.message); } } });
-  const send = () => { if (!c.to.size) { toast('Choose who it goes to.'); return; } if (!c.sub.trim() && !c.body.trim()) { toast('Write a subject or a message.'); return; }
-    Store.set('mail', Store.id(), Object.assign({ by: me.uid, nm: me.name, to: [...c.to], sub: c.sub.trim().slice(0, 140), body: c.body.slice(0, 20000), t: Date.now() }, c.re ? { re: c.re } : {}, c.att ? { att: c.att } : {})); V6.compose = null; V6.box = 'sent'; toast('✉️ Sent.'); renderWork(); };
+  const send = () => { if (!c.to.size && !c.cc.size && !c.bcc.size) { toast('Choose who it goes to.'); return; } if (!c.sub.trim() && !c.body.trim()) { toast('Write a subject or a message.'); return; }
+    const allowed = new Set([...c.to, ...c.cc]), gid = Store.id(), base = Object.assign({ by: me.uid, nm: me.name, sub: c.sub.trim().slice(0, 140), body: c.body.slice(0, 20000), t: Date.now(), dto: [...c.to], dcc: [...c.cc], grp: gid }, c.re ? { re: c.re } : {}, c.att ? { att: c.att } : {});
+    if (!allowed.size && !c.bcc.size) return; if (allowed.size) Store.set('mail', gid, Object.assign({ to: [...allowed] }, base));
+    for (const u of c.bcc) if (u !== '*' && u !== me.uid && !allowed.has(u) && !allowed.has('*')) Store.set('mail', Store.id(), Object.assign({ to: [u], bc: 1 }, base));   // each blind copy is its own private document, so nobody else can read the Bcc list
+    if (!allowed.size) Store.set('mail', gid, Object.assign({ to: [me.uid], self: 1 }, base));
+    V6.compose = null; V6.box = 'sent'; toast('✉️ Sent' + (c.bcc.size ? ' (blind copies kept private)' : '') + '.'); renderWork(); };
   acts.append(el('button', { class: 'btn sm', text: 'Send', onclick: send }), el('button', { class: 'btn sm ghost', text: 'Discard', onclick: () => { V6.compose = null; renderWork(); } }));
-  body.replaceChildren(el('div', { class: 'wk-form' }, el('div', { class: 'lbl', text: 'To' }), peoplePicker(c.to, null, true), field('Subject', sub), field('Message', ta), el('div', { class: 'row' }, el('label', { class: 'btn sm ghost', for: 'wkFile', text: '📎 Attach a file' }), file, attL, V5.canListen ? el('button', { class: 'btn sm ghost', text: '🎙 Dictate', onclick: e => dictateInto(ta, e.currentTarget) }) : null)));
+  body.replaceChildren(el('div', { class: 'wk-form' }, el('div', { class: 'lbl', text: 'To' }), peoplePicker(c.to, null, true), el('div', { class: 'row' }, el('button', { class: 'btn sm ghost', text: (c.showCc || c.cc.size ? '− Cc' : '＋ Cc'), onclick: () => { c.showCc = !c.showCc; renderWork(); } }), el('button', { class: 'btn sm ghost', text: (c.showBcc || c.bcc.size ? '− Bcc' : '＋ Bcc'), onclick: () => { c.showBcc = !c.showBcc; renderWork(); } })), (c.showCc || c.cc.size) ? el('div', { class: 'lbl', text: 'Cc (everyone sees these)' }) : null, (c.showCc || c.cc.size) ? peoplePicker(c.cc, null, true) : null, (c.showBcc || c.bcc.size) ? el('div', { class: 'lbl', text: 'Bcc (hidden from everyone else)' }) : null, (c.showBcc || c.bcc.size) ? peoplePicker(c.bcc, null, false) : null, field('Subject', sub), field('Message', ta), el('div', { class: 'row' }, el('label', { class: 'btn sm ghost', for: 'wkFile', text: '📎 Attach a file' }), file, attL, V5.canListen ? el('button', { class: 'btn sm ghost', text: '🎙 Dictate', onclick: e => dictateInto(ta, e.currentTarget) }) : null)));
   if (!c.sub) sub.focus(); else { ta.focus(); ta.setSelectionRange(0, 0); }
 }
 async function uploadAtt(f) {
@@ -4123,7 +4136,7 @@ function onMail(map) {
 /* ---------- Calendar: the office's own diary, with invitations, replies and reminders that walk you to the room ---------- */
 function renderCal(body, acts) {
   if (V6.ev) return editEvent(body, acts); $('#wkTitle').textContent = 'Calendar'; $('#wkSub').textContent = 'Your times: ' + (me.tz || 'local') + '. Reminders appear 5 minutes before and at the start.';
-  acts.append(el('button', { class: 'btn sm', text: '＋ New event', onclick: () => { const d = new Date(Date.now() + 3600000); d.setMinutes(0, 0, 0); V6.ev = { id: null, title: '', s: d.getTime(), dur: 30, where: (W.rooms && W.rooms[0] && W.rooms[0].name) || '', inv: new Set(), notes: '' }; renderWork(); } }));
+  acts.append(el('button', { class: 'btn sm ghost', text: '🔗 Sync / .ics', onclick: () => openPanel('calsync') }), el('button', { class: 'btn sm', text: '＋ New event', onclick: () => { const d = new Date(Date.now() + 3600000); d.setMinutes(0, 0, 0); V6.ev = { id: null, title: '', s: d.getTime(), dur: 30, where: (W.rooms && W.rooms[0] && W.rooms[0].name) || '', inv: new Set(), notes: '' }; renderWork(); } }));
   const now = Date.now(), list = [...Store.col('cal')].filter(([, e]) => e && num(e.e, 0) > now - 3600000 && (e.by === me.uid || mine(e.inv) || net.admin)).sort((a, b) => a[1].s - b[1].s).slice(0, 120), out = []; let last = '';
   for (const [id, e] of list) { const day = fmtDay(e.s); if (day !== last) { out.push(el('div', { class: 'tk-day' }, el('span', { text: day }))); last = day; }
     const my = rsvpOf(id, me.uid), yes = [...Store.col('rsvp')].filter(([k, v]) => k.startsWith(id + '~') && v && v.a === 'yes').map(([k]) => nameOf(k.split('~')[1])), live = e.s <= now && e.e > now;
@@ -4131,7 +4144,7 @@ function renderCal(body, acts) {
       el('div', { class: 'meta', text: '📍 ' + (str(e.where, 60) || 'No place set') + ' · by ' + nameOf(e.by) + ' · ' + (Array.isArray(e.inv) && e.inv.includes('*') ? 'everyone invited' : ((e.inv || []).length + ' invited')) + (yes.length ? ' · going: ' + yes.slice(0, 6).join(', ') : '') }),
       e.notes ? el('div', { class: 'tk-text', style: 'font-size:13px' }, ...linkify(str(e.notes, 600), [])) : null,
       el('div', { class: 'row' }, ...['yes', 'maybe', 'no'].map(a => el('button', { class: 'btn sm' + (my === a ? '' : ' ghost'), text: { yes: '✓ Going', maybe: 'Maybe', no: '✗ Can\'t' }[a], onclick: () => Store.set('rsvp', id + '~' + me.uid, { a, t: Date.now() }) })),
-        el('button', { class: 'btn sm ghost', text: '🚶 Go there', onclick: () => { work(false); goToEvent(e); } }), (e.by === me.uid || net.admin) ? el('button', { class: 'btn sm ghost', text: 'Edit', onclick: () => { V6.ev = { id, title: e.title, s: e.s, dur: Math.round((e.e - e.s) / 60000), where: e.where, inv: new Set(e.inv || []), notes: e.notes || '' }; renderWork(); } }) : null))); }
+        el('button', { class: 'btn sm' + (live ? '' : ' ghost'), text: e.host === 'ext' ? '↗ Join link' : '🚶 Join here', onclick: () => joinEvent(id, e) }), (e.by === me.uid || net.admin) ? el('button', { class: 'btn sm ghost', text: 'Edit', onclick: () => { V6.ev = { id, title: e.title, s: e.s, dur: Math.round((e.e - e.s) / 60000), where: e.where, host: e.host, link: e.link, inv: new Set(e.inv || []), notes: e.notes || '' }; renderWork(); } }) : null))); }
   body.replaceChildren(...(out.length ? out : [el('div', { class: 'tk-empty' }, el('b', { text: 'Nothing scheduled.' }), el('span', { text: 'Create an event, pick a room and invite people. Everyone gets a reminder and a button that walks them there.' }))]));
 }
 function editEvent(body, acts) {
@@ -4140,12 +4153,13 @@ function editEvent(body, acts) {
   const du = el('select', { id: 'evDur' }, ...[15, 30, 45, 60, 90, 120, 180].map(m => el('option', { value: m, text: m < 60 ? m + ' minutes' : (m / 60) + (m === 60 ? ' hour' : ' hours'), selected: v.dur === m })));
   const places = (W.places || []).map(p => p.name), wh = el('select', { id: 'evW' }, ...places.map(n => el('option', { value: n, text: n, selected: v.where === n })), el('option', { value: 'Call (no room)', text: 'Call (no room)', selected: v.where === 'Call (no room)' }));
   const no = el('textarea', { id: 'evN', maxLength: 600, placeholder: 'Agenda or notes (optional)' }); no.value = v.notes;
+  const hs = el('select', { id: 'evHost' }, ...Object.entries(HOSTS).map(([k, t]) => el('option', { value: k, text: t, selected: (v.host || 'in') === k }))), lk = el('input', { id: 'evLink', type: 'url', placeholder: 'https:// link for Teams, Zoom or Meet', value: v.link || '' });
   const save = () => { const s = new Date(da.value + 'T' + (tm.value || '09:00')).getTime(); if (!ti.value.trim()) { toast('Give it a title.'); return; } if (!Number.isFinite(s)) { toast('Pick a date and time.'); return; } if (!v.inv.size) { toast('Invite at least one person, or Everyone.'); return; }
-    const id = v.id || Store.id(); Store.set('cal', id, { title: ti.value.trim().slice(0, 100), s, e: s + (+du.value) * 60000, where: wh.value, inv: [...v.inv], notes: no.value.slice(0, 600), by: v.id ? (Store.col('cal').get(v.id) || {}).by || me.uid : me.uid, t: Date.now() });
+    const id = v.id || Store.id(); Store.set('cal', id, { title: ti.value.trim().slice(0, 100), s, e: s + (+du.value) * 60000, where: wh.value, host: hs.value, link: /^https:\/\//.test(lk.value.trim()) ? lk.value.trim().slice(0, 400) : '', inv: [...v.inv], notes: no.value.slice(0, 600), by: v.id ? (Store.col('cal').get(v.id) || {}).by || me.uid : me.uid, t: Date.now() });
     if (!v.id) { Store.set('rsvp', id + '~' + me.uid, { a: 'yes', t: Date.now() }); Store.set('mail', Store.id(), { by: me.uid, nm: me.name, to: [...v.inv], sub: 'Invitation: ' + ti.value.trim().slice(0, 100), body: fmtWhen(s) + ' for ' + du.value + ' minutes\nWhere: ' + wh.value + (no.value ? '\n\n' + no.value.slice(0, 600) : '') + '\n\nOpen Workspace → Calendar to reply.', t: Date.now(), cal: id }); }
     V6.ev = null; toast('🗓 Saved' + (v.id ? '.' : ' and invitations sent.')); renderWork(); };
   acts.append(el('button', { class: 'btn sm', text: 'Save', onclick: save }), v.id ? el('button', { class: 'btn sm ghost', text: 'Delete', onclick: () => { Store.del('cal', v.id); V6.ev = null; renderWork(); } }) : null, el('button', { class: 'btn sm ghost', text: 'Cancel', onclick: () => { V6.ev = null; renderWork(); } }));
-  body.replaceChildren(el('div', { class: 'wk-form' }, field('Title', ti), el('div', { class: 'row' }, field('Date', da), field('Start', tm), field('Length', du)), field('Where', wh), el('div', { class: 'lbl', text: 'Invite' }), peoplePicker(v.inv, null, true), field('Notes', no))); ti.focus();
+  body.replaceChildren(el('div', { class: 'wk-form' }, field('Title', ti), el('div', { class: 'row' }, field('Date', da), field('Start', tm), field('Length', du)), field('Room', wh), field('Hosted', hs), field('Outside link (optional)', lk), el('div', { class: 'lbl', text: 'Invite' }), peoplePicker(v.inv, null, true), field('Notes', no))); ti.focus();
 }
 function goToEvent(e) {
   const p = (W.places || []).find(x => x.name === e.where), r = (W.rooms || []).find(x => x.name === e.where);
@@ -4245,6 +4259,8 @@ function initV6() {
   addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'j') { e.preventDefault(); work(); } else if (e.key === 'Escape' && V6.open && !typing()) work(false); });
   addEventListener('beforeunload', flushDoc);
 }
+
+function bccNote(m) { if (!m.grp) return ''; const n = [...Store.col('mail')].filter(([, x]) => x && x.grp === m.grp && x.bc).map(([, x]) => nameOf((x.to || [])[0])); return n.length ? ' · Bcc ' + n.join(', ') : ''; }
 /* ============================ v7: clear view, mobile menu, office designer, private office locks, self-service fixes ============================ */
 const ERRS = []; addEventListener('error', e => { ERRS.push((e.message || 'error') + ' @' + String(e.filename || '').split('/').pop() + ':' + e.lineno); if (ERRS.length > 12) ERRS.shift(); });
 addEventListener('unhandledrejection', e => { ERRS.push('promise: ' + String(e.reason && e.reason.message || e.reason).slice(0, 120)); if (ERRS.length > 12) ERRS.shift(); });
@@ -4444,7 +4460,7 @@ function drawEd() {
   let bar = $('#edbar'); if (!bar) { bar = el('div', { id: 'edbar', class: 'island' }); document.body.append(bar); } bar.hidden = !ED.on; if (!ED.on) return;
   const s = ED.sel, it = s && s.k === 'item' ? itemById(s.id) : null, L = it && LIBRARY[it.t]; const b = (t, f, ttl) => el('button', { class: 'btn sm ghost', text: t, title: ttl || t, onclick: f });
   bar.replaceChildren(el('b', { text: '✥ Build mode' }), el('span', { class: 'meta', text: s ? (s.k === 'item' ? (L ? L.label : 'Item') : 'Desk ' + s.id.toUpperCase()) + ' selected' : 'Drag any item or desk to move it' }),
-    ...(s ? [b('←', () => nudge(-.2, 0), 'Nudge left'), b('→', () => nudge(.2, 0)), b('↑', () => nudge(0, -.2)), b('↓', () => nudge(0, .2)), ...(s.k === 'item' ? [b('⟲', () => rotSel(-PI / 4), 'Rotate'), b('⟳', () => rotSel(PI / 4)), b('🎨', recolSel, 'Colour'), ...(L && (L.text || it.t === 'board') ? [b('✎', textSel, 'Edit text')] : []), b('⧉', dupSel, 'Duplicate')] : []), b('🗑', delSel, s.k === 'item' ? 'Delete' : 'Remove this desk')] : []),
+    ...(s ? [b('←', () => nudge(-.2, 0), 'Nudge left'), b('→', () => nudge(.2, 0)), b('↑', () => nudge(0, -.2)), b('↓', () => nudge(0, .2)), ...(s.k === 'item' ? [b('⟲', () => rotSel(-PI / 4), 'Rotate'), b('⟳', () => rotSel(PI / 4)), b('🎨', recolSel, 'Colour'), ...(L && (L.text || it.t === 'board') ? [b('✎', textSel, 'Edit text')] : []), ...(L && L.img ? [b('🖼', imgSel, 'Upload an image')] : []), b('⧉', dupSel, 'Duplicate')] : []), b('🗑', delSel, s.k === 'item' ? 'Delete' : 'Remove this desk')] : []),
     b('📦 Library', () => openPanel('library')), b('Done', () => setEdit(false)));
 }
 panels.library = b => {
@@ -4897,6 +4913,505 @@ setInterval(() => { if (W.shafts && typeof sun !== 'undefined' && sky) W.shafts.
 
 /* plaster: a faint grain on every painted wall, so flat white reads as a real finish */
 (function () { try { const n = ctex(128, 128, (c, w, h) => { c.fillStyle = '#808080'; c.fillRect(0, 0, w, h); for (let i = 0; i < 2600; i++) { const v = 100 + rnd() * 56 | 0; c.fillStyle = `rgb(${v},${v},${v})`; c.fillRect(rnd() * w, rnd() * h, 1 + rnd() * 2, 1 + rnd() * 2); } }); const t = normalFrom(n, 1.2); if (t) { t.repeat.set(3, 1); M_WALL.normalMap = t; M_WALL.normalScale.set(.35, .35); M_WALL.roughness = .93; } } catch (e) { } })();
+/* ============================ v12: room and office signs, brand wall, images, calendar hosting and sync ============================ */
+async function imgToData(file, maxW, maxB) {
+  if (!file || !/^image\/(jpeg|png|webp|gif)$/.test(file.type)) throw new Error('Use a JPG, PNG, WebP or GIF image.');
+  const url = URL.createObjectURL(file); let img; try { img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = () => rej(new Error('Could not read that image.')); i.src = url; }); } finally { URL.revokeObjectURL(url); }
+  let s = Math.min(1, maxW / Math.max(1, img.width)), q = .86, out = ''; const cv = document.createElement('canvas');
+  for (let k = 0; k < 10; k++) { cv.width = Math.max(1, Math.round(img.width * s)); cv.height = Math.max(1, Math.round(img.height * s)); const x = cv.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, cv.width, cv.height); x.drawImage(img, 0, 0, cv.width, cv.height); out = cv.toDataURL('image/jpeg', q); if (out.length <= maxB) break; if (q > .5) q -= .12; else s *= .8; }
+  if (out.length > maxB * 1.1) throw new Error('That image is too large. Try a smaller one.'); return out;
+}
+const pickImage = (maxW, maxB) => new Promise((res, rej) => { const i = el('input', { type: 'file', accept: 'image/jpeg,image/png,image/webp,image/gif', onchange: async () => { const f = i.files[0]; if (!f) return res(null); try { res(await imgToData(f, maxW, maxB)); } catch (e) { toast(String(e.message || e)); res(null); } } }); i.click(); });
+
+/* ---- the sign outside every room: who is in, until when, and when it is free again ---- */
+function evNow(where, ownerUid) {
+  const now = Date.now(), evs = [...Store.col('cal')].map(([, e]) => e).filter(e => e && num(e.e, 0) > now && num(e.s, 0) < now + 864e5 && (where ? e.where === where : (e.by === ownerUid || (Array.isArray(e.inv) && (e.inv.includes(ownerUid) || e.inv.includes('*')) && (Store.col('rsvp').get(ownerUid ? '' : '') || true))))).sort((a, b) => a.s - b.s);
+  return { cur: evs.find(e => e.s <= now) || null, next: evs.find(e => e.s > now) || null };
+}
+const mm = ms => { const m = Math.max(0, Math.round(ms / 60000)); return m >= 60 ? Math.floor(m / 60) + 'h ' + (m % 60) + 'm' : m + ' min'; };
+function roomSignDraw(r, R, ppl, tt) {
+  const now = Date.now(), { cur, next } = evNow(r.name), timerEnd = tt && !tt.over && R.mode === 'down' && R.end > now ? R.end : 0, end = timerEnd || (cur ? cur.e : 0), busy = !!(cur || ppl.length || timerEnd), state = R.lock ? 'lock' : busy ? 'busy' : 'free';
+  r.sign.draw((c, w, h) => { c.fillStyle = state === 'lock' ? '#b3261e' : state === 'busy' ? '#14202e' : '#1f7a4d'; rr(c, 0, 0, w, h, 20); c.fill(); c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = '#fff'; c.font = '700 44px ' + FONT_D; c.fillText(r.name + (state === 'lock' ? ' 🔒' : ''), w / 2, 40, w - 24);
+    c.font = '600 30px ' + FONT_B; c.fillStyle = state === 'free' ? '#d8ffe9' : '#ffd36b'; c.fillText(state === 'free' ? 'Free to use' : (R.title || (cur && str(cur.title, 40)) || 'In session'), w / 2, 92, w - 24);
+    c.font = '500 26px ' + FONT_B; c.fillStyle = 'rgba(255,255,255,.88)';
+    c.fillText(state !== 'free' && end ? 'Until ' + fmtHM(end) + ' · ' + mm(end - now) + ' left' : state !== 'free' ? ppl.length + ' inside' : next ? 'Booked ' + fmtHM(next.s) + ' · ' + str(next.title, 22) : 'Book it in Calendar', w / 2, 140, w - 24); });
+}
+function officeSignDraw(d) {
+  const uid = d.owner; if (!uid) return null; const p = uid === me.uid ? me : peerOf(uid), st = uid === me.uid ? effStatus() : (p ? p.status : 'away'), { cur } = evNow(null, uid), live = cur && (cur.by === uid || (cur.inv || []).includes(uid) || (cur.inv || []).includes('*'));
+  return { name: d.ownerName || 'Office', status: p ? (STATUS[st] || STATUS.available) : ['#9aa6b2', 'Not in right now'], meet: live ? cur : null, locked: privLocked(d) };
+}
+function officeSigns() {
+  for (const d of W.desks) { if (!d.priv) continue;
+    if (!d.osign) { d.osign = dynTex(512, 192); const x = d.x - 1.3 + 2.525, m = new T.Mesh(new T.PlaneGeometry(1.2, .45), new T.MeshBasicMaterial({ map: d.osign.tex })); m.position.set(x, 2.2, 4.47); office.add(m); }
+    const o = officeSignDraw(d), key = JSON.stringify(o && [o.name, o.status[1], o.meet && o.meet.e, o.locked]) + Math.floor(Date.now() / 60000); if (d.osk === key) continue; d.osk = key;
+    d.osign.draw((c, w, h) => { c.fillStyle = '#14202e'; rr(c, 0, 0, w, h, 20); c.fill(); c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = '#fff'; if (!o) { c.font = '700 40px ' + FONT_D; c.fillText('Office ' + d.id.slice(1) + ' · free', w / 2, h / 2, w - 24); return; }
+      c.font = '700 44px ' + FONT_D; c.fillText(o.name, w / 2, 42, w - 24); c.fillStyle = o.meet ? '#ffb627' : o.status[0]; c.font = '700 30px ' + FONT_B; c.fillText(o.meet ? '● In a meeting' : '● ' + o.status[1], w / 2, 96, w - 24); c.fillStyle = 'rgba(255,255,255,.85)'; c.font = '500 26px ' + FONT_B;
+      c.fillText(o.meet ? 'until ' + fmtHM(o.meet.e) + ' · ' + str(o.meet.title, 22) : o.locked ? '🔒 Private: knock first' : 'Knock to come in', w / 2, 146, w - 24); }); }
+}
+
+/* ---- large brand and art wall owners can fill with their name or an image ---- */
+Object.assign(LIBRARY, { brand_wall: { label: 'Brand or art wall (large)', icon: '🏷', cat: 'Walls and decor', text: true, img: true, build: it => {
+  const g = new T.Group(); g.position.set(it.x, 0, it.z); g.rotation.y = it.ry || 0; office.add(g); rbox(g, 6.2, 2.7, .08, .02, M_BLACKM, 0, 1.6, 0, { cast: 1 });
+  const d = dynTex(1536, 640), paint = img => d.draw((c, w, h) => { c.fillStyle = '#14202e'; c.fillRect(0, 0, w, h); if (img) { const k = Math.max(w / img.width, h / img.height); c.drawImage(img, (w - img.width * k) / 2, (h - img.height * k) / 2, img.width * k, img.height * k); }
+    if (it.tx) { c.fillStyle = img ? 'rgba(0,0,0,.45)' : 'rgba(0,0,0,0)'; if (img) c.fillRect(0, h - 190, w, 190); c.fillStyle = '#fff'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.font = '700 ' + (img ? 110 : 190) + 'px ' + FONT_D; c.fillText(it.tx, w / 2, img ? h - 95 : h / 2, w - 120); } else if (!img) { c.fillStyle = 'rgba(255,255,255,.5)'; c.textAlign = 'center'; c.font = '700 80px ' + FONT_D; c.fillText('Your brand or art here', w / 2, h / 2); } });
+  paint(null); const m = new T.Mesh(new T.PlaneGeometry(6.1, 2.54), new T.MeshBasicMaterial({ map: d.tex })); m.position.set(0, 1.6, .045); g.add(m);
+  const doc = Store.col('office').get('img_' + it.id); if (doc && /^data:image\//.test(doc.d || '')) { const im = new Image(); im.onload = () => paint(im); im.src = doc.d; } ob(it, 6.2, .5); } } });
+async function imgSel() {
+  const s = ED.sel; if (!s || s.k !== 'item') return; const it = itemById(s.id); if (!it) return; const data = await pickImage(1400, 150000); if (!data) return;
+  Store.set('office', 'img_' + it.id, { d: data, t: Date.now() }); saveLayout(l => { const i = l.items.find(i => i.id === s.id); if (i) i.imv = Date.now(); }); toast('Image placed.');
+}
+
+/* ---- calendar: where it is hosted, outside calendars, .ics in and out ---- */
+const HOSTS = { in: 'Here in Zuchera (voice, video and screen share in the room)', ext: 'An outside meeting link (Teams, Zoom, Meet…)', both: 'Both: meet here and share an outside link' };
+function joinEvent(id, e) {
+  if (e.host === 'ext' && /^https:\/\//.test(e.link || '')) { window.open(e.link, '_blank', 'noopener,noreferrer'); return; }
+  work(false); goToEvent(e); if (e.host === 'both' && /^https:\/\//.test(e.link || '')) setTimeout(() => window.open(e.link, '_blank', 'noopener,noreferrer'), 600);
+}
+const icsEsc = s => String(s || '').replace(/\\/g, '\\\\').replace(/;/g, '\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n'), icsD = t => new Date(t).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+function icsExport() {
+  const mine = [...Store.col('cal')].filter(([, e]) => e && (e.by === me.uid || (Array.isArray(e.inv) && (e.inv.includes(me.uid) || e.inv.includes('*'))))); const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Zuchera//Virtual Office//EN', 'CALSCALE:GREGORIAN'];
+  for (const [id, e] of mine) L.push('BEGIN:VEVENT', 'UID:' + id + '@zuchera', 'DTSTAMP:' + icsD(Date.now()), 'DTSTART:' + icsD(e.s), 'DTEND:' + icsD(e.e), 'SUMMARY:' + icsEsc(e.title), 'LOCATION:' + icsEsc(e.where), 'DESCRIPTION:' + icsEsc((e.notes || '') + (e.link ? '\nJoin: ' + e.link : '')), 'END:VEVENT'); L.push('END:VCALENDAR');
+  const a = el('a', { href: URL.createObjectURL(new Blob([L.join('\r\n')], { type: 'text/calendar' })), download: 'zuchera-calendar.ics' }); a.click(); toast('Calendar file saved.');
+}
+function icsParse(text) {
+  const lines = text.replace(/\r?\n[ \t]/g, '').split(/\r?\n/), out = []; let ev = null;
+  const dt = v => { const m = /^(\d{4})(\d{2})(\d{2})(?:T(\d{2})(\d{2})(\d{2})(Z)?)?$/.exec(v.trim()); if (!m) return null; return m[7] ? Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6]) : new Date(+m[1], +m[2] - 1, +m[3], +(m[4] || 0), +(m[5] || 0), +(m[6] || 0)).getTime(); };
+  const un = s => s.replace(/\\n/gi, '\n').replace(/\\([,;\\])/g, '$1');
+  for (const ln of lines) { if (ln === 'BEGIN:VEVENT') ev = {}; else if (ln === 'END:VEVENT') { if (ev && ev.s) out.push(ev); ev = null; } else if (ev) { const i = ln.indexOf(':'); if (i < 0) continue; const k = ln.slice(0, i).split(';')[0].toUpperCase(), v = ln.slice(i + 1);
+    if (k === 'DTSTART') ev.s = dt(v); else if (k === 'DTEND') ev.e = dt(v); else if (k === 'SUMMARY') ev.title = un(v).slice(0, 100); else if (k === 'LOCATION') ev.where = un(v).slice(0, 60); else if (k === 'DESCRIPTION') ev.notes = un(v).slice(0, 600); else if (k === 'UID') ev.uid = v.slice(0, 120); else if (k === 'RRULE') ev.rr = v; } }
+  return out.map(e => Object.assign(e, { e: e.e || e.s + 3600000 }));
+}
+function icsExpand(evs, horizon) {   // a few weeks of simple repeats (daily or weekly) so outside calendars still look right
+  const out = [], now = Date.now(), lim = now + horizon;
+  for (const e of evs) { if (!e.rr) { if (e.e > now - 864e5 && e.s < lim) out.push(e); continue; } const r = Object.fromEntries(e.rr.split(';').map(x => x.split('='))), step = r.FREQ === 'DAILY' ? 864e5 : r.FREQ === 'WEEKLY' ? 6048e5 : 0, iv = Math.max(1, +r.INTERVAL || 1), cnt = +r.COUNT || 400, until = r.UNTIL ? icsUntil(r.UNTIL) : Infinity; if (!step) { if (e.e > now - 864e5 && e.s < lim) out.push(e); continue; }
+    for (let i = 0; i < cnt; i++) { const s = e.s + i * step * iv; if (s > lim || s > until) break; if (s + (e.e - e.s) > now - 864e5) out.push(Object.assign({}, e, { s, e: s + (e.e - e.s), uid: e.uid + '#' + i, rr: null })); } }
+  return out;
+}
+const icsUntil = v => { const m = /^(\d{4})(\d{2})(\d{2})/.exec(v); return m ? Date.UTC(+m[1], +m[2] - 1, +m[3], 23, 59) : Infinity; };
+const hash = s => { let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36); };
+function icsImport(text, src) {
+  const evs = icsExpand(icsParse(text), 60 * 864e5); let n = 0; const keep = new Set();
+  for (const e of evs.slice(0, 400)) { const id = 'x' + src + hash((e.uid || e.title) + ':' + e.s); keep.add(id); const cur = Store.col('cal').get(id); const doc = { title: e.title || 'Busy', s: e.s, e: e.e, where: e.where || 'Call (no room)', inv: [me.uid], notes: e.notes || '', by: me.uid, host: 'ext', link: (/https:\/\/[^\s<>"]+/.exec(e.notes || e.where || '') || [''])[0], ext: src, t: Date.now() }; if (!cur || cur.s !== doc.s || cur.title !== doc.title || cur.e !== doc.e) { Store.set('cal', id, doc); n++; } }
+  for (const [id, e] of Store.col('cal')) if (e && e.ext === src && e.by === me.uid && !keep.has(id) && e.s > Date.now()) Store.del('cal', id);   // removed upstream: removed here
+  return n;
+}
+panels.calsync = b => {
+  const feed = Store.col('people').get(me.uid) || {}, u = el('input', { type: 'url', placeholder: 'https://calendar.google.com/calendar/ical/…/basic.ics', value: LS.get('icsUrl', ''), style: 'width:100%' }), file = el('input', { type: 'file', accept: '.ics,text/calendar', onchange: async () => { const f = file.files[0]; if (!f) return; const n = icsImport(await f.text(), 'file'); toast(n + ' events imported.'); } });
+  b.append(el('p', { text: 'Bring your Google, Outlook or Apple calendar in so teammates see when you are busy, and so meetings can be booked from either side.' }),
+    el('h3', { text: 'Keep it in sync (Google, Outlook, Apple)' }), el('ol', {}, el('li', { text: 'Google Calendar → Settings → your calendar → Integrate calendar → copy "Secret address in iCal format".' }), el('li', { text: 'Paste it below. It refreshes about every 30 minutes while the office is open.' })), u,
+    el('div', { class: 'row' }, el('button', { class: 'btn', text: 'Connect', onclick: async () => { const v = u.value.trim(); if (!/^https:\/\//.test(v)) { toast('Paste the https address.'); return; } try { const t = await fetchIcs(v); LS.set('icsUrl', v); const n = icsImport(t, 'url'); toast('Connected. ' + n + ' events brought in.'); } catch (e) { toast(String(e.message || e)); } } }), el('button', { class: 'btn ghost', text: 'Disconnect', onclick: () => { LS.set('icsUrl', ''); for (const [id, e] of Store.col('cal')) if (e && e.ext === 'url' && e.by === me.uid) Store.del('cal', id); u.value = ''; toast('Disconnected and removed.'); } })),
+    el('h3', { text: 'One-off files' }), el('label', { class: 'btn ghost' }, '⬆ Import a .ics file', el('span', { style: 'display:none' }, file)), el('button', { class: 'btn ghost', text: '⬇ Download my calendar (.ics)', onclick: icsExport }), el('p', { class: 'meta', text: 'This brings outside events in and lets you export ours. Changes made in Google do not need a Google sign-in. Writing back to Google needs a Google Cloud app of your own, which is not set up here.' }));
+  el.__f = file;
+};
+async function fetchIcs(url) {
+  if (window.OFFICE_ICS) return window.OFFICE_ICS(url);             // hosted: the server fetches it (browsers block it)
+  const r = await fetch(url, { mode: 'cors' }).catch(() => null); if (!r || !r.ok) throw new Error('Your browser cannot reach that calendar from here. In the WordPress office this works automatically; for now use "Import a .ics file".'); return r.text();
+}
+setInterval(() => { const u = LS.get('icsUrl', ''); if (u && document.visibilityState === 'visible' && Date.now() - num(LS.get('icsAt', 0), 0) > 30 * 60000) { LS.set('icsAt', Date.now()); fetchIcs(u).then(t => icsImport(t, 'url')).catch(() => { }); } }, 60000);
+function initV12() { setInterval(officeSigns, 2500); Store.on('cal', () => { try { officeSigns(); } catch (e) { } }); }
+/* ============================ v13: the TV wall (admin controlled, watched together), call bar view modes ============================ */
+const TVP = { x: 0.1, z: 17.9, w: 4.2, h: 2.36 };
+const TV = { tex: null, scr: null, vid: null, aud: null, vtex: null, key: '', open: null, vk: '' };
+function tvDoc() { const d = Store.col('office').get('tv') || {}; return { on: !!d.on, u: typeof d.u === 'string' && /^https:\/\//.test(d.u) ? d.u.slice(0, 500) : '', k: d.k === 'video' || d.k === 'audio' || d.k === 'img' ? d.k : 'embed', n: str(d.n, 80), mute: d.mute !== false, play: d.play !== false, t0: num(d.t0, 0), pos: num(d.pos, 0), v: clamp(num(d.v, 0.7), 0, 1), im: /^data:image\//.test(d.im || '') ? d.im : '', rev: num(d.rev, 0) }; }
+function tvSet(p) { if (!net.admin) { toast('Only an admin can control the TV wall.'); return; } const d = tvDoc(); Store.set('office', 'tv', Object.assign({ on: d.on, u: d.u, k: d.k, n: d.n, mute: d.mute, play: d.play, t0: d.t0, pos: d.pos, v: d.v, im: d.im }, p, { rev: Date.now() })); }
+const tvAt = d => d.play ? d.pos + Math.max(0, Date.now() - d.t0) / 1000 : d.pos;
+const tvKind = u => /\.(mp4|webm|ogv|mov)(\?|#|$)/i.test(u) ? 'video' : /\.(mp3|m4a|aac|ogg|wav|flac)(\?|#|$)/i.test(u) || /(icecast|shoutcast|radio|stream)/i.test(u) && !EMBED_OK.test(u) ? 'audio' : /\.(jpe?g|png|webp|gif)(\?|#|$)/i.test(u) ? 'img' : 'embed';
+function tvEmbed(u, d) {
+  let x; try { x = new URL(u); } catch (e) { return ''; } const h = x.hostname.replace(/^www\./, '');
+  if (h === 'youtube.com' && x.pathname === '/watch' && x.searchParams.get('v')) x = new URL('https://www.youtube.com/embed/' + x.searchParams.get('v').replace(/[^\w-]/g, ''));
+  else if (h === 'youtu.be') x = new URL('https://www.youtube.com/embed/' + x.pathname.slice(1).replace(/[^\w-]/g, ''));
+  else if (h === 'vimeo.com' && /^\/\d+/.test(x.pathname)) x = new URL('https://player.vimeo.com/video' + x.pathname);
+  if (!EMBED_OK.test(x.href)) return '';
+  if (/youtube/.test(x.hostname)) { x.searchParams.set('autoplay', d.play ? '1' : '0'); x.searchParams.set('mute', d.mute || TV.lmute ? '1' : '0'); x.searchParams.set('start', String(Math.floor(tvAt(d)))); x.searchParams.set('rel', '0'); }
+  else if (/vimeo/.test(x.hostname)) { x.searchParams.set('autoplay', d.play ? '1' : '0'); x.searchParams.set('muted', d.mute || TV.lmute ? '1' : '0'); x.hash = 't=' + Math.floor(tvAt(d)) + 's'; }
+  return x.href;
+}
+function tvBuild() {
+  const g = new T.Group(); g.position.set(TVP.x, 0, TVP.z); g.rotation.y = PI / 2; W.ext.w.parent ? W.ext.w.add(g) : office.add(g); g.position.set(0.02, 0, TVP.z); g.position.x = 0.02;
+  box(g, TVP.w + 0.3, TVP.h + 0.3, 0.1, M_DARK, 0, 1.95, 0.05, { cast: 1 }); box(g, 4.2, 0.07, 0.25, M_DARK, 0, 0.62, 0.12, { cast: 1 });
+  TV.tex = dynTex(1280, 720); TV.scr = new T.Mesh(new T.PlaneGeometry(TVP.w, TVP.h), new T.MeshBasicMaterial({ map: TV.tex.tex })); TV.scr.position.set(0, 1.95, 0.105); g.add(TV.scr); TV.key = ''; TV.vk = '';
+  addPick({ x: 0.15, y: 1.95, z: TVP.z, w: 0.3, h: TVP.h, d: TVP.w, label: 'TV wall', ax: 1.9, az: TVP.z, act: () => openPanel('tv'), near: 3.2 });
+  tvRender();
+}
+function tvPoster(d) {
+  const key = JSON.stringify([d.on, d.u, d.k, d.n, d.play, d.mute, !!d.im]) + (d.on && d.play ? Math.floor(Date.now() / 5000) : ''); if (key === TV.key) return; TV.key = key;
+  const ok = img => TV.tex.draw((c, w, h) => { c.fillStyle = '#05080d'; c.fillRect(0, 0, w, h); if (!d.on) { c.fillStyle = 'rgba(255,255,255,.35)'; c.font = '600 44px ' + FONT_D; c.textAlign = 'center'; c.fillText('TV wall is off', w / 2, h / 2); c.font = '500 28px ' + FONT_B; c.fillText('An admin can switch it on', w / 2, h / 2 + 50); return; }
+    if (img) { const k = Math.min(w / img.width, h / img.height); c.drawImage(img, (w - img.width * k) / 2, (h - img.height * k) / 2, img.width * k, img.height * k); return; }
+    const gr = c.createLinearGradient(0, 0, w, h); gr.addColorStop(0, '#16233a'); gr.addColorStop(1, '#2a1647'); c.fillStyle = gr; c.fillRect(0, 0, w, h); c.textAlign = 'center'; c.fillStyle = '#fff'; c.font = '700 64px ' + FONT_D; c.fillText(d.n || 'Now showing', w / 2, h / 2 - 20, w - 120);
+    c.font = '600 34px ' + FONT_B; c.fillStyle = '#9fd0ff'; c.fillText((d.play ? '▶ Playing' : '⏸ Paused') + ' · ' + (d.mute ? '🔇 sound off' : '🔊 sound on'), w / 2, h / 2 + 50); c.font = '500 28px ' + FONT_B; c.fillStyle = 'rgba(255,255,255,.7)'; c.fillText(d.k === 'embed' ? 'Click the TV to watch together' : d.k === 'audio' ? 'Audio plays in the lounge: the closer you stand the louder it is' : 'Playing on the wall', w / 2, h / 2 + 100); });
+  if (d.on && d.k === 'img' && (d.im || d.u)) { const im = new Image(); im.onload = () => ok(im); im.onerror = () => ok(null); im.src = d.im || d.u; } else ok(null);
+}
+function tvStop() { for (const k of ['vid', 'aud']) if (TV[k]) { try { TV[k].pause(); TV[k].removeAttribute('src'); TV[k].load(); } catch (e) { } TV[k] = null; } if (TV.vtex) { TV.vtex.dispose(); TV.vtex = null; } if (TV.scr) { TV.scr.material.map = TV.tex.tex; TV.scr.material.needsUpdate = true; } TV.vk = ''; }
+function tvRender() {
+  if (!TV.tex) return; const d = tvDoc(); tvPoster(d); const want = d.on && d.u && (d.k === 'video' || d.k === 'audio') ? d.k + d.u : '';
+  if (want !== TV.vk) { tvStop(); TV.vk = want; if (want) { const m = document.createElement(d.k === 'video' ? 'video' : 'audio'); m.crossOrigin = 'anonymous'; m.playsInline = true; m.loop = true; m.preload = 'auto'; m.src = d.u; m.onerror = () => { toast('The TV could not load that file. Check the address allows sharing.'); }; if (d.k === 'video') { TV.vid = m; TV.vtex = new T.VideoTexture(m); TV.vtex.encoding = T.sRGBEncoding; TV.scr.material.map = TV.vtex; TV.scr.material.needsUpdate = true; } else TV.aud = m; } }
+  const m = TV.vid || TV.aud; if (m) {
+    const dist = Math.hypot(me.pos.x - 0, me.pos.z - TVP.z), near = TV.open ? 1 : clamp(1 - dist / 15, 0, 1), vol = d.mute || TV.lmute ? 0 : d.v * near; m.volume = clamp(vol, 0, 1); m.muted = vol === 0;
+    if (m.readyState > 0 && d.play) { const dur = m.duration || 0, want = dur ? tvAt(d) % dur : tvAt(d); if (Math.abs(m.currentTime - want) > 2.2) m.currentTime = want; if (m.paused) m.play().catch(() => { m.muted = true; m.play().catch(() => { }); }); } else if (!d.play && !m.paused) m.pause(); }
+  if (TV.open) { if (TV.open.rev !== d.rev || !d.on || d.u !== TV.open.u) { if (!d.on || !d.u || d.k !== 'embed') tvClose(); else tvWatch(); } }
+}
+function tvWatch() {
+  const d = tvDoc(); if (!d.on || !d.u) { toast('The TV wall is off.'); return; } if (d.k !== 'embed') { toast(d.k === 'audio' ? 'Audio is playing in the lounge. Walk closer to hear it better.' : 'It is playing on the wall.'); return; }
+  const src = tvEmbed(d.u, d); if (!src) { toast('That address cannot be shown inside the office.'); return; } tvClose(true);
+  const box_ = el('div', { id: 'tvview', class: 'island', style: 'position:fixed;inset:5vh 5vw;z-index:30;display:flex;flex-direction:column;gap:8px;padding:10px;background:#0b1118' }, el('div', { class: 'row' }, el('b', { style: 'flex:1;color:#fff', text: '📺 ' + (d.n || 'TV wall') + ' · watching together' }), el('button', { class: 'btn sm ghost', text: TV.lmute ? '🔊 Sound on for me' : '🔇 Mute for me', onclick: () => { TV.lmute = !TV.lmute; tvWatch(); } }), el('button', { class: 'btn sm ghost', text: '⟲ Catch up', onclick: () => tvWatch() }), el('button', { class: 'btn sm', text: 'Close', onclick: () => tvClose() })),
+    el('iframe', { src, allow: 'autoplay; encrypted-media; picture-in-picture; fullscreen', allowfullscreen: '', referrerpolicy: 'no-referrer', style: 'flex:1;width:100%;border:0;border-radius:10px;background:#000' }));
+  document.body.append(box_); TV.open = { rev: d.rev, u: d.u };
+}
+function tvClose(keep) { const v = $('#tvview'); if (v) v.remove(); if (!keep) TV.open = null; }
+panels.tv = b => {
+  const draw = () => { const d = tvDoc(); b.replaceChildren(); const adm = net.admin;
+    b.append(el('p', { class: 'big', text: d.on ? (d.n || 'Showing') : 'The TV wall is off' }), el('p', { class: 'meta', text: d.on ? (d.play ? '▶ Playing' : '⏸ Paused') + ' · ' + (d.mute ? '🔇 sound off for everyone' : '🔊 sound on') : 'Everyone in the office sees the same thing at the same time.' }),
+      el('div', { class: 'row' }, d.on && d.k === 'embed' ? el('button', { class: 'btn', text: '📺 Watch together (large)', onclick: () => { closeDrawer(); tvWatch(); } }) : null, el('button', { class: 'btn ghost', text: TV.lmute ? '🔊 Sound on for me' : '🔇 Mute for me', onclick: () => { TV.lmute = !TV.lmute; draw(); } })));
+    if (!adm) { b.append(el('p', { class: 'meta', text: 'An admin chooses what is shown, and controls sound, play and pause for the whole office.' })); return; }
+    const list = (Store.col('office').get('media') || {}).list || MEDIA_DEF, url = el('input', { type: 'url', placeholder: 'Paste a YouTube, Vimeo, Loom link, or a .mp4 / .mp3 / picture address', style: 'width:100%' });
+    const show = (u, n, k) => { const kind = k || tvKind(u); if (kind === 'embed' && !tvEmbed(u, { play: 1, mute: 1, t0: 0, pos: 0 })) { toast('That site cannot be shown inside the office. Use a direct video, audio or picture address.'); return; } tvSet({ on: true, u, n, k: kind, play: true, mute: kind === 'embed' ? d.mute : d.mute, t0: Date.now(), pos: 0, im: '' }); toast('Now showing: ' + n); };
+    b.append(el('h3', { text: 'Controls (admin)' }), el('div', { class: 'row' }, el('button', { class: 'btn' + (d.on ? ' danger' : ''), text: d.on ? '⏻ Switch off' : '⏻ Switch on', onclick: () => { tvSet({ on: !d.on }); } }),
+      el('button', { class: 'btn ghost', text: d.play ? '⏸ Pause' : '▶ Play', onclick: () => tvSet(d.play ? { play: false, pos: tvAt(d) } : { play: true, t0: Date.now() }) }), el('button', { class: 'btn ghost', text: '⟲ From the start', onclick: () => tvSet({ pos: 0, t0: Date.now(), play: true }) }),
+      el('button', { class: 'btn ghost', text: d.mute ? '🔊 Unmute and play on' : '🔇 Mute (keep playing)', onclick: () => tvSet(d.mute ? { mute: false, play: true, t0: d.play ? d.t0 : Date.now(), pos: d.play ? d.pos : d.pos } : { mute: true }) })),
+      el('label', { class: 'meta', text: 'Volume ' }, el('input', { type: 'range', min: 0, max: 100, value: Math.round(d.v * 100), onchange: e => tvSet({ v: e.target.value / 100 }) })),
+      el('h3', { text: 'Change what is shown' }), url, el('div', { class: 'row' }, el('button', { class: 'btn', text: 'Show it', onclick: () => { const u = url.value.trim(); if (!/^https:\/\//.test(u)) { toast('Paste an https address.'); return; } show(u, u.replace(/^https:\/\/(www\.)?/, '').slice(0, 50)); } }),
+        el('button', { class: 'btn ghost', text: '🖼 Show a picture', onclick: async () => { const im = await pickImage(1280, 140000); if (im) { tvSet({ on: true, u: 'https://picture.local/', k: 'img', n: 'Picture', im, play: true, t0: Date.now(), pos: 0 }); } } })),
+      el('p', { class: 'meta', text: 'Quick picks' }), el('div', { class: 'actgrid' }, ...list.slice(0, 12).map(x => el('button', { class: 'actbtn', onclick: () => show(x.u, x.n, 'embed') }, el('b', { text: x.n })))));
+  }; draw(); return draw;
+};
+/* ---- call bar: enlarge or minimise ---- */
+function cbView(v) { RTC.view = v; applyCbView(); }
+function applyCbView() { const bar = $('#callbar'); if (!bar) return; bar.dataset.v = RTC.view || ''; const tg = bar.querySelector('.cb-view'); if (tg) { tg.replaceChildren(el('button', { title: RTC.view === 'min' ? 'Show the call' : 'Minimise', text: RTC.view === 'min' ? '▢' : '–', onclick: () => cbView(RTC.view === 'min' ? '' : 'min') }), el('button', { title: RTC.view === 'max' ? 'Back to normal size' : 'Enlarge', text: RTC.view === 'max' ? '⤡' : '⤢', onclick: () => cbView(RTC.view === 'max' ? '' : 'max') })); } }
+function initV13() {
+  const st = document.createElement('style'); st.textContent = '#callbar[data-v=max]{inset:70px 4vw 80px 4vw;right:auto;bottom:auto;width:auto;z-index:12}#callbar[data-v=max] .cb-tiles{max-height:none;flex:1;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));align-content:center}#callbar[data-v=min] .cb-tiles,#callbar[data-v=min] .cb-hint{display:none}#callbar[data-v=min]{width:auto;min-width:220px}.cb-view{display:inline-flex;gap:2px}#tvview iframe{min-height:0}'; document.head.append(st);
+  Store.on('office', () => { try { tvRender(); } catch (e) { } }); setInterval(() => { try { tvRender(); } catch (e) { } }, 1000);
+  window.addEventListener('pointerdown', () => { const m = TV.vid || TV.aud; if (m && m.paused) tvRender(); }, { once: false, passive: true });
+}
+/* ============================ v14: the campus (extra buildings), gym, chess, go-kart, gong ============================ */
+const CAMP_W = 22, CAMP_GAP = 9, CAMP_TY = { train: 'Training centre', gym: 'Gym', arena: 'Games arena', office: 'Office hall' };
+const CAMP_DEF = [{ id: 'tr', nm: 'Training Centre', ty: 'train', op: 0 }, { id: 'gy', nm: 'Gym', ty: 'gym', op: 0 }, { id: 'ar', nm: 'Games Arena', ty: 'arena', op: 1 }];
+function campDoc() { const d = Store.col('office').get('campus'), b = d && Array.isArray(d.b) ? d.b : CAMP_DEF; return b.slice(0, 8).map((x, i) => ({ id: str(x && x.id, 16) || 'b' + i, nm: str(x && x.nm, 40) || 'Building', ty: CAMP_TY[x && x.ty] ? x.ty : 'office', op: x && x.op ? 1 : 0, ac: x && x.ac ? 1 : 0, al: Array.isArray(x && x.al) ? x.al.filter(u => typeof u === 'string').slice(0, 100) : [] })); }
+const campOK = b => !b.ac || net.admin || b.al.includes(me.uid);
+let campSig = '';
+function campGo(id) {
+  if (me.lock) lockEnd(); if (me.game) leaveGame(); if (me.seat) stand(); me.path = null; me.pending = null;
+  let x, z; if (id === 'hq') { x = (W.homeL || W.L) - 3; z = 21; } else { const b = (W.camp || []).find(c => c.id === id); if (!b) return; if (!campOK(b)) { toast('This building is restricted. Ask an admin for access.'); return; } x = b.x0 + 2.6; z = 11.5; }
+  const f = nearestFree(x, z); me.pos.x = f.x; me.pos.z = f.z; me.ry = id === 'hq' ? -PI / 2 : PI / 2; cam.yaw = me.ry; closeDrawer(); toast(id === 'hq' ? 'Back at HQ.' : 'Welcome to ' + b0(id) + '.');
+}
+const b0 = id => { const b = (W.camp || []).find(c => c.id === id); return b ? b.nm : 'the building'; };
+function buildCampus() {
+  W.homeL = W.L; W.camp = []; const bs = campDoc(); campSig = JSON.stringify(bs); if (!bs.length) return; const L = W.L, x00 = L + CAMP_GAP, total = bs.length * CAMP_W + CAMP_GAP;
+  box(office, total + 1, 0.5, D + 6, mat(0x8f979f, { roughness: 1 }), L + 0.3 + (total + 1) / 2, -0.25, D / 2, { recv: true });   // plaza slab
+  box(office, total, 0.012, 1.4, mat(0xe8e2d0, { roughness: 1 }), L + total / 2 + 0.3, 0.007, 11.5);                                      // path
+  W.lockBox = null;
+  bs.forEach((b, i) => {
+    const x0 = x00 + i * CAMP_W, x1 = x0 + CAMP_W - 3, z0 = 1.5, z1 = 22.5, cx = (x0 + x1) / 2, cz = (z0 + z1) / 2; W.camp.push(Object.assign({ x0, x1, z0, z1 }, b)); zone('camp_' + b.id, b.nm, x0 - 0.5, 0, x1 + 0.5, D);
+    const FL = { train: 0xcfd6dd, gym: 0x7d8894, arena: 0x3b6b52, office: 0xd9cfbf }[b.ty];
+    box(office, x1 - x0, 0.1, z1 - z0, mat(FL, { roughness: .85 }), cx, 0.05, cz, { recv: true });
+    const wm = mat(0xf1efe9, { roughness: .9 });
+    if (!b.op) {   // enclosed: low solid wall, glass above, a doorway in the front
+      const wall = (xa, za, xb, zb) => { const w = Math.abs(xb - xa) > Math.abs(zb - za); const len = w ? Math.abs(xb - xa) : Math.abs(zb - za), mx = (xa + xb) / 2, mz = (za + zb) / 2; box(office, w ? len : 0.18, 1.1, w ? 0.18 : len, wm, mx, 0.55, mz, { cast: 1 }); box(office, w ? len : 0.05, 2.0, w ? 0.05 : len, M_GLASS, mx, 2.1, mz, { recv: false }); box(office, w ? len : 0.22, 0.14, w ? 0.22 : len, M_BLACKM, mx, 3.17, mz); obs(Math.min(xa, xb) - (w ? 0 : 0.09), Math.min(za, zb) - (w ? 0.09 : 0), Math.max(xa, xb) + (w ? 0 : 0.09), Math.max(za, zb) + (w ? 0.09 : 0)); };
+      wall(x0, z0, x1, z0); wall(x0, z1, x1, z1); wall(x1, z0, x1, z1); wall(x0, z0, x0, 10); wall(x0, 13, x0, z1);
+      box(office, 0.22, 0.5, 3, M_BLACKM, x0, 2.95, 11.5);
+      if (!campOK(b)) { box(office, 0.06, 2.6, 3, mat(0xb3261e, { transparent: true, opacity: .45, roughness: .2 }), x0, 1.3, 11.5, { recv: false }); obs(x0 - 0.2, 10, x0 + 0.2, 13); }
+    } else { for (const [px, pz] of [[x0, z0], [x1, z0], [x0, z1], [x1, z1], [x0, 11.5 - 6], [x0, 11.5 + 6]]) box(office, 0.22, 3, 0.22, M_BLACKM, px, 1.5, pz, { cast: 1 }); box(office, 0.14, 0.2, z1 - z0, M_BLACKM, x0, 3.1, cz); box(office, x1 - x0, 0.14, 0.14, M_BLACKM, cx, 3.1, z0); box(office, x1 - x0, 0.14, 0.14, M_BLACKM, cx, 3.1, z1); }
+    const sd = dynTex(1024, 256); sd.draw((c, w, h) => { c.fillStyle = campOK(b) ? '#14202e' : '#7a1f1a'; rr(c, 0, 0, w, h, 26); c.fill(); c.fillStyle = '#fff'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.font = '700 96px ' + FONT_D; c.fillText(b.nm, w / 2, 100, w - 60); c.font = '500 44px ' + FONT_B; c.fillStyle = '#ffd36b'; c.fillText(CAMP_TY[b.ty] + ' · ' + (b.op ? 'open space' : 'enclosed') + (b.ac ? ' · restricted' : ' · open to all'), w / 2, 184, w - 60); });
+    wallSign(sd, 4.4, 1.1, x0 - 0.16, 3.5 - 0.1, 11.5, -PI / 2);
+    addPick({ x: x0 + 1.4, y: 1.0, z: 11.5, w: 0.5, h: 1.6, d: 0.6, label: 'Back to HQ', ax: x0 + 1.4, az: 11.5, act: () => campGo('hq'), near: 1.6 }); const bt = dynTex(256, 128); bt.draw((c, w, h) => { c.fillStyle = '#1f6bff'; rr(c, 0, 0, w, h, 16); c.fill(); c.fillStyle = '#fff'; c.font = '700 40px ' + FONT_D; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('↩ HQ', w / 2, h / 2); }); wallSign(bt, 0.9, 0.45, x0 + 1.4, 1.3, 11.5 - 0.04, 0); box(office, 0.5, 1.8, 0.1, M_BLACKM, x0 + 1.4, 0.9, 11.5 + 0.02);
+    ({ train: campTrain, gym: campGym, arena: campArena, office: campHall }[b.ty])(x0, z0, x1, z1, b);
+  });
+  /* HQ side: the campus gate in the East Lounge */
+  const gx = L - 0.5; box(office, 0.12, 2.6, 2.4, mat(0x1d2b45), gx, 1.3, 21); const gd = dynTex(512, 256); gd.draw((c, w, h) => { c.fillStyle = '#1d2b45'; c.fillRect(0, 0, w, h); c.fillStyle = '#fff'; c.textAlign = 'center'; c.font = '700 60px ' + FONT_D; c.fillText('Campus', w / 2, 110); c.font = '500 34px ' + FONT_B; c.fillStyle = '#ffd36b'; c.fillText(bs.length + ' buildings · walk through', w / 2, 175); }); wallSign(gd, 2.2, 1.1, gx - 0.07, 1.6, 21, PI / 2 * 3 === 0 ? 0 : -PI / 2);
+  addPick({ x: gx - 0.4, y: 1.2, z: 21, w: 0.5, h: 2.4, d: 2.4, label: 'Campus gate', ax: gx - 1.3, az: 21, act: () => openPanel('campus'), near: 2.2 });
+  W.L = x00 + bs.length * CAMP_W + 1;
+}
+const rr_ = (c, x, y, w, h, r) => rr(c, x, y, w, h, r);
+/* ---- training centre: lectern, big screen, rows of learner desks, a whiteboard and a start-a-session board ---- */
+function campTrain(x0, z0, x1, z1) {
+  const cx = (x0 + x1) / 2, it = (t, x, z, ry, extra) => LIBRARY[t].build(Object.assign({ id: 'camp_' + t + x.toFixed(1) + z.toFixed(1), t, x, z, ry: ry || 0 }, extra || {}));
+  it('screen', x1 - 1.2, 11.5, -PI / 2); it('lectern', x1 - 3, 8.8, -PI / 2); it('board', x1 - 0.8, 17, -PI / 2, { tx: 'Today: welcome and goals' });
+  for (let r = 0; r < 4; r++) for (let c = 0; c < 4; c++) it('student_desk', x0 + 4 + r * 2.8, 6.5 + c * 2.4, PI / 2);
+  for (const z of [3, 20]) plant(x0 + 1.2, z, 1.2);
+  addPick({ x: x1 - 3, y: 1.0, z: 11, w: 1.2, h: 1.6, d: 1.4, label: 'Start a training session', ax: x1 - 4.4, az: 11, act: () => openPanel('edu'), near: 2 });
+}
+function campHall(x0, z0, x1, z1) {
+  const it = (t, x, z, ry) => LIBRARY[t] && LIBRARY[t].build({ id: 'camp_' + t + x.toFixed(1) + z.toFixed(1), t, x, z, ry: ry || 0 });
+  for (let r = 0; r < 3; r++) for (let c = 0; c < 5; c++) it('student_desk', x0 + 4 + c * 2.6, 5 + r * 3.2, 0);
+  sofa(x0 + 6, z1 - 2, PI, 3, '#b8644a', 'campsofa' + x0.toFixed(0)); plant(x1 - 1, 3, 1.3); plant(x1 - 1, 20, 1.3);
+}
+/* ---- gym ---- */
+const GYM = { st: [] };
+function gymStation(id, label, x, z, ry, build, spot) {
+  const g = new T.Group(); g.position.set(x, 0, z); g.rotation.y = ry; office.add(g); build(g); obs(x - 0.9, z - 0.9, x + 0.9, z + 0.9);
+  const sx = x + Math.sin(ry) * (spot || 0), sz = z + Math.cos(ry) * (spot || 0);
+  addPick({ x, y: 0.9, z, w: 1.4, h: 1.8, d: 1.4, label, ax: x + Math.sin(ry) * 1.6, az: z + Math.cos(ry) * 1.6, act: () => gymStart(id, label, x, z, ry), near: 2.1 });
+}
+function campGym(x0, z0, x1, z1, b) {
+  const cx = (x0 + x1) / 2, rub = mat(0x59636f, { roughness: 1 }), blu = mat(0x2456ff, { roughness: .45 }), steel = mat(0x9aa3ab, { metalness: .7, roughness: .35 }), red = mat(0xd6453d, { roughness: .6 });
+  box(office, x1 - x0 - 1, 0.02, z1 - z0 - 1, rub, cx, 0.11, (z0 + z1) / 2, { recv: true });
+  box(office, 0.06, 2.2, z1 - z0 - 3, mat(0xcfe6f2, { metalness: .9, roughness: .05, transparent: true, opacity: .5 }), x1 - 0.12, 1.3, (z0 + z1) / 2, { recv: false });   // mirror wall
+  gymStation('tread', 'Treadmill: run for 15 seconds', x0 + 4, 5, PI / 2, g => { box(g, 0.8, 0.12, 1.8, rub, 0, 0.2, 0); box(g, 0.9, 0.05, 1.9, steel, 0, 0.12, 0); box(g, 0.05, 1.2, 0.05, steel, -0.35, 0.8, 0.8); box(g, 0.05, 1.2, 0.05, steel, 0.35, 0.8, 0.8); box(g, 0.8, 0.3, 0.15, blu, 0, 1.4, 0.8); }, 0);
+  gymStation('tread', 'Treadmill: run for 15 seconds', x0 + 4, 8, PI / 2, g => { box(g, 0.8, 0.12, 1.8, rub, 0, 0.2, 0); box(g, 0.9, 0.05, 1.9, steel, 0, 0.12, 0); box(g, 0.05, 1.2, 0.05, steel, -0.35, 0.8, 0.8); box(g, 0.05, 1.2, 0.05, steel, 0.35, 0.8, 0.8); box(g, 0.8, 0.3, 0.15, blu, 0, 1.4, 0.8); }, 0);
+  gymStation('row', 'Rowing machine: row for 15 seconds', x0 + 4, 12, PI / 2, g => { box(g, 0.35, 0.06, 2.2, steel, 0, 0.3, 0); box(g, 0.3, 0.1, 0.4, blu, 0, 0.42, 0.3); cyl(g, 0.3, 0.3, 0.12, red, 0, 0.55, -0.9, { seg: 18 }); }, 0);
+  gymStation('bench', 'Bench press: lift for 15 seconds', x0 + 4, 16, PI / 2, g => { box(g, 0.45, 0.4, 1.3, blu, 0, 0.3, 0); box(g, 1.8, 0.05, 0.05, steel, 0, 1.0, -0.5); for (const s of [-0.85, 0.85]) cyl(g, 0.25, 0.25, 0.08, blu, s, 1.0, -0.5, { seg: 16 }).rotation.z = PI / 2; for (const s of [-0.4, 0.4]) box(g, 0.05, 0.9, 0.05, steel, s, 0.5, -0.5); }, 0);
+  gymStation('bag', 'Punching bag: hit for 15 seconds', x0 + 10, 5, PI / 2, g => { cyl(g, 0.22, 0.22, 1.1, red, 0, 1.2, 0, { seg: 14 }); cyl(g, 0.02, 0.02, 0.9, steel, 0, 2.3, 0, { seg: 6 }); box(g, 0.8, 0.05, 0.05, steel, 0, 2.75, 0); box(g, 0.05, 2.7, 0.05, steel, -0.4, 1.35, 0); }, 0);
+  gymStation('kettle', 'Kettlebell swings: 15 seconds', x0 + 10, 9, PI / 2, g => { for (let i = 0; i < 3; i++) { mesh(g, new T.SphereGeometry(0.15, 12, 8), blu, -0.4 + i * 0.4, 0.2, 0.5); } box(g, 1.4, 0.45, 0.5, mat(0x3a3f47), 0, 0.22, -0.4); }, 0);
+  gymStation('bike', 'Exercise bike: pedal for 15 seconds', x0 + 10, 13, PI / 2, g => { cyl(g, 0.3, 0.3, 0.05, steel, 0, 0.55, 0, { seg: 20 }).rotation.z = PI / 2; box(g, 0.08, 0.8, 0.9, blu, 0, 0.7, 0); box(g, 0.3, 0.08, 0.3, blu, 0, 1.15, -0.4); box(g, 0.5, 0.06, 0.06, steel, 0, 1.3, 0.45); }, 0);
+  GYM.board = dynTex(1024, 512); wallSign(GYM.board, 5.2, 2.6, x0 + 0.1, 1.9, 17, PI / 2); gymBoard();
+  addPick({ x: x0 + 0.1, y: 1.9, z: 17, w: 0.3, h: 2.6, d: 5.2, label: 'Gym leaderboard', ax: x0 + 1.8, az: 17, act: () => openPanel('gym'), near: 2.6 });
+  plant(x1 - 1.3, 3, 1.1); plant(x1 - 1.3, 20, 1.1);
+}
+function gymRows() { return [...Store.col('gym').entries()].map(([uid, d]) => ({ uid, nm: str(d && d.nm, 40), p: num(d && d.p, 0), k: num(d && d.k, 0), lap: num(d && d.lap, 0), cl: num(d && d.cl, 0) })).filter(r => r.p || r.lap || r.cl); }
+function gymBoard() {
+  if (!GYM.board) return; const rows = gymRows().sort((a, b) => b.p - a.p).slice(0, 7), laps = gymRows().filter(r => r.lap).sort((a, b) => a.lap - b.lap).slice(0, 3);
+  GYM.board.draw((c, w, h) => { c.fillStyle = '#10151d'; c.fillRect(0, 0, w, h); c.fillStyle = '#ffb627'; c.font = '700 60px ' + FONT_D; c.fillText('🏋 Gym leaderboard', 40, 80); c.font = '600 40px ' + FONT_B; rows.forEach((r, i) => { c.fillStyle = i ? '#fff' : '#ffd36b'; c.fillText((i + 1) + '. ' + r.nm, 40, 150 + i * 48, 560); c.textAlign = 'right'; c.fillText(r.p + ' pts', 640, 150 + i * 48); c.textAlign = 'left'; }); if (!rows.length) { c.fillStyle = 'rgba(255,255,255,.6)'; c.fillText('Be the first to train.', 40, 160); }
+    c.fillStyle = '#9fd0ff'; c.font = '700 44px ' + FONT_D; c.fillText('🏁 Fastest laps', 700, 150); c.font = '600 36px ' + FONT_B; laps.forEach((r, i) => { c.fillStyle = '#fff'; c.fillText((i + 1) + '. ' + r.nm, 700, 205 + i * 46, 300); c.fillText((r.lap / 1000).toFixed(1) + 's', 920, 205 + i * 46); }); });
+}
+function lockEnd() { const l = me.lock; me.lock = null; me.moving = false; if (l && l.end) l.end(); const hud = $('#lockhud'); if (hud) hud.remove(); }
+function lockHud(txt) { let h = $('#lockhud'); if (!h) { h = el('div', { id: 'lockhud', class: 'island', style: 'position:fixed;top:92px;left:50%;transform:translateX(-50%);z-index:9;padding:10px 16px;display:flex;gap:12px;align-items:center;font-weight:700' }); document.body.append(h); } h.replaceChildren(el('span', { text: txt }), el('button', { class: 'btn sm', text: 'Leave', onclick: lockEnd })); }
+function gymStart(kind, label, x, z, ry) {
+  if (!conf.games) { toast('Games are switched off by your admin.'); return; } if (me.lock) lockEnd(); if (me.game) leaveGame(); if (me.seat) stand(); me.path = null;
+  const f = { x: x + Math.sin(ry) * 0.0, z }; me.pos.x = x + (kind === 'bench' ? 0 : 0.0); me.pos.z = z; me.ry = ry + PI / 2 * 0; cam.yaw = me.ry; cam.pitch = 0.45; cam.dist = 5;
+  me.lock = { kind: 'gym', st: kind, t0: performance.now() + 2500, end: () => { }, reps: 0, good: 0, last: 0, done: false, tap: () => gymTap() }; toast('Get ready. Tap Space or click in a steady rhythm for 15 seconds. Smooth beats earn bonus points.');
+}
+function gymTap() { const l = me.lock; if (!l || l.kind !== 'gym' || l.done) return; const now = performance.now(); if (now < l.t0) return; const gap = l.last ? now - l.last : 600; l.last = now; if (gap < 160) return; l.reps++; if (gap > 380 && gap < 900) l.good++; doLocalEmote(l.st === 'bag' ? 'cheer' : 'play'); sfx('tick'); }
+function gymFinish() {
+  const l = me.lock; l.done = true; const sc = l.reps + l.good * 2, prev = Store.col('gym').get(me.uid) || {}; const p = num(prev.p, 0) + sc; Store.set('gym', me.uid, { nm: me.name, p, k: Math.max(num(prev.k, 0), sc), lap: num(prev.lap, 0), t: Date.now() }); toast('💪 ' + l.reps + ' reps, ' + l.good + ' on rhythm: +' + sc + ' points (total ' + p + ').', { ms: 6000 }); sfx('point'); burst(me.pos.x, me.pos.z); setTimeout(lockEnd, 1200);
+}
+panels.gym = b => {
+  const draw = () => { b.replaceChildren(); const rows = gymRows().sort((a, b2) => b2.p - a.p), laps = gymRows().filter(r => r.lap).sort((a, b2) => a.lap - b2.lap); b.append(el('p', { class: 'big', text: '🏋 Gym leaderboard' }), ...(rows.length ? rows.slice(0, 15).map((r, i) => el('div', { class: 'row' }, el('b', { text: (i + 1) + '.' }), el('span', { style: 'flex:1', text: r.nm }), el('span', { text: r.p + ' pts' }))) : [el('p', { text: 'No scores yet. Walk to a machine and press the button that appears.' })]), el('h3', { text: '🧗 Fastest wall climbs' }), ...(gymRows().filter(r => r.cl).length ? gymRows().filter(r => r.cl).sort((a, b2) => a.cl - b2.cl).slice(0, 8).map((r, i) => el('div', { class: 'row' }, el('b', { text: (i + 1) + '.' }), el('span', { style: 'flex:1', text: r.nm }), el('span', { text: (r.cl / 1000).toFixed(1) + ' s' }))) : [el('p', { text: 'No climbs yet.' })]), el('h3', { text: '🏁 Fastest go-kart laps' }), ...(laps.length ? laps.slice(0, 8).map((r, i) => el('div', { class: 'row' }, el('b', { text: (i + 1) + '.' }), el('span', { style: 'flex:1', text: r.nm }), el('span', { text: (r.lap / 1000).toFixed(1) + ' s' }))) : [el('p', { text: 'No laps yet.' })])); }; draw(); return draw;
+};
+/* ---- games arena: big chess board, gong, go-kart track ---- */
+const CH = { cx: 0, cz: 0, y: 0.34, sq: 0.5, g: null, tex: null, sel: -1, moves: [], hl: null, build: false };
+const CH_START = 'rnbqkbnr' + 'pppppppp' + '        ' + '        ' + '        ' + '        ' + 'PPPPPPPP' + 'RNBQKBNR', CH_VAL = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 100 };
+function chDoc() { if (me.local === 'chess' && LOCAL.chess) return LOCAL.chess; const g = Store.col('games').get('chess') || {}; return { w: here(g.w), b: here(g.b), f: typeof g.f === 'string' && g.f.length === 64 ? g.f : CH_START, turn: g.turn === 'b' ? 'b' : 'w', last: Array.isArray(g.last) ? g.last.slice(0, 2).map(v => clamp(num(v, 0), 0, 63) | 0) : null, res: ['w', 'b', 'd'].includes(g.res) ? g.res : null }; }
+function chPut(d) { if (me.local === 'chess') { LOCAL.chess = d; return; } Store.set('games', 'chess', { w: d.w, b: d.b, f: d.f, turn: d.turn, last: d.last, res: d.res, t: Date.now() }); }
+const isW = ch => ch !== ' ' && ch === ch.toUpperCase();
+function chMoves(f, sq, noCheck) {
+  const ch = f[sq], w = isW(ch), t = ch.toLowerCase(), r = sq >> 3, c = sq & 7, out = [], at = (rr2, cc) => rr2 >= 0 && rr2 < 8 && cc >= 0 && cc < 8 ? rr2 * 8 + cc : -1, enemy = q => f[q] !== ' ' && isW(f[q]) !== w, empty = q => f[q] === ' ';
+  const slide = ds => { for (const [dr, dc] of ds) { let rr2 = r + dr, cc = c + dc; while (at(rr2, cc) >= 0) { const q = at(rr2, cc); if (empty(q)) out.push(q); else { if (enemy(q)) out.push(q); break; } rr2 += dr; cc += dc; } } };
+  if (t === 'p') { const dir = w ? -1 : 1, q1 = at(r + dir, c); if (q1 >= 0 && empty(q1)) { out.push(q1); const q2 = at(r + 2 * dir, c); if ((w ? r === 6 : r === 1) && q2 >= 0 && empty(q2)) out.push(q2); } for (const dc of [-1, 1]) { const q = at(r + dir, c + dc); if (q >= 0 && enemy(q)) out.push(q); } }
+  else if (t === 'n') { for (const [dr, dc] of [[1, 2], [2, 1], [-1, 2], [-2, 1], [1, -2], [2, -1], [-1, -2], [-2, -1]]) { const q = at(r + dr, c + dc); if (q >= 0 && (empty(q) || enemy(q))) out.push(q); } }
+  else if (t === 'k') { for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) { if (!dr && !dc) continue; const q = at(r + dr, c + dc); if (q >= 0 && (empty(q) || enemy(q))) out.push(q); } }
+  else if (t === 'r') slide([[1, 0], [-1, 0], [0, 1], [0, -1]]); else if (t === 'b') slide([[1, 1], [1, -1], [-1, 1], [-1, -1]]); else slide([[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [1, -1], [-1, 1], [-1, -1]]);
+  return noCheck ? out : out.filter(q => !chCheck(chApply(f, sq, q), w));
+}
+function chApply(f, a, b) { const s = f.split(''); let p = s[a]; s[a] = ' '; if (p === 'P' && b < 8) p = 'Q'; if (p === 'p' && b > 55) p = 'q'; s[b] = p; return s.join(''); }
+function chCheck(f, white) { const k = f.indexOf(white ? 'K' : 'k'); if (k < 0) return true; for (let i = 0; i < 64; i++) if (f[i] !== ' ' && isW(f[i]) !== white && chMoves(f, i, true).includes(k)) return true; return false; }
+function chAll(f, white) { const out = []; for (let i = 0; i < 64; i++) if (f[i] !== ' ' && isW(f[i]) === white) for (const q of chMoves(f, i)) out.push([i, q]); return out; }
+function chDo(d, a, b) { const cap = d.f[b]; d.f = chApply(d.f, a, b); d.last = [a, b]; d.turn = d.turn === 'w' ? 'b' : 'w'; const white = d.turn === 'w', mv = chAll(d.f, white); if (!mv.length) d.res = chCheck(d.f, white) ? (white ? 'b' : 'w') : 'd'; sfx(cap !== ' ' ? 'clack' : 'tick'); chPut(d); }
+function chAI(d) { const white = d.turn === 'w', mv = chAll(d.f, white); if (!mv.length) return; let best = [], bs = -1e9; for (const [a, b] of mv) { const nf = chApply(d.f, a, b); let s = (d.f[b] !== ' ' ? CH_VAL[d.f[b].toLowerCase()] * 10 : 0) + Math.random() * 3 - (chAll(nf, !white).some(([, q]) => q === b) ? CH_VAL[d.f[a].toLowerCase()] * 6 : 0) + (chCheck(nf, !white) ? 4 : 0); if (s > bs) { bs = s; best = [a, b]; } } chDo(d, best[0], best[1]); }
+function chSquare(cx, cy) { const v = rayPlane(cx, cy, CH.y + 0.02); if (!v) return -1; const u = Math.floor((v.x - CH.cx) / CH.sq + 4), w = Math.floor((v.z - CH.cz) / CH.sq + 4); return u < 0 || u > 7 || w < 0 || w > 7 ? -1 : w * 8 + u; }
+function chClick(cx, cy) {
+  const l = me.lock; if (!l || l.kind !== 'chess') return false; const d = chDoc(), mine = l.side; if (d.res || d.turn !== mine) { toast(d.res ? 'Game over. Press Restart for another.' : 'Wait for the other side to move.'); return true; } const q = chSquare(cx, cy); if (q < 0) return true;
+  if (CH.sel >= 0 && CH.moves.includes(q)) { chDo(d, CH.sel, q); CH.sel = -1; CH.moves = []; chDraw(); return true; }
+  if (d.f[q] !== ' ' && isW(d.f[q]) === (mine === 'w')) { CH.sel = q; CH.moves = chMoves(d.f, q); } else { CH.sel = -1; CH.moves = []; } chDraw(); return true;
+}
+const chGeo = k => geo('ch' + k, () => ({ base: new T.CylinderGeometry(0.15, 0.17, 0.07, 14), body: new T.CylinderGeometry(0.07, 0.13, 0.3, 12), head: new T.SphereGeometry(0.1, 12, 8), box: new T.BoxGeometry(0.2, 0.22, 0.2), cone: new T.ConeGeometry(0.11, 0.3, 10), cross: new T.BoxGeometry(0.05, 0.16, 0.05) })[k]);
+function chPiece(p) {
+  const w = isW(p), m = mat(w ? 0xf3ead8 : 0x2a2420, { roughness: .45 }), g = new T.Group(), t = p.toLowerCase(), add = (k, y, s) => { const mm = new T.Mesh(chGeo(k), m); mm.position.y = y; if (s) mm.scale.setScalar(s); mm.castShadow = true; g.add(mm); return mm; };
+  add('base', 0.035); if (t === 'p') { add('body', 0.2, 0.7); add('head', 0.38, 0.85); } else if (t === 'r') { add('body', 0.2); add('box', 0.4, 0.9); } else if (t === 'n') { add('body', 0.2); const h = add('box', 0.38, 0.8); h.rotation.set(0.3, w ? 0.5 : -0.5, 0); add('cone', 0.5, 0.5).position.z = w ? -0.08 : 0.08; } else if (t === 'b') { add('body', 0.2); add('cone', 0.44, 1); add('head', 0.64, 0.4); } else if (t === 'q') { add('body', 0.24, 1.2); add('head', 0.5, 1); add('cone', 0.7, 0.4); } else { add('body', 0.24, 1.25); add('head', 0.5, 0.9); add('cross', 0.68, 1); const c2 = add('cross', 0.68, 1); c2.rotation.z = PI / 2; } return g;
+}
+function chDraw() {
+  if (!CH.tex) return; const d = chDoc(), s = 64; CH.tex.draw((c, w, h) => { for (let r = 0; r < 8; r++) for (let q = 0; q < 8; q++) { c.fillStyle = (r + q) & 1 ? '#6b4a2f' : '#e6d3b0'; c.fillRect(q * s, r * s, s, s); } if (d.last) for (const i of d.last) { c.fillStyle = 'rgba(255,214,60,.45)'; c.fillRect((i & 7) * s, (i >> 3) * s, s, s); }
+    if (CH.sel >= 0) { c.fillStyle = 'rgba(60,160,255,.55)'; c.fillRect((CH.sel & 7) * s, (CH.sel >> 3) * s, s, s); for (const m of CH.moves) { c.fillStyle = 'rgba(40,200,120,.6)'; c.beginPath(); c.arc((m & 7) * s + s / 2, (m >> 3) * s + s / 2, 13, 0, 7); c.fill(); } } });
+  const key = d.f; if (CH.fkey !== key) { CH.fkey = key; while (CH.pieces.children.length) CH.pieces.remove(CH.pieces.children[0]); for (let i = 0; i < 64; i++) if (d.f[i] !== ' ') { const p = chPiece(d.f[i]); p.position.set(((i & 7) - 3.5) * CH.sq, 0, ((i >> 3) - 3.5) * CH.sq); CH.pieces.add(p); } }
+}
+actions.chess = () => {
+  if (!conf.games) { toast('Games are switched off by your admin.'); return; } if (me.lock) lockEnd(); if (me.game) leaveGame(); if (me.seat) stand(); const d = chDoc(), side = !d.w ? 'w' : !d.b ? 'b' : null; let local = false;
+  if (!side) { local = true; me.local = 'chess'; LOCAL.chess = { w: { uid: me.uid, nm: me.name }, b: null, f: CH_START, turn: 'w', last: null, res: null }; } else { d[side] = { uid: me.uid, nm: me.name }; if (side === 'w' && !d.b) { d.f = CH_START; d.turn = 'w'; d.last = null; d.res = null; } chPut(d); }
+  const mine = local ? 'w' : side; me.path = null; me.pos.x = CH.cx + (local ? 0 : 0); me.pos.z = CH.cz + (mine === 'w' ? 3.3 : -3.3); me.ry = mine === 'w' ? PI : 0; cam.yaw = me.ry; cam.pitch = 1.0; cam.dist = 5.2; CH.sel = -1; CH.moves = [];
+  me.lock = { kind: 'chess', side: mine, local, click: chClick, end: () => { if (!me.lock) return; const s = me.lock.side, lc = me.lock.local; me.local = null; LOCAL.chess = null; if (!lc) { const d2 = chDoc(); if (d2[s] && d2[s].uid === me.uid) { d2[s] = null; chPut(d2); } } CH.sel = -1; CH.moves = []; chDraw(); } };
+  toast(local ? 'That board is in use, so you have your own practice board.' : 'Click a piece, then a green square. Basic rules (no castling or en passant).'); lockHud('♟ Chess'); chDraw();
+};
+function chBar() { const l = me.lock; if (!l || l.kind !== 'chess') return; const d = chDoc(), nm = x => x ? nameOf(x.uid, x.nm) : 'Computer'; const t = d.res ? (d.res === 'd' ? 'Draw' : (d.res === l.side ? 'You won!' : 'You lost')) : d.turn === l.side ? 'Your move' : nm(d[d.turn]) + ' to move'; const h = $('#lockhud'); if (h) { const sp = h.querySelector('span'); const s = '♟ ' + nm(d.w) + ' vs ' + nm(d.b) + ' · ' + t + (chCheck(d.f, d.turn === 'w') && !d.res ? ' · check!' : ''); if (sp && sp.textContent !== s) sp.textContent = s; if (!h.querySelector('.rst')) h.insertBefore(el('button', { class: 'btn sm ghost rst', text: 'Restart', onclick: () => { const d2 = chDoc(); d2.f = CH_START; d2.turn = 'w'; d2.last = null; d2.res = null; chPut(d2); chDraw(); } }), h.lastChild); }
+  if (!d.res && l.side && d[d.turn === 'w' ? 'b' : 'w'] === null && d.turn !== l.side) { if (!CH.aiT) CH.aiT = performance.now() + 900; if (performance.now() > CH.aiT) { CH.aiT = 0; chAI(d); } } else CH.aiT = 0; }
+let GONG = { g: null, t: 0, seen: 0, cx: 0, cz: 0 };
+function gongRing(by) { GONG.t = performance.now(); try { if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)(); if (actx.state === 'suspended') actx.resume(); const d = Math.hypot(me.pos.x - GONG.cx, me.pos.z - GONG.cz), v = clamp(1 - d / 30, 0.05, 1) * 0.45; for (const [f, dd, g0] of [[98, 5, 1], [147, 4.4, .7], [196, 3.8, .5], [311, 3, .3], [466, 2, .15]]) { const o = actx.createOscillator(), g = actx.createGain(); o.type = 'sine'; o.frequency.value = f * (1 + Math.random() * .004); const t = actx.currentTime; g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(v * g0, t + .02); g.gain.exponentialRampToValueAtTime(.0001, t + dd); o.connect(g); g.connect(actx.destination); o.start(t); o.stop(t + dd + .1); } } catch (e) { } if (by && by !== me.uid && d2c()) toast('🔔 ' + by + ' struck the gong.'); }
+const d2c = () => Math.hypot(me.pos.x - GONG.cx, me.pos.z - GONG.cz) < 40;
+function campArena(x0, z0, x1, z1, b) {
+  /* chess platform */
+  CH.cx = x0 + 4.6; CH.cz = z0 + 5; const pl = box(office, 5.4, 0.3, 5.4, mat(0x3a3f47), CH.cx, 0.15 + 0.05, CH.cz, { cast: 1 }); obs(CH.cx - 2.7, CH.cz - 2.7, CH.cx + 2.7, CH.cz + 2.7);
+  CH.tex = dynTex(512, 512); const bd = new T.Mesh(new T.PlaneGeometry(4, 4), new T.MeshStandardMaterial({ map: CH.tex.tex, roughness: .6 })); bd.rotation.x = -PI / 2; bd.position.set(CH.cx, CH.y + 0.02, CH.cz); bd.receiveShadow = true; office.add(bd); box(office, 4.3, 0.06, 4.3, M_WALNUT, CH.cx, CH.y - 0.01, CH.cz);
+  CH.pieces = new T.Group(); CH.pieces.position.set(CH.cx, CH.y + 0.02, CH.cz); office.add(CH.pieces); CH.fkey = ''; chDraw();
+  addPick({ x: CH.cx, y: 0.6, z: CH.cz, w: 4, h: 1, d: 4, label: 'Play chess', ax: CH.cx + 3.3, az: CH.cz, act: () => actions.chess(), near: 3 });
+  /* gong */
+  GONG.cx = x1 - 3; GONG.cz = z0 + 4; const g = new T.Group(); g.position.set(GONG.cx, 0, GONG.cz); g.rotation.y = -PI / 2; office.add(g); for (const s of [-1.1, 1.1]) box(g, 0.14, 2.8, 0.14, M_WALNUT, s, 1.4, 0, { cast: 1 }); box(g, 2.5, 0.14, 0.14, M_WALNUT, 0, 2.75, 0); GONG.g = new T.Group(); GONG.g.position.set(0, 1.7, 0); g.add(GONG.g); const disc = cyl(GONG.g, 0.8, 0.8, 0.06, mat(0xc9a14a, { metalness: .85, roughness: .3 }), 0, 0, 0, { seg: 32, cast: 1 }); disc.rotation.x = PI / 2; cyl(g, 0.05, 0.05, 1, M_BLACKM, 0, 2.2, 0, { seg: 6 }); obs(GONG.cx - 0.6, GONG.cz - 1.4, GONG.cx + 0.6, GONG.cz + 1.4);
+  addPick({ x: GONG.cx, y: 1.7, z: GONG.cz, w: 0.6, h: 1.8, d: 1.8, label: 'Strike the gong', ax: GONG.cx - 1.4, az: GONG.cz, act: () => { Store.set('games', 'gong', { by: me.name, uid: me.uid, t: Date.now() }); gongRing(null); doLocalEmote('cheer'); }, near: 2 });
+  /* go-kart track */
+  KART.cx = x0 + 11.5; KART.cz = z0 + 14.5; KART.a = 8.2; KART.b = 4.6; const ell = (sx, sz, y, col) => { const m = new T.Mesh(new T.CircleGeometry(1, 48), mat(col, { roughness: 1 })); m.rotation.x = -PI / 2; m.scale.set(sx, sz, 1); m.position.set(KART.cx, y, KART.cz); office.add(m); return m; };
+  ell(KART.a + 1.3, KART.b + 1.3, 0.125, 0x2a2d33); ell(KART.a - 1.3, KART.b - 1.3, 0.13, 0x3f8a4c);
+  for (const [k, col] of [[1.3, 0xd6453d], [-1.3, 0xffffff]]) { const t = new T.Mesh(new T.TorusGeometry(1, 0.07, 6, 64), mat(col, { roughness: .6 })); t.rotation.x = PI / 2; t.scale.set(KART.a + k, KART.b + k, 1); t.position.set(KART.cx, 0.2, KART.cz); office.add(t); }
+  const sl = box(office, 0.3, 0.01, 2.6, mat(0xffffff), KART.cx, 0.14, KART.cz + KART.b + 0.0); sl.rotation.y = 0; box(office, 2.6, 0.012, 0.3, mat(0xffffff), KART.cx, 0.14, KART.cz + KART.b);
+  addPick({ x: KART.cx, y: 0.4, z: KART.cz + KART.b + 0.4, w: 1.6, h: 0.8, d: 1.6, label: 'Drive a go-kart', ax: KART.cx - 1.8, az: KART.cz + KART.b + 0.2, act: () => kartStart(), near: 2.2 });
+  KART.mesh = kartMesh(0xd6453d); KART.mesh.visible = false; office.add(KART.mesh);
+}
+const KART = { cx: 0, cz: 0, a: 8, b: 4.5, mesh: null, peers: new Map() };
+function kartMesh(col) { const g = new T.Group(), m = mat(col, { roughness: .4 }); box(g, 1.0, 0.2, 1.6, m, 0, 0.3, 0, { cast: 1 }); box(g, 0.7, 0.3, 0.5, m, 0, 0.5, 0.5); for (const [x, z] of [[-.55, -.55], [.55, -.55], [-.55, .6], [.55, .6]]) { const w = cyl(g, 0.2, 0.2, 0.18, M_BLACKM, x, 0.2, z, { seg: 12 }); w.rotation.z = PI / 2; } cyl(g, 0.15, 0.15, 0.03, M_BLACKM, 0, 0.8, 0.3, { seg: 14 }).rotation.x = 1.0; return g; }
+function kartStart() {
+  if (!conf.games) { toast('Games are switched off by your admin.'); return; } if (me.lock) lockEnd(); if (me.game) leaveGame(); if (me.seat) stand(); me.path = null;
+  me.pos.x = KART.cx; me.pos.z = KART.cz + KART.b - 0.2; me.ry = -PI / 2;   // heading -x with z increasing downward means a clockwise lap from the line
+  me.lock = { kind: 'kart', h: -PI / 2, v: 0, prog: 0, lastA: null, t0: 0, best: 0, laps: 0, end: () => { KART.mesh.visible = false; } }; KART.mesh.visible = true; cam.pitch = 0.75; cam.dist = 6; toast('W/↑ accelerate, S/↓ brake, A D steer. Stay on the track.'); lockHud('🏁 Go-kart');
+}
+function kartFrame(dt, now) {
+  const l = me.lock; if (l && l.kind === 'kart') {
+    const up = keys.w || keys.arrowup, dn = keys.s || keys.arrowdown, lf = keys.a || keys.arrowleft, rt = keys.d || keys.arrowright; l.v += ((up ? 7 : 0) - (dn ? 8 : 0) - Math.sign(l.v) * 2.2 * (up ? 0 : 1)) * dt; if (!up && !dn && Math.abs(l.v) < 0.2) l.v = 0; l.v = clamp(l.v, -3, 11); l.h += ((lf ? 1 : 0) - (rt ? 1 : 0)) * (1.2 + 1.2 * Math.min(1, Math.abs(l.v) / 6)) * dt * Math.sign(l.v || 1) * -1;
+    let nx = me.pos.x + Math.sin(l.h) * l.v * dt, nz = me.pos.z + Math.cos(l.h) * l.v * dt; const u = (nx - KART.cx) / KART.a, w = (nz - KART.cz) / KART.b, r = Math.hypot(u, w), lo = 1 - 1.15 / KART.a * 0.9, hi = 1 + 1.15 / KART.b * 0.6;
+    if (r < 0.72 || r > 1.2) { const k = clamp(r, 0.72, 1.2) / (r || 1); nx = KART.cx + u * k * KART.a; nz = KART.cz + w * k * KART.b; l.v *= 0.6; }
+    me.pos.x = nx; me.pos.z = nz; me.ry = l.h; me.moving = false; const ang = Math.atan2(w, u); if (l.lastA != null) { let da = ang - l.lastA; if (da > PI) da -= 2 * PI; if (da < -PI) da += 2 * PI; l.prog += da; } l.lastA = ang;
+    if (Math.abs(l.prog) > 2 * PI * 0.96 && Math.abs(ang - PI / 2) < 0.5) { const lt = now - l.t0; if (l.t0 && lt > 4000) { l.laps++; if (!l.best || lt < l.best) { l.best = lt; const prev = Store.col('gym').get(me.uid) || {}; if (!num(prev.lap, 0) || lt < prev.lap) { Store.set('gym', me.uid, Object.assign({ nm: me.name, p: 0, k: 0 }, prev, { lap: Math.round(lt), t: Date.now() })); toast('🏁 Personal best: ' + (lt / 1000).toFixed(1) + ' s'); } else toast('🏁 Lap ' + (lt / 1000).toFixed(1) + ' s'); } else toast('🏁 Lap ' + (lt / 1000).toFixed(1) + ' s'); sfx('point'); } l.t0 = now; l.prog = 0; }
+    if (!l.t0 && Math.abs(l.v) > 1) l.t0 = now; KART.mesh.position.set(me.pos.x, 0.12, me.pos.z); KART.mesh.rotation.y = l.h; cam.yaw += (l.h - cam.yaw + PI * 3) % (2 * PI) - PI > 0 ? 0 : 0; const hud = $('#lockhud span'); if (hud) hud.textContent = '🏁 ' + Math.round(Math.abs(l.v) * 6) + ' km/h · lap ' + (l.t0 ? ((now - l.t0) / 1000).toFixed(1) + 's' : '—') + ' · best ' + (l.best ? (l.best / 1000).toFixed(1) + 's' : '—'); }
+  /* other people in karts */
+  for (const p of peers.values()) { const on = !!(p.kt); let m = KART.peers.get(p); if (on && !m) { m = kartMesh(0x2456ff); office.add(m); KART.peers.set(p, m); } if (m) { m.visible = on; if (on) { m.position.set(p.x, 0.12, p.z); m.rotation.y = p.ry; } } }
+  for (const [p, m] of KART.peers) if (!peers.has(p.key || p.id) && ![...peers.values()].includes(p)) { office.remove(m); KART.peers.delete(p); }
+}
+function lockFrame(dt, now) {
+  const l = me.lock;
+  if (l && l.kind === 'gym') { me.moving = (l.st === 'tread' || l.st === 'row' || l.st === 'bike') && now >= l.t0 && !l.done; const left = (l.t0 + 15000 - now) / 1000; if (now < l.t0) lockHud('Ready… ' + Math.ceil((l.t0 - now) / 1000)); else if (left > 0) lockHud('💪 ' + l.reps + ' reps · ' + Math.ceil(left) + 's · tap Space or click'); else if (!l.done) { lockHud('Done'); gymFinish(); } }
+  chBar(); kartFrame(dt, now); if (typeof climbFrame === 'function') climbFrame(dt, now);
+  if (GONG.g) { const left = Math.max(0, 1 - (now - GONG.t) / 5000); GONG.g.rotation.z = Math.sin((now - GONG.t) / 90) * 0.12 * left; }
+}
+/* ---- the campus panel: where to go and, for admins, what to build ---- */
+panels.campus = b => {
+  const draw = () => { b.replaceChildren(); const bs = campDoc(); b.append(el('p', { class: 'big', text: 'Campus' }), el('p', { class: 'meta', text: 'HQ plus ' + bs.length + ' buildings. Anyone can go to any open building. Admins can restrict a building to named people.' }), el('div', { class: 'row' }, el('button', { class: 'btn ghost', text: '🏢 HQ (East Lounge)', onclick: () => campGo('hq') })));
+    for (const x of bs) b.append(el('div', { class: 'card' }, el('b', { text: x.nm }), el('span', { class: 'meta', text: ' ' + CAMP_TY[x.ty] + ' · ' + (x.op ? 'open space' : 'enclosed') + (x.ac ? ' · restricted' : '') }), el('div', { class: 'row' }, el('button', { class: 'btn sm', text: campOK(x) ? 'Go there' : '🔒 Restricted', disabled: !campOK(x), onclick: () => campGo(x.id) }), net.admin ? el('button', { class: 'btn sm ghost', text: 'Edit', onclick: () => editB(x) }) : null)));
+    if (net.admin) { const nm = el('input', { placeholder: 'New building name', maxLength: 40 }), ty = el('select', {}, ...Object.entries(CAMP_TY).map(([k, v]) => el('option', { value: k, text: v }))), op = el('select', {}, el('option', { value: '0', text: 'Enclosed' }), el('option', { value: '1', text: 'Open space' }));
+      b.append(el('h3', { text: 'Add a building (admin)' }), nm, ty, op, el('button', { class: 'btn', text: '＋ Add to campus', onclick: () => { if (bs.length >= 8) { toast('The campus holds up to 8 buildings.'); return; } if (!nm.value.trim()) { toast('Name it first.'); return; } save(bs.concat([{ id: 'b' + Date.now().toString(36), nm: nm.value.trim(), ty: ty.value, op: +op.value, ac: 0, al: [] }])); } })); }
+  };
+  const save = list => { Store.set('office', 'campus', { b: list, t: Date.now() }); toast('Campus updated.'); };
+  const editB = x => { const bs = campDoc(); openDrawer('campedit', 'Edit ' + x.nm, false, bb => { const nm = el('input', { value: x.nm, maxLength: 40 }), op = el('select', {}, el('option', { value: '0', text: 'Enclosed', selected: !x.op }), el('option', { value: '1', text: 'Open space', selected: !!x.op })), ac = el('select', {}, el('option', { value: '0', text: 'Everyone can enter', selected: !x.ac }), el('option', { value: '1', text: 'Only people I choose', selected: !!x.ac })), al = new Set(x.al);
+      bb.append(el('label', { text: 'Name' }), nm, op, ac, el('p', { class: 'meta', text: 'If restricted, admins always have access, plus these people:' }), ...allPeople().filter(r => r.uid && !r.me).map(r => el('label', { class: 'row' }, el('input', { type: 'checkbox', checked: al.has(r.uid), onchange: e => { e.target.checked ? al.add(r.uid) : al.delete(r.uid); } }), el('span', { text: r.nm }))),
+        el('div', { class: 'row' }, el('button', { class: 'btn', text: 'Save', onclick: () => { save(bs.map(y => y.id === x.id ? Object.assign({}, y, { nm: nm.value.trim() || y.nm, op: +op.value, ac: +ac.value, al: [...al] }) : y)); closeDrawer(); } }), el('button', { class: 'btn danger', text: 'Remove building', onclick: () => { save(bs.filter(y => y.id !== x.id)); closeDrawer(); } }))); }); };
+  draw(); return draw;
+};
+function initV14() {
+  const top = $('#topbtns'); top.append(el('button', { class: 'tb', id: 'bCampus', text: '🏛 Campus', title: 'Buildings, gym, training and games', onclick: () => openPanel('campus') }));
+  const loop = t => { try { const dt = Math.min(0.05, (t - (loop.t || t)) / 1000); loop.t = t; if (me.lock || KART.mesh) lockFrame(dt, t); } catch (e) { } requestAnimationFrame(loop); }; requestAnimationFrame(loop);
+  addEventListener('keydown', e => { if (me.lock && me.lock.kind === 'gym' && (e.key === ' ' || e.code === 'Space') && !/INPUT|TEXTAREA|SELECT/.test((e.target || {}).tagName || '')) { e.preventDefault(); gymTap(); } });
+  Store.on('gym', () => { gymBoard(); refreshPanel('gym'); });
+  Store.on('games', m => { const g = m.get('gong'); if (g && num(g.t, 0) > GONG.seen) { const first = !GONG.seen; GONG.seen = num(g.t, 0); if (!first && Date.now() - g.t < 6000 && g.uid !== me.uid) gongRing(str(g.by, 30)); } if (CH.tex) chDraw(); });
+  Store.on('office', () => { const s = JSON.stringify(campDoc()); if (campSig && s !== campSig && !me.lock) { campSig = s; rebuild(conf.bays); } refreshPanel('campus'); });
+}
+/* ============================ v15: AI meeting notes and assistant, ⌘K search, screen mirror, opponent view ============================ */
+const aiReady = () => !!(typeof sampleFn !== 'undefined' && sampleFn) || typeof window.OFFICE_AI === 'function';
+async function aiAsk(prompt, onText) {
+  const f = (typeof sampleFn !== 'undefined' && sampleFn) || window.OFFICE_AI; if (!f) throw new Error('AI works in the shared Zuchera link, or in a self-hosted office once the owner adds a key.');
+  try { const r = await f(String(prompt).slice(0, 30000), { onText: o => onText && onText(o.text), modelTier: 'quick', cache: false }); return typeof r === 'string' ? r : (r && r.text) || ''; }
+  catch (e) { throw new Error(e && e.code === 'rate_limited' ? 'The assistant is busy. Try again in a minute.' : e && e.code === 'not_granted' ? 'The assistant is not available for your access level.' : String((e && e.message) || 'The assistant could not answer just now.')); }
+}
+/* ---- sessions: capture speech and typed lines, summarise, save, mail, make tasks ---- */
+const MN = { ses: null, rec: null, stream: null, mr: null, chunks: [] };
+const mnSessions = () => [...Store.col('mnotes')].filter(([, d]) => d && d.k === 's').sort((a, b) => num(b[1].t0, 0) - num(a[1].t0, 0));
+const mnLines = id => [...Store.col('mnotes')].map(([, d]) => d).filter(d => d && d.k === 'l' && d.ses === id).sort((a, b) => num(a.t, 0) - num(b.t, 0));
+function mnStart(title) { const id = 'S' + Store.id(), r = me.zone && me.zone.room ? me.zone : null; Store.set('mnotes', id, { k: 's', title: title || (r ? r.name + ' meeting' : 'Meeting'), by: me.uid, nm: me.name, t0: Date.now(), t1: 0, room: r ? r.id : '', att: [me.uid] }); MN.ses = id; return id; }
+function mnJoin(id) { MN.ses = id; const s = Store.col('mnotes').get(id); if (s && Array.isArray(s.att) && !s.att.includes(me.uid)) Store.set('mnotes', id, Object.assign({}, s, { att: s.att.concat([me.uid]).slice(0, 60) })); }
+function mnLine(text) { if (!MN.ses || !text.trim()) return; Store.set('mnotes', Store.id(), { k: 'l', ses: MN.ses, by: me.uid, nm: me.name, text: text.trim().slice(0, 600), t: Date.now() }); }
+function mnListen(on) {
+  if (!on) { if (MN.rec) { MN.rec.onend = null; try { MN.rec.stop(); } catch (e) { } MN.rec = null; } return true; }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition; if (!SR) { toast('Speech capture needs Chrome or Edge. You can still type lines or paste a transcript.'); return false; }
+  const r = new SR(); r.continuous = true; r.interimResults = false; r.lang = navigator.language || 'en-GB'; r.onresult = e => { for (let i = e.resultIndex; i < e.results.length; i++) if (e.results[i].isFinal) mnLine(e.results[i][0].transcript); }; r.onerror = e => { if (e.error === 'not-allowed') { toast('Microphone permission is needed to capture speech.'); mnListen(false); renderNotes(); } }; r.onend = () => { if (MN.rec === r) { try { r.start(); } catch (e) { } } };
+  try { r.start(); } catch (e) { toast('Could not start speech capture.'); return false; } MN.rec = r; return true;
+}
+async function mnRecord(on) {
+  if (!on) { if (MN.mr && MN.mr.state !== 'inactive') MN.mr.stop(); return; }
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia || !window.MediaRecorder) { toast('Recording needs a browser with screen capture. It is not available in this preview.'); return; }
+  try { const s = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: 15 }, audio: true }); MN.stream = s; MN.chunks = []; const mr = new MediaRecorder(s, { mimeType: MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus') ? 'video/webm;codecs=vp9,opus' : 'video/webm' }); mr.ondataavailable = e => { if (e.data.size) MN.chunks.push(e.data); };
+    mr.onstop = () => { const blob = new Blob(MN.chunks, { type: 'video/webm' }); el('a', { href: URL.createObjectURL(blob), download: 'meeting-' + new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-') + '.webm' }).click(); s.getTracks().forEach(t => t.stop()); MN.mr = null; MN.stream = null; if (MN.ses) { const d = Store.col('mnotes').get(MN.ses); if (d) Store.set('mnotes', MN.ses, Object.assign({}, d, { rec: 0 })); } renderNotes(); toast('Recording saved to your downloads. It stays on your device.'); };
+    s.getVideoTracks()[0].onended = () => mnRecord(false); mr.start(2000); MN.mr = mr; if (MN.ses) { const d = Store.col('mnotes').get(MN.ses); if (d) Store.set('mnotes', MN.ses, Object.assign({}, d, { rec: 1, recBy: me.name })); } renderNotes(); } catch (e) { toast('Recording was not started.'); }
+}
+const mnPrompt = (s, lines) => 'You write minutes for a virtual-office meeting. Use only the transcript below. Reply in clear British English with exactly these headings:\n**Summary** (3 to 5 sentences)\n**Decisions** (bullets, or "None")\n**Action items** (one bullet per task in the form "- [ ] Task (owner, due date if said)")\n**Open questions** (bullets, or "None")\n\nMeeting: ' + str(s.title, 100) + '\nDate: ' + new Date(num(s.t0, 0)).toLocaleString() + '\nAttendees: ' + (s.att || []).map(u => nameOf(u)).join(', ') + '\n\nTranscript:\n' + lines.map(l => '[' + fmtHM(num(l.t, 0)) + '] ' + nameOf(l.by, l.nm) + ': ' + l.text).join('\n');
+function mnSaveDoc(s, text) { const id = Store.id(); Store.set('hdocs', id, { title: 'Minutes · ' + str(s.title, 60) + ' · ' + new Date(num(s.t0, 0)).toLocaleDateString([], { day: 'numeric', month: 'short' }), body: text.replace(/\*\*/g, ''), by: me.uid, eby: me.uid, t: Date.now() }); toast('Saved to Documents.'); }
+function mnMail(s, text) { const to = (s.att || []).filter(u => u !== me.uid); Store.set('mail', Store.id(), { to: to.length ? to : [me.uid], dto: to, dcc: [], by: me.uid, nm: me.name, sub: 'Minutes: ' + str(s.title, 100), body: text.replace(/\*\*/g, '').slice(0, 20000), t: Date.now() }); toast('Minutes sent to ' + (to.length || 'yourself') + (to.length ? ' attendees.' : '.')); }
+function mnTasks(text) { const items = [...text.matchAll(/^\s*[-*]\s*\[ \]\s*(.+)$/gm)].map(m => m[1].trim().slice(0, 140)).slice(0, 15); for (const t of items) Store.set('cards', Store.id(), { col: 0, text: t, who: '', by: me.uid, nm: me.name, ord: Date.now(), t: Date.now() }); toast(items.length ? items.length + ' tasks added to the Kanban board.' : 'No action items found.'); }
+let renderNotes = () => { };
+panels.ainotes = b => {
+  let out = '', busy = false; const draw = () => {
+    b.replaceChildren(); const sess = mnSessions(), cur = MN.ses && Store.col('mnotes').get(MN.ses), lines = cur ? mnLines(MN.ses) : [];
+    b.append(el('p', { class: 'big', text: '📝 AI meeting notes' }), el('p', { class: 'meta', text: 'Everyone who joins the same session adds their own speech, so the transcript covers the whole room. Each person\'s browser turns only their own voice into text. Nothing is recorded unless someone chooses to.' }));
+    if (!cur) { const t = el('input', { placeholder: 'Meeting title', maxLength: 80, value: me.zone && me.zone.room ? me.zone.name + ' meeting' : '' }), open = sess.filter(([, s]) => !s.t1 && Date.now() - num(s.t0, 0) < 6 * 36e5);
+      b.append(t, el('button', { class: 'btn', text: '▶ Start a session', onclick: () => { mnStart(t.value.trim()); draw(); } }), ...(open.length ? [el('h3', { text: 'Join one in progress' }), ...open.map(([id, s]) => el('div', { class: 'row' }, el('span', { style: 'flex:1', text: s.title + ' · ' + nameOf(s.by, s.nm) }), el('button', { class: 'btn sm', text: 'Join', onclick: () => { mnJoin(id); draw(); } })))] : []),
+        ...(sess.length ? [el('h3', { text: 'Earlier sessions' }), ...sess.slice(0, 8).map(([id, s]) => el('div', { class: 'row' }, el('span', { style: 'flex:1', text: s.title + ' · ' + new Date(num(s.t0, 0)).toLocaleDateString() }), el('button', { class: 'btn sm ghost', text: 'Open', onclick: () => { MN.ses = id; out = (s.sum || ''); draw(); } })))] : [])); }
+    else { const ta = el('input', { placeholder: 'Type a note or paste a line, press Enter', style: 'width:100%' }); ta.onkeydown = e => { if (e.key === 'Enter') { mnLine(ta.value); ta.value = ''; } };
+      b.append(el('b', { text: cur.title }), el('div', { class: 'row' }, el('button', { class: 'btn' + (MN.rec ? ' danger' : ''), text: MN.rec ? '⏹ Stop capturing my voice' : '🎙 Capture my voice', onclick: () => { if (MN.rec) mnListen(false); else mnListen(true); draw(); } }), el('button', { class: 'btn ghost' + (MN.mr ? ' danger' : ''), text: MN.mr ? '⏹ Stop recording' : '🔴 Record screen and audio', onclick: () => MN.mr ? mnRecord(false) : mnRecord(true) })), cur.rec ? el('p', { class: 'meta', text: '🔴 ' + str(cur.recBy, 40) + ' is recording this session on their own device.' }) : null,
+        ta, el('div', { class: 'aiout', style: 'max-height:200px;overflow:auto;font-size:13px' }, ...(lines.length ? lines.slice(-40).map(l => el('div', {}, el('b', { text: nameOf(l.by, l.nm) + ': ' }), l.text)) : [el('span', { class: 'meta', text: 'No lines yet.' })])),
+        el('div', { class: 'row' }, el('button', { class: 'btn', text: busy ? 'Writing…' : '✨ Summarise with AI', disabled: busy, onclick: async () => { if (!lines.length) { toast('Add some lines first.'); return; } busy = true; out = 'Writing the minutes…'; draw(); try { out = await aiAsk(mnPrompt(cur, lines), t => { out = t; const o = b.querySelector('.aisum'); if (o) o.textContent = t; }); Store.set('mnotes', MN.ses, Object.assign({}, Store.col('mnotes').get(MN.ses) || cur, { sum: out.slice(0, 6000) })); } catch (e) { out = String(e.message); } busy = false; draw(); } }),
+          el('button', { class: 'btn ghost', text: 'End session', onclick: () => { mnListen(false); if (MN.mr) mnRecord(false); Store.set('mnotes', MN.ses, Object.assign({}, Store.col('mnotes').get(MN.ses) || cur, { t1: Date.now() })); MN.ses = null; draw(); } })),
+        out ? el('div', { class: 'aiout aisum', style: 'white-space:pre-wrap' }, out) : null,
+        out && !busy ? el('div', { class: 'row' }, el('button', { class: 'btn sm ghost', text: '💾 Save to Documents', onclick: () => mnSaveDoc(cur, out) }), el('button', { class: 'btn sm ghost', text: '✉ Mail to attendees', onclick: () => mnMail(cur, out) }), el('button', { class: 'btn sm ghost', text: '✅ Add action items to tasks', onclick: () => mnTasks(out) })) : null); }
+    if (window.OFFICE_ADMIN && OFFICE_ADMIN.aikey) { const k = el('input', { type: 'password', placeholder: 'Anthropic API key (sk-ant-…)', style: 'width:100%' }); b.append(el('h3', { text: 'AI setup (owner)' }), el('p', { class: 'meta', text: 'The key is stored on your own website and used only by the server. Staff never see it. AI needs the Business plan or above.' }), k, el('button', { class: 'btn sm', text: 'Save key', onclick: async () => { try { await OFFICE_ADMIN.aikey(k.value.trim()); k.value = ''; toast('AI key saved.'); } catch (e) { toast(String(e.message || e)); } } })); }
+    if (!aiReady()) b.append(el('p', { class: 'meta', text: 'AI summaries are not available in this copy. Capturing, saving and mailing transcripts still work.' }));
+  }; renderNotes = () => { if (drawer.id === 'ainotes') draw(); }; draw(); return draw;
+};
+/* ---- smarter assistant: ask about anything, with the office, meetings and calendar as context ---- */
+const _officeContext = officeContext; officeContext = function () { let c = _officeContext(); const ev = [...Store.col('cal')].map(([, e]) => e).filter(e => e && num(e.e, 0) > Date.now() && num(e.s, 0) < Date.now() + 7 * 864e5).sort((a, b) => a.s - b.s).slice(0, 15).map(e => '- ' + new Date(e.s).toLocaleString([], { weekday: 'short', hour: '2-digit', minute: '2-digit' }) + ' ' + str(e.title, 60) + ' @ ' + str(e.where, 30)).join('\n'), ms = mnSessions().slice(0, 3).map(([, s]) => '- ' + str(s.title, 60) + ': ' + str(s.sum, 500)).join('\n'); return c + '\n\nNext 7 days:\n' + (ev || 'nothing booked') + '\n\nRecent meeting notes:\n' + (ms || 'none'); };
+/* ---- ⌘K: jump to anything ---- */
+function paletteItems() {
+  const it = [], add = (g, t, s, f) => it.push({ g, t, s: s || '', f });
+  for (const r of allPeople()) if (!r.me) add('People', r.nm, r.role || '', () => { if (r.key && peers.get(r.key)) walkToPeer(r.key); else openPanel('people'); });
+  for (const p of W.places || []) add('Places', p.name, '', () => { const f = nearestFree(p.x, p.z); goTo(f.x, f.z); });
+  for (const b of W.camp || []) add('Campus', b.nm, CAMP_TY[b.ty], () => campGo(b.id)); add('Campus', 'HQ', 'Back to the main office', () => campGo('hq'));
+  for (const [t, f, s] of [['AI meeting notes', () => openPanel('ainotes'), 'Capture, summarise, share'], ['AI assistant', () => openPanel('assistant'), ''], ['TV wall', () => openPanel('tv'), 'What the office is watching'], ['Campus', () => openPanel('campus'), ''], ['Gym leaderboard', () => openPanel('gym'), ''], ['Calendar', () => work(true, 'cal'), ''], ['Mail', () => work(true, 'mail'), ''], ['Documents', () => work(true, 'docs'), ''], ['Calendar sync', () => openPanel('calsync'), 'Google, Outlook, .ics'], ['Settings', () => openPanel('settings'), ''], ['Play chess', () => { campGo('ar'); }, 'Games arena'], ['Suites', () => openPanel('suite'), '']]) add('Do', t, s, f);
+  for (const [, d] of Store.col('hdocs')) if (d && d.title) add('Documents', str(d.title, 80), '', () => { work(true, 'docs'); });
+  for (const [, m] of Store.col('mail')) if (m && (m.by === me.uid || (m.to || []).includes(me.uid) || (m.to || []).includes('*')) && m.sub) add('Mail', str(m.sub, 80), nameOf(m.by, m.nm), () => work(true, 'mail'));
+  for (const [, e] of Store.col('cal')) if (e && e.title && num(e.e, 0) > Date.now() - 864e5) add('Calendar', str(e.title, 80), new Date(e.s).toLocaleString(), () => work(true, 'cal'));
+  return it;
+}
+function palette() {
+  let o = $('#pal'); if (o) { o.remove(); return; } const items = paletteItems(); let sel = 0, shown = [];
+  const inp = el('input', { placeholder: 'Search people, places, rooms, mail, documents, events or actions…', style: 'width:100%;font-size:16px;padding:12px;border:0;outline:0;background:transparent' }), list = el('div', { style: 'max-height:50vh;overflow:auto' });
+  const draw = () => { const q = inp.value.trim().toLowerCase(); shown = (q ? items.filter(i => (i.t + ' ' + i.s + ' ' + i.g).toLowerCase().includes(q)) : items.filter(i => ['Do', 'Campus'].includes(i.g))).slice(0, 30); sel = clamp(sel, 0, Math.max(0, shown.length - 1)); list.replaceChildren(...shown.map((i, k) => el('div', { style: 'display:flex;gap:10px;padding:9px 14px;cursor:pointer;border-radius:8px;' + (k === sel ? 'background:rgba(36,86,255,.14)' : ''), onclick: () => go(k), onmousemove: () => { if (sel !== k) { sel = k; draw(); } } }, el('span', { class: 'meta', style: 'width:78px', text: i.g }), el('b', { style: 'flex:1', text: i.t }), el('span', { class: 'meta', text: i.s })))); if (!shown.length) list.replaceChildren(el('p', { class: 'meta', style: 'padding:14px', text: 'Nothing found.' })); };
+  const go = k => { const i = shown[k]; if (!i) return; o.remove(); i.f(); };
+  inp.oninput = draw; inp.onkeydown = e => { if (e.key === 'Escape') o.remove(); else if (e.key === 'ArrowDown') { sel++; draw(); e.preventDefault(); } else if (e.key === 'ArrowUp') { sel--; draw(); e.preventDefault(); } else if (e.key === 'Enter') go(sel); };
+  o = el('div', { id: 'pal', style: 'position:fixed;inset:0;z-index:40;background:rgba(10,16,24,.45);display:grid;place-items:start center;padding-top:14vh', onclick: e => { if (e.target === o) o.remove(); } }, el('div', { class: 'island', style: 'width:min(640px,92vw);padding:6px' }, inp, list)); document.body.append(o); draw(); inp.focus();
+}
+/* ---- screen mirror: your real screen (or a teammate's) on the desk monitor ---- */
+function deskMirrorMat(d) {
+  if (!d.owner) return null; let stream = null, key = '';
+  if (d.owner === me.uid) { if (RTC.scr && me.seat && me.seat === d.seat) { stream = new MediaStream([RTC.scr]); key = 'me' + RTC.scr.id; } }
+  else for (const p of peers.values()) if (p.uid === d.owner && PRES(p).scr && p.seat && p.seat === d.seat) for (const P of RTC.peers.values()) if (P.key === p.key && P.vstream && P.vstream.getVideoTracks().some(v => v.readyState === 'live')) { stream = P.vstream; key = 'p' + P.key + P.vstream.id; }
+  if (!stream) { if (d.mirV) { d.mirV.srcObject = null; d.mirT && d.mirT.dispose(); d.mirV = d.mirT = d.mirM = null; d.mirK = ''; } return null; }
+  if (d.mirK !== key) { d.mirK = key; const v = document.createElement('video'); v.muted = true; v.playsInline = true; v.srcObject = stream; v.play().catch(() => { }); d.mirV = v; d.mirT = new T.VideoTexture(v); d.mirT.encoding = T.sRGBEncoding; d.mirM = new T.MeshBasicMaterial({ map: d.mirT }); } return d.mirM;
+}
+const _pcPanel = panels.pc; panels.pc = function (b) { const r = _pcPanel(b); b.append(el('h3', { text: '🖥 Real screen on your desk monitor' }), el('p', { class: 'meta', text: 'Sit at your desk, then share your screen. Your monitor in the office shows your real screen, and anyone connected to you by a call or nearby voice sees it too. Only the window or screen you choose is shared.' }),
+  el('button', { class: 'btn', text: RTC.scr ? '⏹ Stop mirroring' : '🖥 Mirror my screen to my desk', onclick: async () => { if (!me.seat) toast('Sit at your desk first so the monitor in front of you can show it.'); await shareScreen(!RTC.scr); refreshPanel('pc'); } })); return r; };
+/* ---- see your opponent while you play ---- */
+function oppView() {
+  let uid = null, nm = '', on = false; const gm = me.game, l = me.lock;
+  if (gm === 'tt' || gm === 'pool') { const d = gm === 'tt' ? ttDoc() : poolDoc(), o = me.side === 'a' ? d.b : d.a; if (o) { uid = o.uid; nm = nameOf(o.uid, o.nm); } on = true; }
+  else if (l && l.kind === 'chess') { const d = chDoc(), o = l.side === 'w' ? d.b : d.w; if (o) { uid = o.uid; nm = nameOf(o.uid, o.nm); } on = true; }
+  let box_ = $('#oppview'); if (!on) { if (box_) box_.remove(); return; }
+  if (!box_) { box_ = el('div', { id: 'oppview', class: 'island', style: 'position:fixed;left:12px;bottom:90px;width:200px;z-index:9;padding:6px;display:flex;flex-direction:column;gap:6px' }); document.body.append(box_); }
+  const P = uid ? [...RTC.peers.values()].find(x => peers.get(x.key) && peers.get(x.key).uid === uid) : null, live = P && P.vstream && P.vstream.getVideoTracks().some(v => v.readyState === 'live' && !v.muted), k = (uid || 'none') + (live ? P.vstream.id : '');
+  if (box_.dataset.k !== k) { box_.dataset.k = k; box_.replaceChildren(live ? (() => { const v = el('video', { autoplay: '', playsinline: '', muted: '', style: 'width:100%;border-radius:8px;background:#000' }); v.muted = true; v.srcObject = P.vstream; v.play().catch(() => { }); return v; })() : el('div', { style: 'height:90px;border-radius:8px;background:#14202e;color:#fff;display:grid;place-items:center;font-size:13px;text-align:center;padding:6px' }, uid ? nm + (RTC.ok ? '' : ' (video needs the self-hosted office)') : 'Practice opponent'), el('div', { class: 'row' }, el('small', { style: 'flex:1', text: uid ? '🎮 ' + nm : '🤖 Computer' }), uid && !live && RTC.ok ? el('button', { class: 'btn sm', text: '📷 Share camera', onclick: async () => { if (!RTC.voice) await voiceOn(true); camOn(true); } }) : null)); }
+}
+function initV15() {
+  addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); e.stopImmediatePropagation(); palette(); } }, true);
+  const top = $('#topbtns'); top.append(el('button', { class: 'tb', id: 'bNotes', text: '📝 AI notes', title: 'Meeting notes, summaries and action items', onclick: () => openPanel('ainotes') }), el('button', { class: 'tb', id: 'bFind', text: '⌘K Search', title: 'Search everything (Ctrl or ⌘ + K)', onclick: palette }));
+  Store.on('mnotes', () => { refreshPanel('ainotes'); }); setInterval(() => { try { oppView(); } catch (e) { } }, 1200);
+}
+/* ============================ v16: competitive wall climb, smash timing for table tennis ============================ */
+function climbWall() { const spot = { x: 0.62, z: 14.4 }; goTo(spot.x + 0.4, spot.z, () => climbStart(spot)); }
+function climbStart(spot) {
+  if (!conf.games) { toast('Games are switched off by your admin.'); return; } if (me.lock) lockEnd(); me.pos.x = spot.x; me.pos.z = spot.z; doAct('climb', { x: 0, z: spot.z });
+  me.lock = { kind: 'climb', prog: 0, last: '', t0: performance.now() + 1500, start: 0, done: false, end: () => { me.act = null; } }; me.act.t0 = performance.now() + 5000;
+  const best = climbBest(); toast('Alternate A and D (or ← and →, or tap left and right) to climb. Same side twice makes you slip.' + (best ? ' Record: ' + best.nm + ' ' + (best.cl / 1000).toFixed(1) + 's.' : ''), { ms: 6000 }); lockHud('🧗 Get ready…');
+}
+const climbBest = () => [...Store.col('gym').values()].filter(d => d && num(d.cl, 0) > 0).sort((a, b) => a.cl - b.cl).map(d => ({ nm: str(d.nm, 40), cl: num(d.cl, 0) }))[0];
+function climbPress(side) {
+  const l = me.lock; if (!l || l.kind !== 'climb' || l.done) return; const now = performance.now(); if (now < l.t0) return; if (!l.start) l.start = now;
+  if (side === l.last) { l.prog = Math.max(0, l.prog - 0.025); sfx('tick'); } else { l.prog = Math.min(1, l.prog + 0.034); l.last = side; sfx('tick'); if (l.prog >= 1) l.reach = true; }
+}
+function climbFrame(dt, now) {
+  const l = me.lock; if (!l || l.kind !== 'climb') return; me.moving = false;
+  if (!l.done) {
+    if (now < l.t0) { lockHud('🧗 Ready… ' + Math.ceil((l.t0 - now) / 1000)); me.act.t0 = now + 5000; return; }
+    if (l.start) l.prog = Math.max(0, l.prog - 0.018 * dt); const el_ = l.start ? (now - l.start) / 1000 : 0;
+    me.act.t0 = now - (0.4 + 4.6 * l.prog) * 1000; lockHud('🧗 ' + Math.round(l.prog * 100) + '% · ' + el_.toFixed(1) + 's');
+    if (l.reach || l.prog >= 1) { l.prog = 1; l.done = true; const ms = Math.max(1, Math.round(performance.now() - l.start)), prev = Store.col('gym').get(me.uid) || {}, pb = !num(prev.cl, 0) || ms < prev.cl, rec = !climbBest() || ms < climbBest().cl; Store.set('gym', me.uid, Object.assign({ nm: me.name, p: 0, k: 0, lap: 0 }, prev, { nm: me.name, cl: pb ? ms : prev.cl, p: num(prev.p, 0) + 10, t: Date.now() })); toast((rec ? '🏆 New office record! ' : pb ? '🥇 Personal best! ' : '') + (ms / 1000).toFixed(1) + ' s to the top. +10 gym points.', { ms: 6000 }); sfx('point'); burst(me.pos.x, me.pos.z); doLocalEmote('cheer'); l.fin = now; me.act.t0 = now - 6200; }
+    else if (el_ > 40) { l.done = true; toast('Time. You reached ' + Math.round(l.prog * 100) + '%. Try again.'); l.fin = now; me.act.t0 = now - 6200; }
+  } else { lockHud('🧗 ' + (l.prog >= 1 ? 'Top!' : 'Time')); if (now - l.fin > 4600) lockEnd(); }
+}
+function initV16() {
+  addEventListener('keydown', e => { if (/INPUT|TEXTAREA|SELECT/.test((e.target || {}).tagName || '')) return; const k = e.key.toLowerCase();
+    if (me.lock && me.lock.kind === 'climb') { if (k === 'a' || k === 'arrowleft') { e.preventDefault(); climbPress('L'); } else if (k === 'd' || k === 'arrowright') { e.preventDefault(); climbPress('R'); } }
+    if (me.game === 'tt' && (k === ' ' || e.code === 'Space') && !e.repeat) { e.preventDefault(); me.sw = Date.now(); doLocalEmote('play'); } });
+  canvas.addEventListener('pointerdown', e => { if (me.lock && me.lock.kind === 'climb') climbPress(e.clientX < innerWidth / 2 ? 'L' : 'R'); else if (me.game === 'tt') { me.sw = Date.now(); doLocalEmote('play'); } });
+}
 /* ============================ rendering quality: Lite, Standard or High (bloom on lights and holograms, antialiased HDR buffer, vignette) ============================ */
 const FX = { on: false, comp: null, bloom: null, out: null };
 const OUT_SHADER = {
@@ -4939,7 +5454,7 @@ Store.on('kudos', () => { drawKudos(); refreshPanel('kudos'); });
 Store.on('games', () => { drawC4(); drawIce(); refreshPanel('c4'); refreshPanel('ice'); });
 Store.on('rooms', () => { drawScreens(); refreshPanel('rooms'); });
 
-conf = readConf(Store.col('office').get('config')); initExtra(); initV3(); initV4(); initV5(); initV6(); initV7(); initBuild(); initV8(); initV9(); initV10(); document.body.append(el('div', { id: 'vig' }));
+conf = readConf(Store.col('office').get('config')); initExtra(); initV3(); initV4(); initV5(); initV6(); initV7(); initBuild(); initV8(); initV9(); initV10(); initV12(); initV13(); initV14(); initV15(); initV16(); document.body.append(el('div', { id: 'vig' }));
 buildOffice(conf.bays); layoutSig(); sizeMap(); recomputeDesks(); redrawAll(); applyTod(); renderChat();
 if (!Store.col('people').get('local')) saveProfile(true);
 if (local.demo) setDemo(true);

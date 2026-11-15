@@ -72,7 +72,7 @@ function campGym(x0, z0, x1, z1, b) {
   addPick({ x: x0 + 0.1, y: 1.9, z: 17, w: 0.3, h: 2.6, d: 5.2, label: 'Gym leaderboard', ax: x0 + 1.8, az: 17, act: () => openPanel('gym'), near: 2.6 });
   plant(x1 - 1.3, 3, 1.1); plant(x1 - 1.3, 20, 1.1);
 }
-function gymRows() { return [...Store.col('gym').entries()].map(([uid, d]) => ({ uid, nm: str(d && d.nm, 40), p: num(d && d.p, 0), k: num(d && d.k, 0), lap: num(d && d.lap, 0) })).filter(r => r.p || r.lap); }
+function gymRows() { return [...Store.col('gym').entries()].map(([uid, d]) => ({ uid, nm: str(d && d.nm, 40), p: num(d && d.p, 0), k: num(d && d.k, 0), lap: num(d && d.lap, 0), cl: num(d && d.cl, 0) })).filter(r => r.p || r.lap || r.cl); }
 function gymBoard() {
   if (!GYM.board) return; const rows = gymRows().sort((a, b) => b.p - a.p).slice(0, 7), laps = gymRows().filter(r => r.lap).sort((a, b) => a.lap - b.lap).slice(0, 3);
   GYM.board.draw((c, w, h) => { c.fillStyle = '#10151d'; c.fillRect(0, 0, w, h); c.fillStyle = '#ffb627'; c.font = '700 60px ' + FONT_D; c.fillText('🏋 Gym leaderboard', 40, 80); c.font = '600 40px ' + FONT_B; rows.forEach((r, i) => { c.fillStyle = i ? '#fff' : '#ffd36b'; c.fillText((i + 1) + '. ' + r.nm, 40, 150 + i * 48, 560); c.textAlign = 'right'; c.fillText(r.p + ' pts', 640, 150 + i * 48); c.textAlign = 'left'; }); if (!rows.length) { c.fillStyle = 'rgba(255,255,255,.6)'; c.fillText('Be the first to train.', 40, 160); }
@@ -90,7 +90,7 @@ function gymFinish() {
   const l = me.lock; l.done = true; const sc = l.reps + l.good * 2, prev = Store.col('gym').get(me.uid) || {}; const p = num(prev.p, 0) + sc; Store.set('gym', me.uid, { nm: me.name, p, k: Math.max(num(prev.k, 0), sc), lap: num(prev.lap, 0), t: Date.now() }); toast('💪 ' + l.reps + ' reps, ' + l.good + ' on rhythm: +' + sc + ' points (total ' + p + ').', { ms: 6000 }); sfx('point'); burst(me.pos.x, me.pos.z); setTimeout(lockEnd, 1200);
 }
 panels.gym = b => {
-  const draw = () => { b.replaceChildren(); const rows = gymRows().sort((a, b2) => b2.p - a.p), laps = gymRows().filter(r => r.lap).sort((a, b2) => a.lap - b2.lap); b.append(el('p', { class: 'big', text: '🏋 Gym leaderboard' }), ...(rows.length ? rows.slice(0, 15).map((r, i) => el('div', { class: 'row' }, el('b', { text: (i + 1) + '.' }), el('span', { style: 'flex:1', text: r.nm }), el('span', { text: r.p + ' pts' }))) : [el('p', { text: 'No scores yet. Walk to a machine and press the button that appears.' })]), el('h3', { text: '🏁 Fastest go-kart laps' }), ...(laps.length ? laps.slice(0, 8).map((r, i) => el('div', { class: 'row' }, el('b', { text: (i + 1) + '.' }), el('span', { style: 'flex:1', text: r.nm }), el('span', { text: (r.lap / 1000).toFixed(1) + ' s' }))) : [el('p', { text: 'No laps yet.' })])); }; draw(); return draw;
+  const draw = () => { b.replaceChildren(); const rows = gymRows().sort((a, b2) => b2.p - a.p), laps = gymRows().filter(r => r.lap).sort((a, b2) => a.lap - b2.lap); b.append(el('p', { class: 'big', text: '🏋 Gym leaderboard' }), ...(rows.length ? rows.slice(0, 15).map((r, i) => el('div', { class: 'row' }, el('b', { text: (i + 1) + '.' }), el('span', { style: 'flex:1', text: r.nm }), el('span', { text: r.p + ' pts' }))) : [el('p', { text: 'No scores yet. Walk to a machine and press the button that appears.' })]), el('h3', { text: '🧗 Fastest wall climbs' }), ...(gymRows().filter(r => r.cl).length ? gymRows().filter(r => r.cl).sort((a, b2) => a.cl - b2.cl).slice(0, 8).map((r, i) => el('div', { class: 'row' }, el('b', { text: (i + 1) + '.' }), el('span', { style: 'flex:1', text: r.nm }), el('span', { text: (r.cl / 1000).toFixed(1) + ' s' }))) : [el('p', { text: 'No climbs yet.' })]), el('h3', { text: '🏁 Fastest go-kart laps' }), ...(laps.length ? laps.slice(0, 8).map((r, i) => el('div', { class: 'row' }, el('b', { text: (i + 1) + '.' }), el('span', { style: 'flex:1', text: r.nm }), el('span', { text: (r.lap / 1000).toFixed(1) + ' s' }))) : [el('p', { text: 'No laps yet.' })])); }; draw(); return draw;
 };
 /* ---- games arena: big chess board, gong, go-kart track ---- */
 const CH = { cx: 0, cz: 0, y: 0.34, sq: 0.5, g: null, tex: null, sel: -1, moves: [], hl: null, build: false };
@@ -179,7 +179,7 @@ function kartFrame(dt, now) {
 function lockFrame(dt, now) {
   const l = me.lock;
   if (l && l.kind === 'gym') { me.moving = (l.st === 'tread' || l.st === 'row' || l.st === 'bike') && now >= l.t0 && !l.done; const left = (l.t0 + 15000 - now) / 1000; if (now < l.t0) lockHud('Ready… ' + Math.ceil((l.t0 - now) / 1000)); else if (left > 0) lockHud('💪 ' + l.reps + ' reps · ' + Math.ceil(left) + 's · tap Space or click'); else if (!l.done) { lockHud('Done'); gymFinish(); } }
-  chBar(); kartFrame(dt, now);
+  chBar(); kartFrame(dt, now); if (typeof climbFrame === 'function') climbFrame(dt, now);
   if (GONG.g) { const left = Math.max(0, 1 - (now - GONG.t) / 5000); GONG.g.rotation.z = Math.sin((now - GONG.t) / 90) * 0.12 * left; }
 }
 /* ---- the campus panel: where to go and, for admins, what to build ---- */

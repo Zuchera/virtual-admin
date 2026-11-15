@@ -89,7 +89,7 @@ panels.calsync = b => {
   el.__f = file;
 };
 async function fetchIcs(url) {
-  if (window.OFFICE_ADMIN && OFFICE_ADMIN.ics) return OFFICE_ADMIN.ics(url);             // hosted: the server fetches it (browsers block it)
+  if (window.OFFICE_ICS) return window.OFFICE_ICS(url);             // hosted: the server fetches it (browsers block it)
   const r = await fetch(url, { mode: 'cors' }).catch(() => null); if (!r || !r.ok) throw new Error('Your browser cannot reach that calendar from here. In the WordPress office this works automatically; for now use "Import a .ics file".'); return r.text();
 }
 setInterval(() => { const u = LS.get('icsUrl', ''); if (u && document.visibilityState === 'visible' && Date.now() - num(LS.get('icsAt', 0), 0) > 30 * 60000) { LS.set('icsAt', Date.now()); fetchIcs(u).then(t => icsImport(t, 'url')).catch(() => { }); } }, 60000);

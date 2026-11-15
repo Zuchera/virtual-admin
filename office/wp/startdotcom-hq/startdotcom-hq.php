@@ -155,9 +155,25 @@ function sdchq_slack_post($uid, $b) {
     wp_remote_post($o['url'], array('timeout' => 5, 'redirection' => 0, 'headers' => array('Content-Type' => 'application/json'), 'body' => wp_json_encode(array('text' => '*' . $m['name'] . '* (' . ($conv === 'all' ? 'office chat' : '#' . substr($conv, 3)) . '): ' . $text))));
     sdchq_out(array('ok' => true));
 }
+function sdchq_member_op($uid, $b) {
+    $op = (string) $b['op']; $k = 'sdchq_op_' . $op . '_' . (int) $uid; $n = (int) get_transient($k); $cap = $op === 'ai' ? 40 : 12; if ($n >= $cap) { sdchq_out(array('ok' => false, 'err' => 'Slow down a little and try again soon.')); } set_transient($k, $n + 1, HOUR_IN_SECONDS);
+    if ($op === 'ics') {
+        $url = trim((string) (isset($b['url']) ? $b['url'] : '')); if (strpos($url, 'https://') !== 0 || !wp_http_validate_url($url)) { sdchq_out(array('ok' => false, 'err' => 'Use the https calendar address.')); }
+        $r = wp_safe_remote_get($url, array('timeout' => 8, 'redirection' => 3, 'limit_response_size' => 1048576)); if (is_wp_error($r) || (int) wp_remote_retrieve_response_code($r) !== 200) { sdchq_out(array('ok' => false, 'err' => 'Could not fetch that calendar.')); }
+        $t = (string) wp_remote_retrieve_body($r); if (strpos($t, 'BEGIN:VCALENDAR') === false) { sdchq_out(array('ok' => false, 'err' => 'That address is not a calendar feed.')); } sdchq_out(array('ok' => true, 'text' => $t));
+    }
+    $key = (string) get_option('sdchq_aikey', ''); $L = sdchq_license(); if ($key === '') { sdchq_out(array('ok' => false, 'err' => 'AI is not set up yet. The office owner adds a key in the AI notes panel.')); }
+    if (!in_array('ai', (array) $L['addons'], true)) { sdchq_out(array('ok' => false, 'err' => 'AI is part of the Business plan and above.')); }
+    $prompt = substr((string) (isset($b['prompt']) ? $b['prompt'] : ''), 0, 30000); if (trim($prompt) === '') { sdchq_out(array('ok' => false, 'err' => 'Nothing to answer.')); }
+    $model = preg_replace('/[^A-Za-z0-9._-]/', '', (string) get_option('sdchq_aimodel', 'claude-haiku-5-5'));
+    $r = wp_remote_post('https://api.anthropic.com/v1/messages', array('timeout' => 45, 'redirection' => 0, 'headers' => array('x-api-key' => $key, 'anthropic-version' => '2023-06-01', 'content-type' => 'application/json'), 'body' => wp_json_encode(array('model' => $model, 'max_tokens' => 1500, 'messages' => array(array('role' => 'user', 'content' => $prompt))))));
+    if (is_wp_error($r)) { sdchq_out(array('ok' => false, 'err' => 'The AI service could not be reached.')); } $j = json_decode(wp_remote_retrieve_body($r), true);
+    if (!$j || empty($j['content'][0]['text'])) { sdchq_out(array('ok' => false, 'err' => 'The AI service did not answer. Check the key.')); } sdchq_out(array('ok' => true, 'text' => (string) $j['content'][0]['text']));
+}
 function sdchq_ajax_admin() {
     global $wpdb; $b = sdchq_body(); $uid = sdchq_token_uid(isset($b['tok']) ? $b['tok'] : ''); $m = $uid ? sdchq_member($uid) : null;
     if ($m && $m['status'] === 'approved' && isset($b['op']) && $b['op'] === 'slackpost') { sdchq_slack_post($uid, $b); }
+    if ($m && $m['status'] === 'approved' && isset($b['op']) && ($b['op'] === 'ai' || $b['op'] === 'ics')) { sdchq_member_op($uid, $b); }
     if (!$m || $m['status'] !== 'approved' || ($m['role'] !== 'owner' && $m['role'] !== 'admin')) { sdchq_out(array('ok' => false, 'err' => 'Admins only.'), 403); }
     $T = sdchq_t('members'); $op = isset($b['op']) ? (string) $b['op'] : ''; $target = isset($b['uid']) ? (int) preg_replace('/\D/', '', (string) $b['uid']) : 0;
     $tm = $target ? sdchq_member($target) : null;
@@ -176,6 +192,8 @@ function sdchq_ajax_admin() {
         if (!$j || empty($j['ok']) || empty($j['key'])) { sdchq_out(array('ok' => false, 'err' => 'No payment found for this site yet. If you just paid, wait a minute and try again.')); } $old = get_option('sdchq_license', ''); update_option('sdchq_license', $j['key'], false); $L = sdchq_license(true); if (!$L['valid']) { update_option('sdchq_license', $old, false); sdchq_license(true); sdchq_out(array('ok' => false, 'err' => 'The licence returned was not valid for this site.')); } sdchq_out(array('ok' => true, 'tier' => $L['tier'])); }
     if ($op === 'license' && $m['role'] === 'owner') { $key = trim((string) (isset($b['key']) ? $b['key'] : '')); $old = get_option('sdchq_license', ''); update_option('sdchq_license', $key, false); $L = sdchq_license(true);
         if (!$L['valid']) { update_option('sdchq_license', $old, false); sdchq_license(true); sdchq_out(array('ok' => false, 'err' => $L['why'] ?: 'That key is not valid.')); } sdchq_out(array('ok' => true, 'tier' => $L['tier'])); }
+    if ($op === 'aikey' && $m['role'] === 'owner') { $k2 = trim((string) (isset($b['key']) ? $b['key'] : '')); if ($k2 !== '' && !preg_match('/^sk-ant-[A-Za-z0-9_-]{20,200}$/', $k2)) { sdchq_out(array('ok' => false, 'err' => 'That does not look like an Anthropic API key.')); } update_option('sdchq_aikey', $k2, false); sdchq_out(array('ok' => true, 'set' => $k2 !== '')); }
+    if ($op === 'aistate') { sdchq_out(array('ok' => true, 'set' => get_option('sdchq_aikey', '') !== '')); }
     sdchq_out(array('ok' => false, 'err' => 'Unknown request.'), 400);
 }
 

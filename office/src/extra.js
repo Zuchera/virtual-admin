@@ -361,9 +361,10 @@ function ttFrame(dt, now) {
     if (wb === null) { TT.ai += clamp(TT.w - TT.ai, -1.25 * dt, 1.25 * dt); wb = TT.ai; }
     if (now > TT.serveT) {
       TT.u += TT.vu * dt; TT.w += TT.vw * dt; if (Math.abs(TT.w) > TT.hw) { TT.w = Math.sign(TT.w) * TT.hw; TT.vw *= -1; }
-      const hit = (wp, dir) => { if (Math.abs(TT.w - wp) < 0.25) { TT.vu = dir * Math.min(5.5, Math.abs(TT.vu) * 1.06); TT.vw = clamp(TT.vw + (TT.w - wp) * 6, -3, 3); return true; } return false; };
-      if (TT.vu > 0 && TT.u > TT.hl - 0.04) { if (TT.u < TT.hl + 0.12 && hit(wb, -1)) { } else if (TT.u > TT.hl + 0.3) { d.sa++; ttPoint(d, 1); } }
-      if (TT.vu < 0 && TT.u < -(TT.hl - 0.04)) { if (TT.u > -(TT.hl + 0.12) && hit(wa, 1)) doLocalEmote('play'); else if (TT.u < -(TT.hl + 0.3)) { d.sb++; ttPoint(d, -1); } }
+      const swOf = s => { const q = d[s]; return !q ? 0 : q.uid === me.uid ? num(me.sw, 0) : num((peerOf(q.uid) || {}).sw, 0); };
+      const hit = (wp, dir, sw) => { if (Math.abs(TT.w - wp) < 0.25) { const sm = sw && Date.now() - sw < 380 && Date.now() - sw > -60; if (sm) sfx('clack'); TT.vu = dir * Math.min(sm ? 7.2 : 5.5, Math.abs(TT.vu) * (sm ? 1.3 : 1.06)); TT.vw = clamp(TT.vw + (TT.w - wp) * 6, -3, 3); return true; } return false; };
+      if (TT.vu > 0 && TT.u > TT.hl - 0.04) { if (TT.u < TT.hl + 0.12 && hit(wb, -1, swOf('b'))) { } else if (TT.u > TT.hl + 0.3) { d.sa++; ttPoint(d, 1); } }
+      if (TT.vu < 0 && TT.u < -(TT.hl - 0.04)) { if (TT.u > -(TT.hl + 0.12) && hit(wa, 1, swOf('a'))) doLocalEmote('play'); else if (TT.u < -(TT.hl + 0.3)) { d.sb++; ttPoint(d, -1); } }
     }
     me.tb = me.local ? null : [+TT.u.toFixed(2), +TT.w.toFixed(2), +TT.vu.toFixed(1), +TT.vw.toFixed(1)];
   } else { const hp = d.a ? peerOf(d.a.uid) : null, tb = hp && hp.tb; if (tb) { TT.vu = tb[2]; TT.vw = tb[3]; TT.u += (tb[0] - TT.u) * Math.min(1, dt * 18) + TT.vu * dt * 0.5; TT.w += (tb[1] - TT.w) * Math.min(1, dt * 18); } else TT.vu = 0; if (wb === null && tb) wb = clamp(TT.w, -0.66, 0.66); me.tb = null;
