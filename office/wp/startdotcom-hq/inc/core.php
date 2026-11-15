@@ -35,6 +35,7 @@ function sdchq_body() {
 function sdchq_can_read($col, $data, $me, &$threads) {
     global $wpdb;
     if ($col === 'mail') { $to = isset($data['to']) && is_array($data['to']) ? $data['to'] : array(); return (isset($data['by']) && $data['by'] === $me) || in_array($me, $to, true) || in_array('*', $to, true); }
+    if ($col === 'sops') { $v = isset($data['vis']) ? $data['vis'] : 'private'; if ($v === 'public') { return true; } $to = isset($data['to']) && is_array($data['to']) ? $data['to'] : array(); return (isset($data['by']) && $data['by'] === $me) || in_array($me, $to, true); }
     if ($col === 'dms') {
         if ($threads === null) { $threads = array(); foreach ((array) $wpdb->get_results("SELECT path, data FROM " . sdchq_t('docs') . " WHERE col = 'threads' AND del = 0", ARRAY_A) as $r) { $d = json_decode($r['data'], true); $threads[substr($r['path'], 8)] = isset($d['mem']) && is_array($d['mem']) ? $d['mem'] : array(); } }
         $th = isset($data['th']) ? (string) $data['th'] : ''; return isset($threads[$th]) && in_array($me, $threads[$th], true);
@@ -61,11 +62,12 @@ function sdchq_sync($b) {
             if (!preg_match('#^([a-z0-9_]{1,32})/([A-Za-z0-9_.~:-]{1,150})$#', $path, $mm)) { $denied[] = $path; continue; }
             $col = $mm[1]; $id = $mm[2];
             if ((in_array($col, array('office', 'grades', 'courses', 'breakout'), true) && !$admin) || ($col === 'people' && $id !== $me && !$admin)) { $denied[] = $path; continue; }
+            if ($col === 'sops' && !$admin) { $dd = isset($w['data']) && is_array($w['data']) ? $w['data'] : null; if ($dd !== null && (!isset($dd['vis']) || $dd['vis'] !== 'private')) { $denied[] = $path; continue; } }
             /* a person's own marks (read state, replies to invitations, votes, reactions) can only be written by that person */
             if (in_array($col, array('mailst', 'rsvp', 'pv'), true) && substr($id, -strlen('~' . $me)) !== '~' . $me) { $denied[] = $path; continue; }
             if ($col === 'rx' && strpos($id, '~' . $me . '~') === false) { $denied[] = $path; continue; }
             /* messages, mail and calendar events can only be changed or deleted by their author or an admin */
-            if (!$admin && in_array($col, array('chat', 'dms', 'mail', 'cal'), true)) {
+            if (!$admin && in_array($col, array('chat', 'dms', 'mail', 'cal', 'sops'), true)) {
                 $owner = $wpdb->get_var($wpdb->prepare("SELECT byuid FROM $T WHERE path = %s AND del = 0", $path));
                 if ($owner !== null && (int) $owner !== $uid) { $denied[] = $path; continue; }
             }
@@ -112,7 +114,7 @@ function sdchq_sync($b) {
         if ((int) $r['del']) { $docs[] = array('path' => $r['path'], 'del' => 1); continue; }
         $d = json_decode($r['data'], true);
         if ($r['col'] === 'grades' && !$admin && $r['path'] !== 'grades/' . $me) { continue; }
-        if (($r['col'] === 'mail' || $r['col'] === 'dms') && !sdchq_can_read($r['col'], is_array($d) ? $d : array(), $me, $threads)) { continue; }
+        if (($r['col'] === 'mail' || $r['col'] === 'dms' || $r['col'] === 'sops') && !sdchq_can_read($r['col'], is_array($d) ? $d : array(), $me, $threads)) { continue; }
         $docs[] = array('path' => $r['path'], 'data' => $d);
     }
     if ($rc === 0) { $mx = (int) $wpdb->get_var("SELECT MAX(rev) FROM $T"); if ($mx > $max) { $max = $mx; } }

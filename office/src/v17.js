@@ -1,0 +1,127 @@
+/* ============================ v17: onboarding, help and SOPs, calmer panels, room whiteboards, board shapes, voice Greeter ============================ */
+/* ---- panels you can minimise and that never trap you ---- */
+function initDrawerUx() {
+  const st = document.createElement('style'); st.textContent = '#drawer .board{min-height:46vh}#drawer.min{bottom:auto!important;height:auto}#drawer.min #drawerBody{display:none}#drawer>header button{min-width:36px;height:36px;border-radius:10px;font-size:20px;line-height:1}#drawerMin{background:transparent;border:0;cursor:pointer;font-weight:700}#drawerMin:hover,#drawerX:hover{background:rgba(0,0,0,.08)}#drawer>header{cursor:default}#drawer.min>header{cursor:pointer}.hlp details{border:1px solid var(--line);border-radius:12px;padding:8px 12px;margin:6px 0}.hlp summary{font-weight:700;cursor:pointer}.hlp ol{margin:8px 0 4px 18px}.onb-dots{display:flex;gap:6px;margin:8px 0}.onb-dots i{width:22px;height:6px;border-radius:3px;background:var(--line)}.onb-dots i.on{background:#2456ff}'; document.head.append(st);
+  const hdr = $('#drawer > header'), x = $('#drawerX'); const mn = el('button', { id: 'drawerMin', 'aria-label': 'Minimise panel', title: 'Minimise (the panel stays here, out of your way)', text: '–', onclick: () => $('#drawer').classList.toggle('min') }); hdr.insertBefore(mn, x); x.title = 'Close (Esc)';
+  $('#drawerT').addEventListener('click', () => { if ($('#drawer').classList.contains('min')) $('#drawer').classList.remove('min'); });
+  const od = openDrawer; openDrawer = function () { $('#drawer').classList.remove('min'); return od.apply(this, arguments); };
+  const cd = closeDrawer; closeDrawer = function () { $('#drawer').classList.remove('min'); return cd.apply(this, arguments); };
+  addEventListener('keydown', e => { if (e.key === 'Escape' && drawer.id && !me.lock && !me.game && !/INPUT|TEXTAREA|SELECT/.test((e.target || {}).tagName || '')) { closeDrawer(); } });
+}
+/* ---- whiteboard on the wall of every meeting room ---- */
+function roomBoards() {
+  for (const r of W.rooms || []) { const id = 'room-' + r.id, wx = r.x1 - 0.09, d = dynTex(1024, 560); r.boardTex = d; const m = new T.Mesh(new T.PlaneGeometry(2.6, 1.42), new T.MeshBasicMaterial({ map: d.tex })); m.position.set(wx, 1.65, 3.2); m.rotation.y = -PI / 2; office.add(m); box(office, 0.05, 1.54, 2.72, M_ALU, wx + 0.01, 1.65, 3.2);
+    r.boardId = id; addPick({ x: wx, y: 1.65, z: 3.2, w: 0.3, h: 1.5, d: 2.7, label: r.name + ' whiteboard', ax: wx - 1.2, az: 3.2, act: () => actions.board(id, r.name + ' whiteboard'), near: 2.2 }); roomBoardDraw(r); }
+}
+function roomBoardDraw(r) { if (!r.boardTex) return; const ns = [...Store.col('notes').values()].filter(n => n && n.board === r.boardId); const key = ns.length + ':' + Math.max(0, ...ns.map(n => num(n.t, 0))); if (r.bk === key) return; r.bk = key;
+  r.boardTex.draw((c, w, h) => { c.fillStyle = '#fbfcfd'; c.fillRect(0, 0, w, h); c.strokeStyle = '#e3e8ee'; c.lineWidth = 2; for (let x = 64; x < w; x += 64) { c.beginPath(); c.moveTo(x, 0); c.lineTo(x, h); c.stroke(); } for (let y = 64; y < h; y += 64) { c.beginPath(); c.moveTo(0, y); c.lineTo(w, y); c.stroke(); }
+    for (const n of ns) { const x = num(n.x, 0) * (w - 150), y = num(n.y, 0) * (h - 90); if (n.k === 'ink' && Array.isArray(n.p)) { c.strokeStyle = INK[clamp(num(n.c, 0), 0, 3)]; c.lineWidth = 4; c.beginPath(); for (let i = 0; i + 1 < n.p.length; i += 2) { const px = n.p[i] * w, py = n.p[i + 1] * h; i ? c.lineTo(px, py) : c.moveTo(px, py); } c.stroke(); } else if (n.k === 'st') { c.font = '48px sans-serif'; c.fillText(str(n.e, 8), x, y + 40); } else if (n.k === 'sh') { c.strokeStyle = INK[clamp(num(n.c, 0), 0, 3)]; c.lineWidth = 5; const sw = num(n.w, 120) * 1.3, sh = num(n.h, 80) * 1.3; if (n.sh === 'ellipse') { c.beginPath(); c.ellipse(x + sw / 2, y + sh / 2, sw / 2, sh / 2, 0, 0, 7); c.stroke(); } else if (n.sh === 'rect') c.strokeRect(x, y, sw, sh); else { c.beginPath(); c.moveTo(x, y + sh / 2); c.lineTo(x + sw, y + sh / 2); c.stroke(); } } else if (n.k === 'img') { } else if (n.text) { c.fillStyle = NOTE_COL[clamp(num(n.c, 0), 0, NOTE_COL.length - 1)] || '#ffe27a'; c.fillRect(x, y, 150, 84); c.fillStyle = '#1b2430'; c.font = '600 18px ' + FONT_B; wrapText(c, str(n.text, 100), 134, 3).forEach((l, i) => c.fillText(l, x + 8, y + 26 + i * 22)); } }
+    c.fillStyle = 'rgba(0,0,0,.35)'; c.font = '600 22px ' + FONT_B; c.fillText('Click the board to draw and add notes · ' + str(r.name, 30), 20, h - 18); }); }
+/* ---- onboarding ---- */
+const ONB = [
+  { t: 'Welcome to your office', i: '👋', p: ['This is a 3D office you share with your team. You are the person in the middle of the screen.', 'Everything here is point and click. This short tour takes about two minutes and you can reopen it any time from Help.'], do: ['Set up my avatar', () => openPanel('avatar')] },
+  { t: 'Move around', i: '🧭', p: ['Click anywhere on the floor and your avatar walks there. You can also use W A S D or the arrow keys.', 'Drag with the mouse to turn the view, scroll to zoom. Press V for eye level, and click the little map to jump across the building.', 'Click a glowing item or press E when you see a prompt to sit, play or use things.'] },
+  { t: 'Talk and be heard', i: '🎧', p: ['Press 💬 Talk for chat: everyone, a room, or private messages.', 'Press 🎧 Voice to speak. People standing near you hear you, like real life. Hold T to speak without opening your mic.', 'Your status (Online, Busy, Do not disturb) is shown over your head. Set it at the bottom of the screen.'], do: ['Open Talk', () => talk(true)] },
+  { t: 'Meetings and rooms', i: '📅', p: ['Meeting rooms are along the top wall. The sign outside shows who is inside and when it ends, and when it is free again.', 'Walk in to join the room call. Each room has a screen for sharing and a whiteboard on the wall: click it to draw and add notes together.', 'Book rooms from Workspace → Calendar. Choose to meet here or paste a Teams, Zoom or Meet link.'], do: ['Open Calendar', () => work(true, 'cal')] },
+  { t: 'Do your work', i: '🗂', p: ['Workspace has your mail (with Cc and Bcc), calendar, documents and tasks.', 'Press Ctrl or ⌘ + K to search for anything: people, places, mail, documents.', 'Sit at a desk to see your real screen on your monitor: open My computer → Mirror my screen.'], do: ['Try search (Ctrl+K)', () => palette()] },
+  { t: 'Explore the campus', i: '🏛', p: ['Walk through the Campus gate in the East Lounge, or press 🏛 Campus, to visit the Training Centre, Gym and Games Arena.', 'Take part in training sessions, climb the wall, race go-karts, play chess and see who tops the leaderboard.', 'The TV wall in the Skyline Lounge shows what the office is watching. Admins choose what is on.'], do: ['Open Campus', () => openPanel('campus')] },
+  { t: 'Get help any time', i: '🛟', p: ['Press Help for step-by-step guides and the office SOPs and documents.', 'Press 🎙 Greeter and just ask: "where is the gym?", "how do I book a room?". It answers by voice or text.', 'You are ready. Say hello to someone!'], do: ['Talk to the Greeter', () => greeterOpen()] }];
+function onbOpen(i) {
+  i = clamp(i || 0, 0, ONB.length - 1); openDrawer('onboard', 'Getting started · ' + (i + 1) + ' of ' + ONB.length, false, b => { const s = ONB[i];
+    b.append(el('div', { class: 'onb-dots' }, ...ONB.map((_, k) => el('i', { class: k <= i ? 'on' : '' }))), el('p', { class: 'big', style: 'font-size:22px', text: s.i + ' ' + s.t }), ...s.p.map(t => el('p', { text: t })), s.do ? el('button', { class: 'btn ghost', text: s.do[0], onclick: () => { s.do[1](); } }) : null,
+      el('div', { class: 'row', style: 'margin-top:14px' }, i ? el('button', { class: 'btn ghost', text: '← Back', onclick: () => onbOpen(i - 1) }) : null, el('span', { style: 'flex:1' }), el('button', { class: 'btn ghost', text: 'Skip', onclick: () => { LS.set('onb', 1); closeDrawer(); } }), i < ONB.length - 1 ? el('button', { class: 'btn', text: 'Next →', onclick: () => onbOpen(i + 1) }) : el('button', { class: 'btn', text: 'Finish', onclick: () => { LS.set('onb', 1); closeDrawer(); toast('You are all set. Help is always at the top.'); } }))); });
+}
+/* ---- help: simple how-tos, then SOPs and documents ---- */
+const HOWTO = [
+  ['Join a meeting', ['Walk into the meeting room, or click 🎧 Voice then the room call.', 'Use 🎙 to mute, 📷 for camera, 🖥 to share your screen.', 'Use ➕ to invite someone, and ⤢ to enlarge the call.']],
+  ['Book a room', ['Open Workspace → Calendar → New event.', 'Pick a room, time and who to invite.', 'Choose to meet here, or paste a Teams, Zoom or Meet link.']],
+  ['Use the whiteboard', ['Click the whiteboard on the wall of a room.', 'Add notes, stickers, shapes and pictures, or switch to Pen and draw.', 'Everyone can work at once. Nobody can delete other people’s work.']],
+  ['Send mail to the team', ['Workspace → Mail → New mail.', 'Choose people, then + Cc or + Bcc if you need them.', 'Attach a file and press Send.']],
+  ['Share my screen on my desk', ['Sit at your desk.', 'Open My computer → Mirror my screen to my desk.', 'Pick the window or screen you want to share.']],
+  ['Change how I look', ['Press My avatar.', 'Choose age, skin tone, hair, outfit and colours.', 'Press Done. Teammates see it live.']],
+  ['Set my status', ['Use the status menu at the bottom left.', 'Busy or Do not disturb tells people not to interrupt.', 'Break and Away show when you will be back.']],
+  ['Visit another building', ['Press 🏛 Campus.', 'Choose a building and press Go there.', 'Use the ↩ HQ pad inside any building to come back.']],
+  ['Join a training session', ['Go to the Training Centre.', 'Walk to the lectern board and press Start a training session, or join the session in progress.', 'Raise your hand with ✋ to ask a question.']],
+  ['Use the gym and play games', ['Walk up to a machine and press the button that appears.', 'Tap Space or click in a steady rhythm to score.', 'Check the Gym leaderboard on the wall.']],
+  ['Take meeting notes with AI', ['Press 📝 AI notes and start a session.', 'Press Capture my voice. Everyone in the meeting can join the same session.', 'Press Summarise to get minutes and tasks you can save, mail or add to the board.']],
+  ['Find anything fast', ['Press Ctrl or ⌘ + K.', 'Type a name, room, document or mail subject.', 'Press Enter to go there.']]];
+const SOP_DEF = [
+  { id: 'd1', title: 'Office etiquette', body: '1. Set your status honestly: Busy and Do not disturb are respected.\n2. Knock before entering a private office.\n3. Mute when you are not speaking in a room call.\n4. Be kind in chat. Treat the office like a real workplace.\n5. Never delete or move other people’s work on shared boards.' },
+  { id: 'd2', title: 'Meeting room SOP', body: '1. Book the room in Calendar so the door sign shows it.\n2. Start on time and finish on time so the next team can use the room.\n3. Use the whiteboard in the room for notes and sketches.\n4. If you use AI notes, say so at the start of the meeting.\n5. Leave the room free: clear the screen and switch off recording.' },
+  { id: 'd3', title: 'Security and data', body: '1. Share your screen only to people you trust. Only the window you choose is shared.\n2. Do not paste passwords or customer data into chat.\n3. Private offices and private documents are only for the people named on them.\n4. Report anything suspicious to an admin straight away.' },
+  { id: 'd4', title: 'New joiner checklist', body: '☐ Set your name, photo and avatar\n☐ Take the tour (Help → Getting started)\n☐ Say hello in Everyone chat\n☐ Find your desk or private office\n☐ Join your first meeting\n☐ Read the SOPs in Help\n☐ Ask the Greeter a question' }];
+const sopList = () => [...Store.col('sops')].filter(([, d]) => d && d.title).map(([id, d]) => ({ id, title: str(d.title, 100), body: str(d.body, 20000), vis: d.vis === 'public' || d.vis === 'admin' ? d.vis : 'private', by: d.by, nm: str(d.nm, 40), to: Array.isArray(d.to) ? d.to : [], t: num(d.t, 0) })).filter(d => d.vis === 'public' || d.by === me.uid || d.to.includes(me.uid) || (d.vis === 'admin' && net.admin));
+panels.help = b => {
+  let tab = 'start', q = ''; const draw = () => { b.replaceChildren(); b.classList.add('hlp');
+    const search = el('input', { placeholder: 'Search help and SOPs', value: q, style: 'width:100%', oninput: e => { q = e.target.value; clearTimeout(draw.t); draw.t = setTimeout(draw, 250); } });
+    b.append(el('div', { class: 'chips' }, ...[['start', 'Getting started'], ['how', 'How-to'], ['sop', 'SOP and documents']].map(([k, t]) => el('button', { type: 'button', class: tab === k ? 'sel' : '', text: t, onclick: () => { tab = k; draw(); } }))), search);
+    const ql = q.trim().toLowerCase();
+    if (tab === 'start') b.append(el('p', { text: 'New here? Take the two-minute tour. It shows you how to move, talk, meet and work.' }), el('button', { class: 'btn', text: '▶ Start the tour', onclick: () => onbOpen(0) }), el('button', { class: 'btn ghost', text: '🎙 Ask the Greeter', onclick: () => { closeDrawer(); greeterOpen(); } }), el('h3', { text: 'Quick tips' }), el('ul', {}, ...['Click the floor to walk. Press E to use things.', 'Ctrl or ⌘ + K finds anything.', 'The – button minimises a panel, × closes it, Esc closes it too.', 'Hold T to talk. Hold the mic button on the bottom left for voice.'].map(t => el('li', { text: t }))));
+    if (tab === 'how') for (const [t, st] of HOWTO.filter(h => !ql || (h[0] + h[1].join(' ')).toLowerCase().includes(ql))) b.append(el('details', {}, el('summary', { text: t }), el('ol', {}, ...st.map(s => el('li', { text: s })))));
+    if (tab === 'sop') { const docs = SOP_DEF.map(d => Object.assign({ vis: 'public', builtin: 1 }, d)).concat(sopList()).filter(d => !ql || (d.title + d.body).toLowerCase().includes(ql));
+      b.append(el('div', { class: 'row' }, el('button', { class: 'btn sm', text: '＋ Add a document', onclick: () => sopEdit(null, draw) })), ...docs.map(d => el('details', {}, el('summary', { text: d.title + ' ' + (d.vis === 'public' ? '🌐' : d.vis === 'admin' ? '🛡' : '🔒') + (d.builtin ? '' : ' · ' + (d.nm || '')) }), el('p', { style: 'white-space:pre-wrap', text: d.body }), el('div', { class: 'row' }, d.builtin ? el('button', { class: 'btn sm ghost', text: 'Copy to my documents', onclick: () => { Store.set('sops', Store.id(), { title: d.title, body: d.body, vis: 'private', to: [], by: me.uid, nm: me.name, t: Date.now() }); toast('Copied.'); draw(); } }) : null, !d.builtin && (d.by === me.uid || net.admin) ? el('button', { class: 'btn sm ghost', text: 'Edit', onclick: () => sopEdit(d, draw) }) : null, !d.builtin && (d.by === me.uid || net.admin) ? el('button', { class: 'btn sm danger', text: 'Delete', onclick: () => { Store.del('sops', d.id); draw(); } }) : null)))); }
+  }; draw(); return draw;
+};
+function sopEdit(d, back) {
+  openDrawer('sopedit', d ? 'Edit document' : 'New document', false, b => { const t = el('input', { value: d ? d.title : '', placeholder: 'Title', maxLength: 100, style: 'width:100%' }), body = el('textarea', { rows: 12, style: 'width:100%', placeholder: 'Steps, rules or notes' }), vis = el('select', {}, el('option', { value: 'private', text: '🔒 Private: only me' }), net.admin ? el('option', { value: 'public', text: '🌐 Public: everyone in the office' }) : null, net.admin ? el('option', { value: 'admin', text: '🛡 Admins only' }) : null); body.value = d ? d.body : ''; vis.value = d ? d.vis : (net.admin ? 'public' : 'private');
+    b.append(t, vis, body, el('div', { class: 'row' }, el('button', { class: 'btn', text: 'Save', onclick: () => { if (!t.value.trim()) { toast('Add a title.'); return; } Store.set('sops', d ? d.id : Store.id(), { title: t.value.trim(), body: body.value.slice(0, 20000), vis: vis.value, to: [], by: d ? d.by : me.uid, nm: d ? d.nm : me.name, t: Date.now() }); toast('Saved.'); openPanel('help'); } }), el('button', { class: 'btn ghost', text: 'Cancel', onclick: () => openPanel('help') }))); });
+}
+/* ---- the Greeter: talk to the office by voice or text ---- */
+const GR = { on: false, rec: null, log: [], speak: true, busy: false };
+function greeterKB() { const how = HOWTO.map(h => h[0] + ': ' + h[1].join(' ')).join('\n'), sop = SOP_DEF.concat(sopList().filter(d => d.vis === 'public')).map(d => d.title + ': ' + d.body.slice(0, 500)).join('\n'); return 'HOW-TOS:\n' + how + '\n\nSOPS:\n' + sop; }
+function say(t) { if (!GR.speak || !window.speechSynthesis) return; try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(String(t).replace(/[*_#`]/g, '').slice(0, 500)); const vs = speechSynthesis.getVoices(); u.voice = vs.find(v => /en-GB/i.test(v.lang) && /female|google uk english female|serena|kate|hazel/i.test(v.name)) || vs.find(v => /en-GB/i.test(v.lang)) || null; u.rate = 1.02; speechSynthesis.speak(u); } catch (e) { } }
+function greeterIntent(txt) {
+  const t = txt.toLowerCase(), go = /(take me|go to|walk me|where is|show me|find)/.test(t);
+  if (!go) return null; for (const b of W.camp || []) if (t.includes(b.nm.toLowerCase()) || t.includes(b.ty === 'gym' ? 'gym' : '\u0000') || (b.ty === 'train' && /train/.test(t)) || (b.ty === 'arena' && /(arena|chess|kart|gong)/.test(t))) { campGo(b.id); return 'Taking you to ' + b.nm + '.'; }
+  if (/\bhq\b|main office|back/.test(t)) { campGo('hq'); return 'Taking you back to HQ.'; }
+  for (const p of W.places || []) if (t.includes(p.name.toLowerCase().replace(/^the /, ''))) { const f = nearestFree(p.x, p.z); goTo(f.x, f.z); return 'Walking to ' + p.name + '.'; }
+  for (const r of allPeople()) if (!r.me && r.key && peers.get(r.key) && t.includes(r.nm.toLowerCase().split(' ')[0])) { walkToPeer(r.key); return 'Walking over to ' + r.nm + '.'; }
+  if (/tv|television/.test(t)) { openPanel('tv'); return 'Here is the TV wall.'; } if (/calendar|book/.test(t)) { work(true, 'cal'); return 'Opening your calendar.'; } if (/mail|email/.test(t)) { work(true, 'mail'); return 'Opening mail.'; }
+  return null;
+}
+async function greeterAsk(txt) {
+  GR.log.push({ w: 'me', t: txt }); renderGreeter(); const it = greeterIntent(txt); if (it) { GR.log.push({ w: 'ai', t: it }); say(it); renderGreeter(); return; }
+  GR.busy = true; renderGreeter(); let ans = '';
+  try { if (!aiReady()) throw new Error('x'); ans = await aiAsk('You are the Greeter of a virtual office: warm, brief (2 to 3 sentences, spoken style), British English. Answer using only the guides and office data below. If you do not know, say so and suggest the Help panel.\n\n' + greeterKB() + '\n\n' + officeContext() + '\n\nPerson says: ' + txt); }
+  catch (e) { const ql = txt.toLowerCase().split(/\W+/).filter(w => w.length > 3), h = HOWTO.map(x => [x, ql.filter(w => (x[0] + x[1].join(' ')).toLowerCase().includes(w)).length]).sort((a, b) => b[1] - a[1])[0]; ans = h && h[1] ? h[0][0] + '. ' + h[0][1].join(' ') : 'I can walk you to places and open guides. Try "take me to the gym" or open Help for how-tos.'; }
+  GR.busy = false; GR.log.push({ w: 'ai', t: ans }); say(ans); renderGreeter();
+}
+function greeterListen(on) {
+  if (!on) { if (GR.rec) { GR.rec.onend = null; try { GR.rec.stop(); } catch (e) { } GR.rec = null; } return; } const SR = window.SpeechRecognition || window.webkitSpeechRecognition; if (!SR) { toast('Voice needs Chrome or Edge. You can type instead.'); return; }
+  const r = new SR(); r.continuous = true; r.interimResults = false; r.lang = navigator.language || 'en-GB'; r.onresult = e => { for (let i = e.resultIndex; i < e.results.length; i++) if (e.results[i].isFinal) { const t = e.results[i][0].transcript.trim(); if (t && !GR.busy) { if (window.speechSynthesis) speechSynthesis.cancel(); greeterAsk(t); } } }; r.onerror = e => { if (e.error === 'not-allowed') { toast('Allow the microphone to talk to the Greeter.'); greeterListen(false); renderGreeter(); } }; r.onend = () => { if (GR.rec === r) try { r.start(); } catch (e) { } };
+  try { r.start(); GR.rec = r; } catch (e) { }
+}
+function renderGreeter() {
+  let c = $('#greeter'); if (!GR.on) { if (c) c.remove(); return; }
+  if (!c) { c = el('div', { id: 'greeter', class: 'island', style: 'position:fixed;left:12px;top:92px;width:min(320px,calc(100vw - 24px));z-index:8;padding:10px 12px;display:flex;flex-direction:column;gap:8px' }); document.body.append(c); }
+  const inp = el('input', { placeholder: 'Type to the Greeter…', style: 'flex:1' }); inp.onkeydown = e => { if (e.key === 'Enter' && inp.value.trim()) { const v = inp.value.trim(); inp.value = ''; greeterAsk(v); } };
+  c.replaceChildren(el('div', { class: 'row' }, el('b', { style: 'flex:1', text: '✨ Greeter' }), el('small', { class: 'meta', text: GR.rec ? '🎙 listening to you' : 'not listening' }), el('button', { class: 'btn sm ghost', text: GR.speak ? '🔊' : '🔇', title: 'Spoken answers', onclick: () => { GR.speak = !GR.speak; if (!GR.speak && window.speechSynthesis) speechSynthesis.cancel(); renderGreeter(); } })),
+    el('div', { style: 'max-height:200px;overflow:auto;font-size:13px;display:flex;flex-direction:column;gap:6px' }, ...(GR.log.length ? GR.log.slice(-6).map(m => el('div', { style: m.w === 'me' ? 'align-self:flex-end;background:#2456ff;color:#fff;padding:6px 10px;border-radius:12px;max-width:90%' : 'background:rgba(0,0,0,.06);padding:6px 10px;border-radius:12px;max-width:90%' }, m.t)) : [el('span', { class: 'meta', text: 'Hello! Ask me anything, or say "take me to the gym".' })]), GR.busy ? el('span', { class: 'meta', text: 'Thinking…' }) : null),
+    el('div', { class: 'row' }, inp, el('button', { class: 'btn sm' + (GR.rec ? ' danger' : ''), text: GR.rec ? 'Let go' : '🎙 Talk', onclick: () => { greeterListen(!GR.rec); renderGreeter(); } }), el('button', { class: 'btn sm ghost', text: 'End', onclick: () => { greeterListen(false); if (window.speechSynthesis) speechSynthesis.cancel(); GR.on = false; renderGreeter(); } })));
+}
+function greeterOpen() { closeDrawer(); GR.on = true; renderGreeter(); if (!GR.log.length) { const hi = 'Hi ' + (me.name || '') + ', I am the Greeter. Ask me anything.'; GR.log.push({ w: 'ai', t: hi }); say(hi); } greeterListen(true); renderGreeter(); }
+
+/* ---- avatar: age range, skin depth, outfit styles and colours for the realistic people ---- */
+const AGES = ['Young adult', 'Adult', 'Mature', 'Senior'];
+const OUTFIT_STYLES = [['Business', 'b', 0], ['Smart casual', 'c', 6], ['Creative', 'c', 7], ['Casual', 'c', 0], ['Sporty', 'c', 4], ['Formal', 'b', 8], ['Clinical', 'c', 0], ['Hi-vis site wear', 'c', 2], ['Colourful', 'c', 3], ['Evening', 'b', 7]];
+function lookFor(style, g, keep) { const pool = HUMANS.filter(h => h[1] === g && (style === 'b' ? /^Business/.test(h[2]) : /Adult/.test(h[2]))); if (!pool.length) return keep; const cur = pool.find(h => h[0] === keep); return (cur || pool[Math.floor(Math.random() * pool.length)])[0]; }
+function avatarSet(o) { Object.assign(me.cfg, o); me.cfg = cleanCfg(me.cfg); me.av.rebuild(me.cfg); saveProfile(); }
+const _avV17 = panels.avatar;
+panels.avatar = b => {
+  const r = _avV17(b), box = el('div', { id: 'avMore' }); b.append(box);
+  const sw = (title, cols, cur, set) => el('div', { class: 'field' }, el('span', { class: 'lbl', text: title }), el('div', { class: 'chips' }, ...cols.map((c, i) => el('button', { type: 'button', 'aria-label': title + ' ' + (i + 1), title: title + ' ' + (i + 1), style: 'width:30px;height:30px;border-radius:50%;padding:0;border:3px solid ' + (cur() === i ? '#2456ff' : 'transparent') + ';background:' + c, onclick: () => { set(i); draw(); } }))));
+  const draw = () => { box.replaceChildren(el('h3', { text: 'Make it yours' }),
+    el('div', { class: 'field' }, el('span', { class: 'lbl', text: 'Age range' }), el('div', { class: 'chips' }, ...AGES.map((a, i) => el('button', { type: 'button', class: me.cfg.age === i ? 'sel' : '', text: a, onclick: () => { avatarSet({ age: i, htint: i === 3 ? 7 : i === 2 ? 6 : (me.cfg.htint >= 6 ? 0 : me.cfg.htint), tone: me.cfg.tone }); draw(); } })))),
+    sw('Skin depth', TONE_SW, () => me.cfg.tone, i => avatarSet({ tone: i })),
+    el('div', { class: 'field' }, el('span', { class: 'lbl', text: 'Outfit style' }), el('div', { class: 'chips' }, ...OUTFIT_STYLES.map(([n, k, t]) => el('button', { type: 'button', text: n, onclick: () => { avatarSet({ m: lookFor(k, me.cfg.m.charAt(0), me.cfg.m), otint: t }); openPanel('avatar'); } })))),
+    sw('Outfit colour', TINT_SW, () => me.cfg.otint, i => avatarSet({ otint: i })),
+    sw('Hair colour', ['#e9e9ee', '#2d2118', '#5a3a1f', '#8c6232', '#c9a15b', '#8a3a1e', '#8c8c94', '#d9d9de', '#6a3d9a'], () => me.cfg.htint, i => avatarSet({ htint: i })),
+    el('p', { class: 'meta', text: 'Colours tint the clothes and hair of your chosen person. Pick another person above for a different cut.' })); };
+  draw(); return r;
+};
+function initV17() {
+  initDrawerUx(); const top = $('#topbtns'); top.append(el('button', { class: 'tb', id: 'bGreet', text: '🎙 Greeter', title: 'Talk to the Greeter', onclick: greeterOpen }));
+  $('#bHelp').onclick = () => openPanel('help'); Store.on('sops', () => refreshPanel('help'));
+  Store.on('notes', () => { for (const r of W.rooms || []) roomBoardDraw(r); });
+  setTimeout(() => { if (!LS.get('onb', 0) && !$('#setup').classList.contains('open') && getComputedStyle($('#setup')).display === 'none') onbOpen(0); }, 6000);
+}

@@ -12,7 +12,7 @@ Store.on('kudos', () => { drawKudos(); refreshPanel('kudos'); });
 Store.on('games', () => { drawC4(); drawIce(); refreshPanel('c4'); refreshPanel('ice'); });
 Store.on('rooms', () => { drawScreens(); refreshPanel('rooms'); });
 
-conf = readConf(Store.col('office').get('config')); initExtra(); initV3(); initV4(); initV5(); initV6(); initV7(); initBuild(); initV8(); initV9(); initV10(); initV12(); initV13(); initV14(); initV15(); initV16(); document.body.append(el('div', { id: 'vig' }));
+conf = readConf(Store.col('office').get('config')); initExtra(); initV3(); initV4(); initV5(); initV6(); initV7(); initBuild(); initV8(); initV9(); initV10(); initV12(); initV13(); initV14(); initV15(); initV16(); initV17(); document.body.append(el('div', { id: 'vig' }));
 buildOffice(conf.bays); layoutSig(); sizeMap(); recomputeDesks(); redrawAll(); applyTod(); renderChat();
 if (!Store.col('people').get('local')) saveProfile(true);
 if (local.demo) setDemo(true);
