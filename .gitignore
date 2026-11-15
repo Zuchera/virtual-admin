@@ -1,0 +1,5 @@
+node_modules/
+*.pem
+*.zip
+zuchera-demo-keys.txt
+.env
