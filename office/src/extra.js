@@ -320,7 +320,7 @@ actions.board = (id, title) => {
 const here = p => p && typeof p.uid === 'string' && (p.uid === me.uid || [...peers.values()].some(q => q.uid === p.uid)) ? { uid: p.uid, nm: str(p.nm, 40) } : null;
 const peerOf = uid => [...peers.values()].find(q => q.uid === uid) || null;
 function rayPlane(cx, cy, y) { const r = canvas.getBoundingClientRect(); ndc.set(((cx - r.left) / r.width) * 2 - 1, -((cy - r.top) / r.height) * 2 + 1); ray.setFromCamera(ndc, camera); const pl = new T.Plane(new T.Vector3(0, 1, 0), -y), v = new T.Vector3(); return ray.ray.intersectPlane(pl, v) ? v : null; }
-const LOCAL = { tt: null, pool: null };   // when a table is busy you get your own private practice game: nobody is ever kicked off
+const LOCAL = { tt: null, pool: null, chess: null };   // when a table is busy you get your own private practice game: nobody is ever kicked off
 function enterGame(g, side) {
   if (me.seat) stand(); me.path = null; me.pending = null; me.game = g; me.side = side; closeDrawer(); if (cam.fp) toggleView();
   if (g === 'tt') { me.pos.x = TT.x + (side === 'a' ? -1.78 : 1.78) * (me.local ? 1.5 : 1); me.pos.z = TT.z; me.ry = side === 'a' ? PI / 2 : -PI / 2; cam.yaw = me.ry; cam.pitch = 0.5; cam.dist = 5.4; TT.pw = 0; }

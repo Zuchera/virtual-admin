@@ -257,6 +257,7 @@ function dropPeer(key, silent) { const P = RTC.peers.get(key); if (!P) return; R
 async function onSig(m) {
   if (!m || m.to !== me.peer || typeof m.from !== 'string' || m.from === me.peer) return; const from = m.from;
   if (m.k === 'ring') return incomingCall(from, m.d || {});
+  if (m.k === 'invite') { const p = peers.get(from), r = m.d && (W.rooms || []).find(x => x.id === m.d.rc); if (p && r) toast('📩 ' + nameOf(p.uid, p.nick) + ' invited you to the ' + r.name + ' call.', { ms: 15000, action: { label: 'Join', fn: () => joinRoomCall(r) } }); return; }
   if (m.k === 'accept') { if (RTC.call && m.d && m.d.id === RTC.call.id) { RTC.call.keys.add(from); RTC.call.pending.delete(from); stopRing(); rosterOut(); renderCall(); } return; }
   if (m.k === 'decline') { if (RTC.call && m.d && m.d.id === RTC.call.id) { RTC.call.pending.delete(from); const p = peers.get(from); toast((p ? nameOf(p.uid, p.nick) : 'They') + (m.d.busy ? ' is on another call.' : ' can\'t talk right now.') + ' Send a message instead?', { ms: 8000, action: { label: 'Message', fn: () => p && p.uid && (openThread([p.uid]), talk(true, me.conv)) } }); if (!RTC.call.keys.size && !RTC.call.pending.size) leaveCall(); } return; }
   if (m.k === 'roster') { if (RTC.call && m.d && m.d.id === RTC.call.id && Array.isArray(m.d.keys)) { for (const k of m.d.keys) if (k !== me.peer && typeof k === 'string') RTC.call.keys.add(k); RTC.call.keys.add(from); renderCall(); } return; }
@@ -335,9 +336,9 @@ function renderCall() {
     el('button', { class: RTC.muted ? 'on' : '', title: 'Mute (M)', text: RTC.muted ? '🔇' : '🎙', onclick: () => setMute(!RTC.muted) }),
     inCall ? el('button', { class: RTC.cam ? 'on' : '', title: 'Camera', text: '📷', onclick: () => camOn(!RTC.cam) }) : null,
     inCall ? el('button', { class: RTC.scr ? 'on' : '', title: 'Share your screen', text: '🖥', onclick: () => shareScreen(!RTC.scr) }) : null,
-    RTC.call ? el('button', { title: 'Add people', text: '➕', onclick: () => addToCall() }) : null,
+    el('button', { title: 'Add people', text: '➕', onclick: () => addToCall() }), el('span', { class: 'cb-view' }),
     el('button', { class: 'danger-t', title: inCall ? 'Leave the call' : 'Turn voice off', text: inCall ? 'Leave' : 'Voice off', onclick: () => { if (RTC.call) leaveCall(); else if (RTC.rc) { RTC.rc = null; renderCall(); } else voiceOff(); } }))), (inCall || who.some(w => w.P.vstream && w.P.vstream.getVideoTracks().some(v => !v.muted))) ? tiles : el('div', { class: 'cb-mini' }, ...who.map(w => el('span', { class: 'tk-av sm', 'data-k': w.P.key, title: w.nm, style: w.face ? 'background-image:url(' + w.face + ')' : '' }))));
-  roomScreenVideo();
+  applyCbView(); roomScreenVideo();
 }
 function tileEl(P, nm, face, stream, mine) {
   const t = el('div', { class: 'cb-tile' + (mine ? ' me' : ''), 'data-k': P ? P.key : 'me' });
@@ -348,8 +349,12 @@ function tileEl(P, nm, face, stream, mine) {
 function renderCallLevels() { const bar = $('#callbar'); if (!bar || bar.hidden) return; for (const e of bar.querySelectorAll('[data-k]')) { const k = e.getAttribute('data-k'), lv = k === 'me' ? RTC.myLvl : (RTC.peers.get(k) || {}).lvl || 0; e.classList.toggle('spk', lv > .035); } }
 function setMute(m) { RTC.muted = m; if (RTC.mic) RTC.mic.enabled = !m; renderCall(); }
 function addToCall() {
-  const ppl = allPeople().filter(r => r.key && !r.me && !(RTC.call && RTC.call.keys.has(r.key)));
-  openDrawer('addcall', 'Add people to the call', false, b => { b.append(...(ppl.length ? ppl.map(r => el('div', { class: 'row' }, badgeEl(r), el('span', { style: 'flex:1', text: r.nm }), el('button', { class: 'btn sm', text: 'Ring', onclick: () => { RTC.call.pending.add(r.key); sig(r.key, 'ring', { id: RTC.call.id, nm: me.name, video: RTC.call.video, keys: [...RTC.call.keys] }); toast('Ringing ' + r.nm + '…'); } }))) : [el('p', { text: 'Nobody else is in the office right now.' })])); });
+  const inRoom = !!RTC.rc && !RTC.call, ppl = allPeople().filter(r => r.key && !r.me && !(RTC.call && RTC.call.keys.has(r.key)) && !(RTC.peers && [...RTC.peers.values()].some(P => P.key === r.key)));
+  const room = inRoom ? (W.rooms || []).find(r => r.id === RTC.rc) : null;
+  openDrawer('addcall', inRoom ? 'Invite people to ' + (room ? room.name : 'this room') : 'Add people to the call', false, b => { b.append(...(ppl.length ? ppl.map(r => el('div', { class: 'row' }, badgeEl(r), el('span', { style: 'flex:1', text: r.nm }), el('button', { class: 'btn sm', text: inRoom ? 'Invite' : 'Ring', onclick: ev => {
+      if (inRoom) { sig(r.key, 'invite', { rc: RTC.rc, nm: me.name }); toast('Invited ' + r.nm + '.'); }
+      else if (!RTC.call) { startCall([r.uid], false); toast('Calling ' + r.nm + '…'); }
+      else { RTC.call.pending.add(r.key); sig(r.key, 'ring', { id: RTC.call.id, nm: me.name, video: RTC.call.video, keys: [...RTC.call.keys] }); toast('Ringing ' + r.nm + '…'); } ev.target.disabled = true; ev.target.textContent = 'Sent'; } }))) : [el('p', { text: 'Nobody else is in the office right now.' })])); });
 }
 /* show a shared screen (or the speaker's camera) on the meeting room's wall screen */
 let roomVid = null;

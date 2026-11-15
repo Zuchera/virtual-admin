@@ -328,9 +328,9 @@ function buildOffice(bays) {
   sofa(5.2, 17.75, 0, 3, '#b8644a', 'sofaA'); sofa(2.2, 19.9, PI / 2, 1, '#ecd9b8', 'armA'); sofa(8.2, 19.9, -PI / 2, 1, '#ecd9b8', 'armB');
   cyl(office, 0.55, 0.55, 0.05, M_WOOD, 5.2, 0.38, 19.9, { cast: 1, seg: 24 }); cyl(office, 0.06, 0.25, 0.36, M_DARK, 5.2, 0.18, 19.9); obs(4.7, 19.4, 5.7, 20.4);
   pouf('bean0', 10, 21.4, 0, '#ffb627'); pouf('bean1', 11.4, 20.4, 0, '#1f9d6b'); pouf('bean2', 11.6, 22.2, 0, '#b04cff');
-  box(office, 0.34, 1.9, 3.2, M_WOOD, 0.2, 0.95, 19.6, { cast: 1 }); obs(0, 18, 0.4, 21.2);
-  for (let r = 0; r < 4; r++) for (let i = 0; i < 9; i++) box(office, 0.2, 0.3 + (i % 3) * .03, 0.06 + (i % 2) * .03, mat(HOOD_COL[(r * 3 + i) % 8]), 0.3, 0.3 + r * 0.45, 18.3 + i * 0.32);
-  plant(0.7, 23.2, 1.5); plant(13.2, 23.1, 1.3); plant(13.3, 7.4, 1.1); plant(0.6, 5.8, 1.2);
+  box(office, 0.34, 1.9, 3.2, M_WOOD, 0.2, 0.95, 22.3, { cast: 1 }); obs(0, 20.7, 0.4, 23.9);
+  for (let r = 0; r < 4; r++) for (let i = 0; i < 9; i++) box(office, 0.2, 0.3 + (i % 3) * .03, 0.06 + (i % 2) * .03, mat(HOOD_COL[(r * 3 + i) % 8]), 0.3, 0.3 + r * 0.45, 21.0 + i * 0.32);
+  plant(1.2, 23.5, 1.2); plant(13.2, 23.1, 1.3); plant(13.3, 7.4, 1.1); plant(0.6, 5.8, 1.2);
   pendant(5.2, 19.8, 'dome', 2.3); roomLight(5.2, 19.5, .5);
   // divider with the team drive cabinet
   planter(13.8, 8, 14.2, 11); planter(13.8, 14.2, 14.2, 17.2);
@@ -440,7 +440,7 @@ function buildOffice(bays) {
   sun.target.position.set(L / 2, 0, D / 2);
   const sc = sun.shadow.camera; sc.left = -(L / 2 + 8); sc.right = L / 2 + 8; sc.top = 26; sc.bottom = -26; sc.near = 1; sc.far = 320; sc.updateProjectionMatrix();
   skyline.position.set(L / 2, 0, D);
-  if (typeof realism === 'function') realism();
+  if (typeof realism === 'function') realism(); if (typeof tvBuild === 'function') tvBuild(); if (typeof buildCampus === 'function') buildCampus();
   buildNav();
 }
 
